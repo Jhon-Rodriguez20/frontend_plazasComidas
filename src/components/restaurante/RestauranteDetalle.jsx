@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Box, Typography, CardMedia, Grid, Button } from '@mui/material';
 import { Place, LocalPhone, Restaurant, RestaurantMenu, Assignment } from '@mui/icons-material';
 import { API_URL } from "../../connections/helpers/endpoints";
@@ -11,7 +12,7 @@ function RestauranteDetalle({ abrir, cerrar, restauranteEntity }) {
         <>
             <CardMedia
                 component="img"
-                sx={{ width: '100%', height: 'auto', borderRadius: 2, mt: 6, mb: 2 }}
+                sx={{ width: '100%', height: 'auto', borderRadius: 2, mt: 6, mb: 3 }}
                 image={imagenUrl}
                 alt={restauranteEntity.razonSocial}
             />
@@ -36,7 +37,9 @@ function RestauranteDetalle({ abrir, cerrar, restauranteEntity }) {
                 </Grid>                            
             </Grid>
             <Box display='flex' justifyContent='center' mt={2}>
-                <Button variant='contained'> <RestaurantMenu sx={{marginRight: 1}} />Ver platos</Button>
+                <Button variant='contained' component={Link} to={`/platos/restaurante/${restauranteEntity.idRestaurante}`}>
+                    <RestaurantMenu sx={{ marginRight: 1 }} />Ver platos
+                </Button>
             </Box>                    
         </>
     ) : (
@@ -52,6 +55,7 @@ RestauranteDetalle.propTypes = {
     abrir: PropTypes.bool.isRequired,
     cerrar: PropTypes.func.isRequired,
     restauranteEntity: PropTypes.shape({
+        idRestaurante: PropTypes.string,
         razonSocial: PropTypes.string,
         nit: PropTypes.string,
         direccion: PropTypes.string,

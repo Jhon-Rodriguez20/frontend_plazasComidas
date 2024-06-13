@@ -8,9 +8,9 @@ const SkeletonCard = ({ contador }) => {
                 <Card sx={{ display: "flex", alignItems: 'center', padding: '4%' }}>
                     <Skeleton variant="circular" width={110} height={110} />
                     <CardContent>
-                            <Skeleton width="3000%" />
+                            <Skeleton variant="text" width={100} sx={{ ml: 2 }} />
                         <Typography variant="subtitle2" color="text.secondary">
-                            <Skeleton width="6000%" />
+                            <Skeleton variant="text" width={250} sx={{ ml: 2 }} />
                         </Typography>
                     </CardContent>
                 </Card>

@@ -1,6 +1,7 @@
 import { Grid, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { API_URL } from "../../connections/helpers/endpoints";
 import PropTypes from "prop-types";
+import { Place, Restaurant } from '@mui/icons-material';
 
 function RestauranteCard({ restauranteEntity, onClick }) {
 
@@ -17,11 +18,11 @@ function RestauranteCard({ restauranteEntity, onClick }) {
                     alt={restauranteEntity.razonSocial}
                 />
                 <CardContent>
-                    <Typography variant="h6" component="div">
-                        {restauranteEntity.razonSocial}
+                    <Typography variant="h6" component="div" sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                        <Restaurant sx={{ marginRight: 1 }} /> {restauranteEntity.razonSocial}
                     </Typography>
-                    <Typography variant="subtitle2" color="text.secondary">
-                        {restauranteEntity.direccion}
+                    <Typography variant="subtitle2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                        <Place sx={{ color: '#c2c2c2', marginRight: 1 }} /> {restauranteEntity.direccion}
                     </Typography>
                 </CardContent>
             </Card>
