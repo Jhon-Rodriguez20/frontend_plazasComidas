@@ -41,11 +41,11 @@ function RestauranteDetalle({ abrir, cerrar, restauranteEntity }) {
         </>
     ) : (
         <Typography variant="body2">Cargando...</Typography>
-    );
+    )
 
     return (
         <DetalleContenedor abrir={abrir} cerrar={cerrar} contenido={contenido} />
-    );
+    )
 }
 
 RestauranteDetalle.propTypes = {

@@ -15,15 +15,9 @@ function RestaurantePage() {
     useEffect(() => {
         const verRestaurantes = async () => {
             obtenerRestaurantes()
-                .then(data => {
-                    setRestaurantes(data);
-                })
-                .catch(error => {
-                    console.error("Error al obtener restaurantes: ", error);
-                })
-                .finally(() => {
-                    setBuscando(false);
-                });
+                .then(data => setRestaurantes(data))
+                .catch(error => console.error("Error al obtener restaurantes: ", error))
+                .finally(() => setBuscando(false));
         };
         verRestaurantes();
     }, []);
@@ -34,10 +28,8 @@ function RestaurantePage() {
                 setRestauranteDetalle(detalle);
                 setDetalleAbrir(true);
             })
-            .catch(error => {
-                console.error("Error al obtener el detalle del restaurante:", error);
-            });
-    };
+            .catch(error => console.error("Error al obtener el detalle del restaurante: ", error));
+    }
 
     return (
         <Container>
