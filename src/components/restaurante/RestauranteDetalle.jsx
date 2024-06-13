@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import { Box, Typography, CardMedia, Grid, Button } from '@mui/material';
 import { Place, LocalPhone, Restaurant, RestaurantMenu, Assignment } from '@mui/icons-material';
 import { API_URL } from "../../connections/helpers/endpoints";
-import { DetalleDrawer } from '../common/detalleDrawer/DetalleContenedor';
+import { DetalleContenedor } from '../common/detalleDrawer/DetalleContenedor';
 
-function RestauranteDetalle({ open, onClose, restauranteEntity }) {
-
+function RestauranteDetalle({ abrir, cerrar, restauranteEntity }) {
     const imagenUrl = restauranteEntity ? `${API_URL}${restauranteEntity.imgRestaurante}` : '';
+
     const contenido = restauranteEntity ? (
         <>
             <CardMedia
@@ -44,13 +44,13 @@ function RestauranteDetalle({ open, onClose, restauranteEntity }) {
     );
 
     return (
-        <DetalleDrawer open={open} onClose={onClose} contenido={contenido} />
+        <DetalleContenedor abrir={abrir} cerrar={cerrar} contenido={contenido} />
     );
 }
 
 RestauranteDetalle.propTypes = {
-    open: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
+    abrir: PropTypes.bool.isRequired,
+    cerrar: PropTypes.func.isRequired,
     restauranteEntity: PropTypes.shape({
         razonSocial: PropTypes.string,
         nit: PropTypes.string,
@@ -58,6 +58,6 @@ RestauranteDetalle.propTypes = {
         telefono: PropTypes.string,
         imgRestaurante: PropTypes.string,
     })
-};
+}
 
 export { RestauranteDetalle }

@@ -9,36 +9,40 @@ import { RestauranteDetalle } from "../../components/restaurante/RestauranteDeta
 function RestaurantePage() {
     const [restaurantes, setRestaurantes] = useState([]);
     const [buscando, setBuscando] = useState(true);
-    const [detalleOpen, setDetalleOpen] = useState(false);
+    const [detalleAbrir, setDetalleAbrir] = useState(false);
     const [restauranteDetalle, setRestauranteDetalle] = useState(null);
 
     useEffect(() => {
         const verRestaurantes = async () => {
-            try {
-                const data = await obtenerRestaurantes();
-                setRestaurantes(data);
-            } catch (error) {
-                console.error("Error al obtener restaurantes:", error);
-                setBuscando(false);
-            }
-        }
+            obtenerRestaurantes()
+                .then(data => {
+                    setRestaurantes(data);
+                })
+                .catch(error => {
+                    console.error("Error al obtener restaurantes: ", error);
+                })
+                .finally(() => {
+                    setBuscando(false);
+                });
+        };
         verRestaurantes();
     }, []);
 
-    const abrirDetalle = async (restaurante) => {
-        try {
-            setDetalleOpen(true);
-            const detalle = await leerDetalleRestaurante(restaurante);
-            setRestauranteDetalle(detalle);
-        } catch (error) {
-            console.error("Error al obtener el detalle del restaurante:", error);
-        }
+    const abrirDetalle = (restaurante) => {
+        leerDetalleRestaurante(restaurante)
+            .then(detalle => {
+                setRestauranteDetalle(detalle);
+                setDetalleAbrir(true);
+            })
+            .catch(error => {
+                console.error("Error al obtener el detalle del restaurante:", error);
+            });
     };
 
     return (
         <Container>
             {buscando ? (
-                <SkeletonCard contador={6}/>
+                <SkeletonCard contador={6} />
             ) : (
                 restaurantes.length === 0 ? (
                     <Box textAlign="center" mt={4}>
@@ -58,9 +62,9 @@ function RestaurantePage() {
                     </Grid>
                 )
             )}
-            <RestauranteDetalle open={detalleOpen} onClose={() => setDetalleOpen(false)} restauranteEntity={restauranteDetalle} />
+            <RestauranteDetalle abrir={detalleAbrir} cerrar={() => setDetalleAbrir(false)} restauranteEntity={restauranteDetalle} />
         </Container>
     );
 }
 
-export { RestaurantePage };
+export { RestaurantePage }
