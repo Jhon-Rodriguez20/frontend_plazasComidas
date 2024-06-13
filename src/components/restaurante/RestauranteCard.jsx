@@ -2,12 +2,12 @@ import { Grid, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { API_URL } from "../../connections/helpers/endpoints";
 import PropTypes from "prop-types";
 
-function RestauranteCard({ restauranteEntity }) {
+function RestauranteCard({ restauranteEntity, onClick }) {
 
     const imagenUrl = `${API_URL}${restauranteEntity.imgRestaurante}`;
 
     return (
-        <Grid container>
+        <Grid container onClick={onClick}>
             <Card sx={{ display: "flex", alignItems: 'center', padding: '4%', maxWidth: { xs: '100%', sm: '100%', md:'100%', lg: '100%' }, minWidth: { xs: '93%', sm: '93%', md:'92%', lg: '92%'},
                         maxHeight: { xs: '100%', sm: '100%', md:'100%', lg: '100%' }, minHeight: {xs: '95%', sm: '95%', md:'100%', lg: '100%'} }}>
                 <CardMedia
@@ -34,7 +34,8 @@ RestauranteCard.propTypes = {
         razonSocial: PropTypes.string,
         direccion: PropTypes.string,
         imgRestaurante: PropTypes.string,
-    }).isRequired
+    }).isRequired,
+    onClick: PropTypes.func.isRequired
 }
 
-export {RestauranteCard}
+export { RestauranteCard }
