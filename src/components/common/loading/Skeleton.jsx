@@ -5,7 +5,7 @@ const SkeletonCard = ({ contador }) => {
     const renderSkeletons = (contador) => {
         return Array.from({ length: contador }).map((_, index) => (
             <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
-                <Card sx={{ display: "flex", alignItems: 'center', padding: '4%' }}>
+                <Card sx={{ display: "flex", alignItems: 'center', padding: '4%', marginTop: 3, }}>
                     <Skeleton variant="circular" width={110} height={110} />
                     <CardContent>
                             <Skeleton variant="text" width={100} sx={{ ml: 2 }} />

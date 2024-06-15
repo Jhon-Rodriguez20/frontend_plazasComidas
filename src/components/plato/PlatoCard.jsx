@@ -9,7 +9,7 @@ function PlatoCard({ platoEntidad, mostrar, click }) {
 
     return (
         <Grid container onClick={click}>
-            <Card sx={{ display: "flex", alignItems: 'center', padding: '4%', width: '100%', height: 'auto' }}>
+            <Card sx={{ display: "flex", alignItems: 'center', padding: '4%', marginTop: 3, width: '100%', height: 'auto' }}>
                 <CardMedia
                     component="img"
                     sx={{ width: 110, height: 110, borderRadius: '50%' }}

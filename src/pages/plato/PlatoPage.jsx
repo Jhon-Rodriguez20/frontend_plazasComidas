@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { SkeletonCard } from "../../components/common/loading/Skeleton";
 import { PlatoCard } from "../../components/plato/PlatoCard";
-import { NotAccessible } from "@mui/icons-material";
+import { NoMeals } from "@mui/icons-material";
 import { obtenerPlatosRestaurante, leerDetallePlato } from "../../services/plato/platoServicio";
 import { Container, Grid, Box, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -40,7 +40,7 @@ function PlatoPage() {
             ) : (
                 platos.length === 0 ? (
                     <Box textAlign="center" mt={4}>
-                        <NotAccessible sx={{ fontSize: 60 }} color="action"/>
+                        <NoMeals sx={{ fontSize: 60 }} color="action"/>
                         <Typography variant="h6">No se encontraron platos a este restaurante</Typography>
                     </Box>
                 ) : (
