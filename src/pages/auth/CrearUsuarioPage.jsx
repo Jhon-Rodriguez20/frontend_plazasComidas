@@ -1,41 +1,42 @@
-import { useEffect, useState } from "react";
-import { Container, Box, Typography, Button } from "@mui/material";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { IniciarSesionForm } from "../../components/auth/IniciarSesionForm";
-import { autenticacion } from "../../connections/usuarioAcciones";
+import axios from "axios";
+import { CrearUsuarioForm } from '../../components/auth/CrearUsuarioForm';
+import { SIGNUP_POST_ENDPOINT } from '../../connections/helpers/endpoints';
+import { Box, Container, Typography, Button } from '@mui/material';
 import { BackDropProgreso } from "../../components/common/loading/BackDropProgreso";
 import MenuBookIconWithGradient from "../../assets/MenuBookSvg";
 
-function IniciarSesion() {
+function CrearUsuarioPage() {
     const [errores, setErrores] = useState({});
-    const [loading, setLoading] = useState(false);
-    const conectado = useSelector(estado => estado.conectado);
+    const [cargando, setCargando] = useState(false);
     const navegar = useNavigate();
-    const envuiarAccion = useDispatch();
-    
-    useEffect(() => {
-        if(conectado) navegar("/")
-    }, [conectado, navegar]);
 
-    const iniciarSesion = ({ email, password }) => {
+    const registro = async ({ nombre, celular, email, ocupacion, descripcionTrabajo, password, idRol }) => {
         const error = {};
         setErrores(error);
-        setLoading(true);
+        setCargando(true);
 
-        envuiarAccion(autenticacion({ email, password }))
-            .then(() => {
-                setLoading(false);
-                navegar("/")
-            })
-            .catch(() => {
-                setLoading(false);
-            })
+        try {
+            await axios.post(SIGNUP_POST_ENDPOINT, {
+                nombre, celular, email, ocupacion, descripcionTrabajo, password, idRol
+            }, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            setCargando(false);
+            navegar("/usuario/loguearse");
+        } catch (err) {
+            setCargando(false);
+            console.error(err);
+        }
     }
 
     return (
         <Container 
-            maxWidth="xs" 
+            maxWidth="sm" 
             sx={{
                 marginTop: 3,
                 display: 'flex',
@@ -45,11 +46,10 @@ function IniciarSesion() {
                 minHeight: '80vh'
             }}
         >
-            <BackDropProgreso abrir={loading}/>
+            <BackDropProgreso abrir={cargando} />
             <Box 
                 sx={{
-                    width: '80%',
-                    maxWidth: '85%',
+                    width: '100%',
                     padding: 3,
                     boxShadow: 3,
                     borderRadius: 2,
@@ -60,21 +60,21 @@ function IniciarSesion() {
                     <MenuBookIconWithGradient width={100} height={100} />
                 </Box>                
                 <Typography variant="subtitle1" color="text.secondary" mb={3} align="center" gutterBottom>
-                    ¡Descubre un festín de sabores que hará bailar tus papilas gustativas en cada bocado!
+                    ¡Bienvenido de nuevo!
                 </Typography>
-                <IniciarSesionForm errores={errores} callback={iniciarSesion} />
+                <CrearUsuarioForm errores={errores} callback={registro} defaultIdRol="4" />
                 <Box mt={9}>
                     <Typography variant="subtitle2" color="text.secondary" textAlign="center">
-                        ¿No tienes una cuenta? 
+                        ¿Ya tienes una cuenta?
                         <Button 
                             variant="contained" 
                             size="small" 
                             color="primary" 
                             sx={{ padding: 1.5, marginLeft: 1 }} 
                             component={Link} 
-                            to={'/usuario/registrarse'}
+                            to={'/usuario/loguearse'}
                         >
-                            Regístrate aquí
+                            Iniciar sesión
                         </Button>
                     </Typography>
                 </Box>
@@ -83,4 +83,4 @@ function IniciarSesion() {
     )
 }
 
-export { IniciarSesion }
+export { CrearUsuarioPage }

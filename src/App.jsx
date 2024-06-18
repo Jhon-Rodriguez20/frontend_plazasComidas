@@ -8,7 +8,11 @@ import { getAutenticacionToken } from './connections/helpers/token';
 import { NavbarCelular } from './layouts/NavbarCelular';
 import { useMediaQuery, ThemeProvider, createTheme } from '@mui/material';
 import { Provider } from 'react-redux';
+import { RutaPrivada } from "./routes/RutaPrivada";
 import { IniciarSesion } from './pages/auth/IniciarSesionPage';
+import { CrearUsuarioPage } from './pages/auth/CrearUsuarioPage';
+import { MisGerentesPage } from './pages/usuario/MisGerentesPage';
+import { MisEmpleadosPage } from './pages/usuario/MisEmpleadosPage';
 
 getAutenticacionToken();
 
@@ -25,6 +29,11 @@ function App() {
                         <Route path='/' element={<RestaurantePage />} />
                         <Route path='/platos/restaurante/:id' element={<PlatoPage />} />
                         <Route path='/usuario/loguearse' element={<IniciarSesion />} />
+                        <Route path='/usuario/registrarse' element={<CrearUsuarioPage />} />
+                        <Route element={<RutaPrivada />}>
+                            <Route path='/misGerentes' element={<MisGerentesPage />} />
+                            <Route path='/misEmpleados' element={<MisEmpleadosPage />} />
+                        </Route>
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>

@@ -26,21 +26,70 @@ function NavbarCelular() {
 
     const getNavigationActions = () => {
         const actions = [];
+
+        actions.push(
+            <BottomNavigationAction 
+                component={Link} 
+                to="/" 
+                key="home" 
+                label="Home" 
+                icon={<Home />} 
+            />
+        );
         
         if (usuario.rol === "1" && conectado) {
-            actions.push(<BottomNavigationAction key="crear-gerente" label="Crear gerente" icon={<SupervisorAccount />} />);
+            actions.push(
+                <BottomNavigationAction 
+                    key="crear-gerente" 
+                    label="Crear gerente" 
+                    icon={<SupervisorAccount />} 
+                    component={Link} 
+                    to="/crearGerente" 
+                />
+            );
         }
         if (usuario.rol === "2" && conectado) {
-            actions.push(<BottomNavigationAction key="crear-empleado" label="Crear empleado" icon={<People />} />);
+            actions.push(
+                <BottomNavigationAction 
+                    key="crear-empleado" 
+                    label="Crear empleado" 
+                    icon={<People />} 
+                    component={Link} 
+                    to="/crearEmpleado" 
+                />
+            );
         }
         if (usuario.rol === "3" && conectado) {
-            actions.push(<BottomNavigationAction key="ver-pedidos" label="Ver pedidos" icon={<Fastfood />} />);
-        }
-        actions.push(<BottomNavigationAction component={Link} to="/" key="home" label="Home" icon={<Home />} />);
+            actions.push(
+                <BottomNavigationAction 
+                    key="ver-pedidos" 
+                    label="Ver pedidos" 
+                    icon={<Fastfood />} 
+                    component={Link} 
+                    to="/verPedidos" 
+                />
+            );
+        }        
         
         if (!conectado) {
-            actions.push(<BottomNavigationAction component={Link} to="/usuario/loguearse" key="iniciar-sesion" label="Iniciar sesión" icon={<Login />} />);
-            actions.push(<BottomNavigationAction key="crear cuenta" label="Crear una cuenta" icon={<PersonAdd />} />);
+            actions.push(
+                <BottomNavigationAction 
+                    component={Link} 
+                    to="/usuario/loguearse" 
+                    key="iniciar-sesion" 
+                    label="Iniciar sesión" 
+                    icon={<Login />} 
+                />
+            );
+            actions.push(
+                <BottomNavigationAction 
+                    component={Link} 
+                    to="/usuario/registrarse" 
+                    key="crear-cuenta" 
+                    label="Registrarse" 
+                    icon={<PersonAdd />} 
+                />
+            );
         }
         if (conectado) {
             actions.push(
@@ -76,20 +125,26 @@ function NavbarCelular() {
                 transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
                 {usuario.rol === "1" && conectado && (
-                    <MenuItem component={Link} to="/" onClick={handleCloseMenu}>
+                    <MenuItem component={Link} to="/misGerentes" onClick={handleCloseMenu}>
                         <AssignmentInd sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis gerentes
                     </MenuItem>
                 )}
                 {usuario.rol === "2" && conectado && (
-                    <>
-                        <MenuItem component={Link} to="/" onClick={handleCloseMenu}><Restaurant sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis restaurantes</MenuItem>
-                        <MenuItem component={Link} to="/" onClick={handleCloseMenu}><Group sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis empleados</MenuItem>
-                    </>
+                    <MenuItem component={Link} to="/" onClick={handleCloseMenu}>
+                        <Restaurant sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis restaurantes
+                    </MenuItem>
+                )}
+                {usuario.rol === "2" && conectado && (
+                    <MenuItem component={Link} to="/misEmpleados" onClick={handleCloseMenu}>
+                        <Group sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis empleados
+                    </MenuItem>
                 )}
                 {usuario.rol === "4" && conectado && (
-                    <MenuItem component={Link} to="/" onClick={handleCloseMenu}><Fastfood sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis pedidos</MenuItem>
+                    <MenuItem component={Link} to="/" onClick={handleCloseMenu}>
+                        <Fastfood sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis pedidos
+                    </MenuItem>
                 )}
-                <MenuItem component={Link} to="/" onClick={handleLogout}>
+                <MenuItem onClick={handleLogout}>
                     <Logout sx={{ color: '#c2c2c2', marginRight: 1 }} /> Cerrar sesión
                 </MenuItem>
             </Menu>

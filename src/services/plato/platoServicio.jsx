@@ -5,7 +5,6 @@ export const obtenerPlatosRestaurante = async (id) => {
 
     try {        
         const respuesta = await axios.get(`${PLATOS_RESTAURANTE_GET_ENDPOINT}/${id}`);
-        console.log(respuesta);
         const platos = respuesta.data.platoEntity;
 
         await Promise.all(

@@ -10,4 +10,6 @@ export const PLATO_DETALLE_GET_ENDPOINT = API_URL + "/plato";
 
 // ENDPOINTS DE USUARIO
 export const SIGNIN_POST_ENDPOINT = API_URL + "/usuario/login";
-export const SIGNUP_POST_ENDPOINT = API_URL + "/usuario/crearUsuario";
+export const SIGNUP_POST_ENDPOINT = API_URL + "/usuario/crearUsuario/externo";
+export const USUARIO_MISGERENTES_GET_ENDPOINT = API_URL + "/usuario/gerentes";
+export const USUARIO_MISEMPLEADOS_GET_ENDPOINT = API_URL + "/usuario/empleados";

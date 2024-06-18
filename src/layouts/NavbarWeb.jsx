@@ -44,7 +44,7 @@ function NavbarWeb() {
                     {!conectado ? (
                         <>
                             <Button color="inherit" component={Link} to="/usuario/loguearse"><Login sx={{ marginRight: 1 }} /> Iniciar sesión</Button>
-                            <Button color="inherit" component={Link} to="/"><PersonAdd sx={{ marginRight: 1 }} /> Registrarse</Button>
+                            <Button color="inherit" component={Link} to="/usuario/registrarse"><PersonAdd sx={{ marginRight: 1 }} /> Registrarse</Button>
                         </>
                     ) : null}
                     <Box sx={{ flexGrow: 0 }}>
@@ -72,31 +72,31 @@ function NavbarWeb() {
                                     onClose={handleCloseUserMenu}
                                 >
                                     {usuario.rol === "1" && conectado && (
-                                        <MenuItem onClick={handleCloseUserMenu}>
-                                            <Typography textAlign="center"><AssignmentInd sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis gerentes</Typography>
+                                        <MenuItem onClick={handleCloseUserMenu} component={Link} to="/misGerentes">
+                                            <AssignmentInd sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis gerentes
                                         </MenuItem>
                                     )}
                                     {usuario.rol === "2" && conectado && (
-                                        <>
-                                            <MenuItem onClick={handleCloseUserMenu}>
-                                                <Typography textAlign="center"><Restaurant sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis restaurantes</Typography>
-                                            </MenuItem>
-                                            <MenuItem onClick={handleCloseUserMenu}>
-                                                <Typography textAlign="center"><Group sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis empleados</Typography>
-                                            </MenuItem>
-                                        </>
+                                        <MenuItem onClick={handleCloseUserMenu} component={Link} to="/">
+                                            <Restaurant sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis restaurantes
+                                        </MenuItem>
+                                    )}
+                                    {usuario.rol === "2" && conectado && (
+                                        <MenuItem onClick={handleCloseUserMenu} component={Link} to="/misEmpleados">
+                                            <Group sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis empleados
+                                        </MenuItem>
                                     )}
                                     {usuario.rol === "4" && conectado && (
-                                        <MenuItem onClick={handleCloseUserMenu}>
-                                            <Typography textAlign="center"><Fastfood sx={{ color: '#c2c2c2', marginRight: 1 }} /> Ver mis pedidos</Typography>
+                                        <MenuItem onClick={handleCloseUserMenu} component={Link} to="/">
+                                            <Fastfood sx={{ color: '#c2c2c2', marginRight: 1 }} /> Ver mis pedidos
                                         </MenuItem>
                                     )}
                                     <MenuItem onClick={handleLogout}>
-                                        <Typography textAlign="center"><Logout sx={{ color: '#c2c2c2', marginRight: 1 }} /> Cerrar sesión</Typography>
+                                        <Logout sx={{ color: '#c2c2c2', marginRight: 1 }} /> Cerrar sesión
                                     </MenuItem>
                                 </Menu>
                             </>
-                        ): null}                        
+                        ) : null}
                     </Box>
                 </Box>
             </Toolbar>
