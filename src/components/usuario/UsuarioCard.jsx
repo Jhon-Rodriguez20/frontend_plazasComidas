@@ -36,7 +36,7 @@ function UsuarioPerfilCard({ usuarioEntity }) {
                     {usuarioEntity.ocupacion}
                 </Typography>
                 <Box mt={3} display="flex" justifyContent="center">
-                    <Button variant='contained' size='medium' component={Link} to="/">
+                    <Button variant='contained' size='medium' component={Link} to={`/crear/restaurante/${usuarioEntity.idUsuario}`}>
                         Crear un restaurante
                     </Button>
                 </Box>
@@ -50,6 +50,7 @@ UsuarioPerfilCard.propTypes = {
         nombre: PropTypes.string,
         ocupacion: PropTypes.string,
         imgPerfil: PropTypes.string,
+        idUsuario: PropTypes.string
     }).isRequired,
 }
 

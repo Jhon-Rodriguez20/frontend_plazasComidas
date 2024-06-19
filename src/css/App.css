@@ -1,3 +1,21 @@
 .form-ocultar {
     display: none;
 }
+
+.estilo-form {
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.estilo-button {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.estilo-button:hover {
+    box-shadow: none;
+    transition: 0.3s ease;
+    transform: scale(0.95);
+}

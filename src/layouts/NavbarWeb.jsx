@@ -77,7 +77,7 @@ function NavbarWeb() {
                                         </MenuItem>
                                     )}
                                     {usuario.rol === "2" && conectado && (
-                                        <MenuItem onClick={handleCloseUserMenu} component={Link} to="/">
+                                        <MenuItem onClick={handleCloseUserMenu} component={Link} to="/misRestaurantes">
                                             <Restaurant sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis restaurantes
                                         </MenuItem>
                                     )}

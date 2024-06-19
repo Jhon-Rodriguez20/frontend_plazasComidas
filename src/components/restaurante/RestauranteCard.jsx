@@ -1,9 +1,10 @@
-import { Grid, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Grid, Card, CardContent, CardMedia, Typography, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import { API_URL } from "../../connections/helpers/endpoints";
 import PropTypes from "prop-types";
 import { Place, Restaurant } from '@mui/icons-material';
 
-function RestauranteCard({ restauranteEntity, onClick }) {
+function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
 
     const imagenUrl = `${API_URL}${restauranteEntity.imgRestaurante}`;
 
@@ -24,6 +25,13 @@ function RestauranteCard({ restauranteEntity, onClick }) {
                     <Typography variant="subtitle2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                         <Place sx={{ color: '#c2c2c2', marginRight: 1 }} /> {restauranteEntity.direccion}
                     </Typography>
+                    {mostrar && (
+                        <Typography component="div" sx={{ display: 'flex', alignItems: 'center', mt: 3 }}>
+                            <Button variant='contained' size='medium' component={Link} to={`/crear/plato/${restauranteEntity.idRestaurante}`}>
+                                Crear un plato
+                            </Button>
+                        </Typography>
+                    )}
                 </CardContent>
             </Card>
         </Grid>
@@ -35,8 +43,10 @@ RestauranteCard.propTypes = {
         razonSocial: PropTypes.string,
         direccion: PropTypes.string,
         imgRestaurante: PropTypes.string,
+        idRestaurante: PropTypes.string
     }).isRequired,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    mostrar: PropTypes.bool.isRequired
 }
 
 export { RestauranteCard }

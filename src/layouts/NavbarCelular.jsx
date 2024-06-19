@@ -130,7 +130,7 @@ function NavbarCelular() {
                     </MenuItem>
                 )}
                 {usuario.rol === "2" && conectado && (
-                    <MenuItem component={Link} to="/" onClick={handleCloseMenu}>
+                    <MenuItem component={Link} to="/misRestaurantes" onClick={handleCloseMenu}>
                         <Restaurant sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis restaurantes
                     </MenuItem>
                 )}

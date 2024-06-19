@@ -15,8 +15,9 @@ function IniciarSesionForm({ errores, callback }) {
         <Box component="form" onSubmit={enviarFormulario}>
             <TextField
                 fullWidth
+                className="estilo-form"
                 sx={{ marginBottom: 2 }}
-                variant="standard"
+                variant="outlined"
                 type="email"
                 label="Correo electrónico"
                 value={email}
@@ -27,8 +28,9 @@ function IniciarSesionForm({ errores, callback }) {
             />
             <TextField
                 fullWidth
+                className="estilo-form"
                 sx={{ marginBottom: 5 }}
-                variant="standard"
+                variant="outlined"
                 type="password"
                 label="Contraseña"
                 value={password}
@@ -44,6 +46,7 @@ function IniciarSesionForm({ errores, callback }) {
                     color="primary"
                     size="large"
                     fullWidth
+                    className="estilo-button"
                 >
                     Iniciar sesión
                 </Button>

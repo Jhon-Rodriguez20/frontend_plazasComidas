@@ -22,7 +22,7 @@ function CrearUsuarioForm({ errores, callback, defaultIdRol }) {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         fullWidth
-                        variant="standard"
+                        variant="outlined"
                         type="text"
                         label="Nombre y apellido"
                         value={nombre}
@@ -30,12 +30,14 @@ function CrearUsuarioForm({ errores, callback, defaultIdRol }) {
                         error={!!errores.nombre}
                         helperText={errores.nombre}
                         required
+                        className="estilo-form"
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         fullWidth
-                        variant="standard"
+                        className="estilo-form"
+                        variant="outlined"
                         type="number"
                         label="Número celular"
                         value={celular}
@@ -48,7 +50,8 @@ function CrearUsuarioForm({ errores, callback, defaultIdRol }) {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         fullWidth
-                        variant="standard"
+                        className="estilo-form"
+                        variant="outlined"
                         type="text"
                         label="Correo electrónico"
                         value={email}
@@ -61,7 +64,8 @@ function CrearUsuarioForm({ errores, callback, defaultIdRol }) {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         fullWidth
-                        variant="standard"
+                        className="estilo-form"
+                        variant="outlined"
                         type="text"
                         label="Ocupación"
                         value={ocupacion}
@@ -74,7 +78,8 @@ function CrearUsuarioForm({ errores, callback, defaultIdRol }) {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         fullWidth
-                        variant="standard"
+                        className="estilo-form"
+                        variant="outlined"
                         type="text"
                         label="Descripción de trabajo"
                         value={descripcionTrabajo}
@@ -87,7 +92,8 @@ function CrearUsuarioForm({ errores, callback, defaultIdRol }) {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         fullWidth
-                        variant="standard"
+                        className="estilo-form"
+                        variant="outlined"
                         type="password"
                         label="Contraseña"
                         value={password}
@@ -100,7 +106,7 @@ function CrearUsuarioForm({ errores, callback, defaultIdRol }) {
                 <Grid item xs={12} sm={6} className="form-ocultar">
                     <TextField
                         fullWidth
-                        variant="standard"
+                        variant="outlined"
                         type="text"
                         label="Rol"
                         value={idRol}
@@ -118,6 +124,7 @@ function CrearUsuarioForm({ errores, callback, defaultIdRol }) {
                             variant="contained"
                             color="primary"
                             size="large"
+                            className="estilo-button"
                             fullWidth
                         >
                             Crear usuario

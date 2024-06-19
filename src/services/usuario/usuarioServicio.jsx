@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL, USUARIO_MISGERENTES_GET_ENDPOINT, USUARIO_MISEMPLEADOS_GET_ENDPOINT } from "../../connections/helpers/endpoints";
+import { API_URL, USUARIO_MISGERENTES_GET_ENDPOINT, USUARIO_MISEMPLEADOS_GET_ENDPOINT, USUARIO_MISRESTAURANTES_GET_ENDPOINT } from "../../connections/helpers/endpoints";
 
 export const obtenerMisGerentes = async ()=> {
 
@@ -42,6 +42,30 @@ export const obtenerMisEmpleados = async ()=> {
             )
         )
         return usuariosEmpleados;
+
+    } catch (error) {
+        console.error("Error: ", error);
+        throw error;
+    }
+}
+
+export const obtenerMisRestaurantes = async ()=> {
+
+    try {
+        const respuesta = await axios.get(USUARIO_MISRESTAURANTES_GET_ENDPOINT);
+        const misRestaurantes = respuesta.data.restauranteEntity;
+
+        await Promise.all(
+            misRestaurantes.map(restaurante =>
+                new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.src = `${API_URL}${restaurante.imgRestaurante}`;
+                    img.onload = resolve;
+                    img.onerror = reject;
+                })
+            )
+        )
+        return misRestaurantes;
 
     } catch (error) {
         console.error("Error: ", error);
