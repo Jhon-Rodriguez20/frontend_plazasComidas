@@ -20,7 +20,7 @@ export const obtenerPlatosRestaurante = async (id) => {
         return platos;
 
     } catch (error) {
-        console.error(error);
+        console.error("");
         throw error;
     }
 }
@@ -32,7 +32,7 @@ export const leerDetallePlato = async (plato) => {
         return respuesta.data.platoEntity;
         
     } catch (error) {
-        console.error("Error: ", error);
-        throw error;
+        // console.error("Error: ", error);
+        // throw error;
     }
 }

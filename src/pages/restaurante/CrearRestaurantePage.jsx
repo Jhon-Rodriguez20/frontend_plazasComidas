@@ -6,12 +6,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { CREARRESTAURANTE_POST_ENDPOINT } from "../../connections/helpers/endpoints";
 import { BackDropProgreso } from "../../components/common/loading/BackDropProgreso";
+import useAlertas from "../../components/common/alertas/tipoAlertas";
 
 function CrearRestaurantePage() {
     const [errores, setErrores] = useState({});
     const [cargando, setCargando] = useState(false);
     const [imagenPrevia, setImagenPrevia] = useState("");
     const navegar = useNavigate();
+    const { mostrarAlertaExito, mostrarAlertaError } = useAlertas();
 
     const crearRestaurante = async ({razonSocial, nit, direccion, telefono, imagenRestaurante, idUsuario}) => {
         const errores = {};
@@ -23,9 +25,11 @@ function CrearRestaurantePage() {
         ).then(()=> {
             setCargando(false);
             navegar("/");
+            mostrarAlertaExito("Restaurante creado exitosamente.")
         }).catch((err)=> {
             setCargando(false);
-            console.error(err);
+            const mensajeError = err.response?.data?.error || "Ocurrió un error al crear el restaurante.";
+            mostrarAlertaError(mensajeError);
         })
     }
 

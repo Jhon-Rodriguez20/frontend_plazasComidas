@@ -6,30 +6,35 @@ import { IniciarSesionForm } from "../../components/auth/IniciarSesionForm";
 import { autenticacion } from "../../connections/usuarioAcciones";
 import { BackDropProgreso } from "../../components/common/loading/BackDropProgreso";
 import MenuBookIconWithGradient from "../../assets/MenuBookSvg";
+import useAlertas from "../../components/common/alertas/tipoAlertas";
 
 function IniciarSesion() {
     const [errores, setErrores] = useState({});
     const [loading, setLoading] = useState(false);
     const conectado = useSelector(estado => estado.conectado);
     const navegar = useNavigate();
-    const envuiarAccion = useDispatch();
+    const enviarAccion = useDispatch();
+    const { mostrarAlertaError } = useAlertas();
+
     
     useEffect(() => {
         if(conectado) navegar("/")
     }, [conectado, navegar]);
 
     const iniciarSesion = ({ email, password }) => {
-        const error = {};
-        setErrores(error);
+        const mensaje = {};
+        setErrores(mensaje);
         setLoading(true);
 
-        envuiarAccion(autenticacion({ email, password }))
+        enviarAccion(autenticacion({ email, password }))
             .then(() => {
                 setLoading(false);
-                navegar("/")
+                navegar("/");
             })
-            .catch(() => {
+            .catch((err) => {
                 setLoading(false);
+                const mensajeError = err.response?.data?.mensaje || "Ocurrió un error al iniciar sesión.";
+                mostrarAlertaError(mensajeError);
             })
     }
 

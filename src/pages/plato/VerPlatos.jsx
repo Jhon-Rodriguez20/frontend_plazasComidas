@@ -7,7 +7,7 @@ import { Container, Grid, Box, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { PlatoDetalle } from "../../components/plato/PlatoDetalle";
 
-function PlatoPage() {
+function VerPlatosPage() {
     const { id } = useParams();
     const [platos, setPlatos] = useState([]);
     const [buscando, setBuscando] = useState(true);
@@ -18,7 +18,7 @@ function PlatoPage() {
         const verPlatos = async () => {
             obtenerPlatosRestaurante(id)
                 .then(data => setPlatos(data))
-                .catch(() => {})
+                .catch(error => console.error("Error al obtener los platos: ", error))
                 .finally(() => setBuscando(false));
         }
         verPlatos();
@@ -30,7 +30,7 @@ function PlatoPage() {
             setDetallePlato(detalle);
             setDetalleAbrir(true);
         })
-        .catch(() => {});
+        .catch(error => console.error("Error al obtener el detalle del plato: ", error));
     }
 
     return (
@@ -49,7 +49,7 @@ function PlatoPage() {
                             <Grid item xs={12} sm={6} md={6} lg={6} key={plato.idPlato}>
                                 <PlatoCard
                                     platoEntidad={plato}
-                                    mostrar={false}
+                                    mostrar={true}
                                     click={() => abrirDetalle(plato)}
                                 />
                             </Grid>
@@ -62,4 +62,4 @@ function PlatoPage() {
     )
 }
 
-export { PlatoPage }
+export { VerPlatosPage }

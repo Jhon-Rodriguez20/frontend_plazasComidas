@@ -7,7 +7,7 @@ import { obtenerMisEmpleados } from "../../services/usuario/usuarioServicio";
 
 function MisEmpleadosPage() {
     const [empleados, setEmpleados] = useState([]);
-    const [buscando, setBuscando] = useState(false);
+    const [buscando, setBuscando] = useState(true);
 
     useEffect(() => {
         const verEmpleados = async () => {

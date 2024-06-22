@@ -20,8 +20,8 @@ export const obtenerRestaurantes = async () => {
         return restaurantes;
 
     } catch (error) {
-        console.error("Error: ", error);
-        throw error;
+        // console.error("Error: ", error);
+        // throw error;
     }
 }
 
@@ -32,7 +32,7 @@ export const leerDetalleRestaurante = async (restauranteEntity) => {
         return respuesta.data.restauranteEntity;
 
     } catch (error) {
-        console.error("Error: ", error);
-        throw error;
+        // console.error("Error: ", error);
+        // throw error;
     }
 }

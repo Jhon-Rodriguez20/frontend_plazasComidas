@@ -9,7 +9,7 @@ import { RestauranteDetalle } from "../../components/restaurante/RestauranteDeta
 
 function MisRestaurantesPage() {
     const [restaurantes, setRestaurantes] = useState([]);
-    const [buscando, setBuscando] = useState(false);
+    const [buscando, setBuscando] = useState(true);
     const [detalleAbrir, setDetalleAbrir] = useState(false);
     const [restauranteDetalle, setRestauranteDetalle] = useState(null);
 

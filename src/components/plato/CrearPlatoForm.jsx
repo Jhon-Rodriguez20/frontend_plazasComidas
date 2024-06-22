@@ -3,8 +3,9 @@ import { Box, TextField, Button, Grid, Typography, Switch, FormControlLabel } fr
 import PropTypes from 'prop-types';
 import { FileDrop } from "react-file-drop";
 import { useParams } from "react-router-dom";
+import useAlertas from "../common/alertas/tipoAlertas";
 
-function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlato = "", pPrecio = null, pDescripcion = "", pImagenPlato = "", pRestauranteId = "", pMostrado = "" }) {
+function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlato = "", pPrecio = '', pDescripcion = "", pImagenPlato = "", pRestauranteId = "", pMostrado = "" }) {
     const { id } = useParams();
     const [nombrePlato, setNombrePlato] = useState(pNombrePlato);
     const [precio, setPrecio] = useState(pPrecio);
@@ -12,6 +13,7 @@ function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlat
     const [imagenPlato, setImgPlato] = useState(pImagenPlato);
     const [restauranteId, setRestauranteId] = useState(pRestauranteId);
     const [mostrado, setMostrado] = useState(pMostrado === "1");
+    const { mostrarAlertaAdvertencia } = useAlertas();
 
     useEffect(() => {
         setRestauranteId(id);
@@ -19,6 +21,10 @@ function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlat
 
     const enviarFormulario = (event) => {
         event.preventDefault();
+        if (!imagenPlato && !editable) {
+            mostrarAlertaAdvertencia("Por favor, cargue una imagen del plato.");
+            return;
+        }
         (!editable) ? callback({ nombrePlato, precio, descripcion, imagenPlato, restauranteId }) :
             callback({ precio, descripcion, mostrado: mostrado ? "1" : "0" });
     }
@@ -39,6 +45,7 @@ function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlat
     return (
         <Box component="form" onSubmit={enviarFormulario} encType="multipart/form-data">
             <Grid container spacing={2}>
+                {!editable && (
                 <Grid item xs={12} sm={6} md={6} lg={6} mb={3}>
                     <TextField
                         fullWidth
@@ -53,6 +60,21 @@ function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlat
                         required
                     />
                 </Grid>
+                )}
+                {editable && (
+                    <Grid item xs={12} sm={6} md={6} lg={6} mb={2}>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={mostrado}
+                                    onChange={(e) => setMostrado(e.target.checked)}
+                                    color="primary"
+                                />
+                            }
+                            label="Mostrar en el menú"
+                        />
+                    </Grid>
+                )}
                 <Grid item xs={12} sm={6} md={6} lg={6} mb={3}>
                     <TextField
                         fullWidth
@@ -115,21 +137,7 @@ function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlat
                             </Typography>
                         )}
                     </Grid>
-                )}
-                {editable && (
-                    <Grid item xs={12} sm={6} md={6} lg={6} mb={2}>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={mostrado}
-                                    onChange={(e) => setMostrado(e.target.checked)}
-                                    color="primary"
-                                />
-                            }
-                            label="Mostrar en el menú"
-                        />
-                    </Grid>
-                )}
+                )}                
                 <Grid item xs={12} mt={2}>
                     <Box display='flex' justifyContent='center'>
                         <Button
@@ -152,7 +160,7 @@ function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlat
 CrearPlatoForm.propTypes = {
     errores: PropTypes.shape({
         nombrePlato: PropTypes.string,
-        precio: PropTypes.string,
+        precio: PropTypes.number,
         descripcion: PropTypes.string,
         imagenPlato: PropTypes.string,
         restauranteId: PropTypes.string,
@@ -160,7 +168,7 @@ CrearPlatoForm.propTypes = {
     }).isRequired,
     callback: PropTypes.func.isRequired,
     pNombrePlato: PropTypes.string,
-    pPrecio: PropTypes.string,
+    pPrecio: PropTypes.number,
     pDescripcion: PropTypes.string,
     pImagenPlato: PropTypes.string,
     pRestauranteId: PropTypes.string,

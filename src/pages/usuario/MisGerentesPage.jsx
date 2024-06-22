@@ -7,7 +7,7 @@ import { obtenerMisGerentes } from "../../services/usuario/usuarioServicio";
 
 function MisGerentesPage() {
     const [gerentes, setGerentes] = useState([]);
-    const [buscando, setBuscando] = useState(false);
+    const [buscando, setBuscando] = useState(true);
 
     useEffect(() => {
         const verGerentes = async () => {

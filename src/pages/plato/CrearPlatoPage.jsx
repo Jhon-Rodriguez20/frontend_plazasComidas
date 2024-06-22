@@ -6,12 +6,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { CREARPLATO_RESTAURANTE_POST_ENDPOINT } from "../../connections/helpers/endpoints";
 import { BackDropProgreso } from "../../components/common/loading/BackDropProgreso";
+import useAlertas from "../../components/common/alertas/tipoAlertas";
 
 function CrearPlatoPage() {
     const [errores, setErrores] = useState({});
     const [cargando, setCargando] = useState(false);
     const [imagenPrevia, setImagenPrevia] = useState("");
     const navegar = useNavigate();
+    const { mostrarAlertaExito, mostrarAlertaError } = useAlertas();
 
     const crearPlato = async ({nombrePlato, precio, descripcion, imagenPlato, restauranteId}) => {
         const errores = {};
@@ -23,9 +25,11 @@ function CrearPlatoPage() {
         ).then(()=> {
             setCargando(false);
             navegar("/");
+            mostrarAlertaExito("Plato creado exitosamente.");
         }).catch((err)=> {
             setCargando(false);
-            console.error(err);
+            const mensajeError = err.response?.data?.error || "Ocurrió un error al crear el plato.";
+            mostrarAlertaError(mensajeError);
         })
     }
 
@@ -39,7 +43,7 @@ function CrearPlatoPage() {
                         <Box>
                             <Typography variant="h5" textAlign="center" fontWeight={"bold"} mt={4} mb={4}>Crear plato</Typography>
                             {errores.new && <Alert variant="danger">{errores.new}</Alert>}
-                            <CrearPlatoForm errores={errores} callback={crearPlato} imagenPrevia={setImagenPrevia}/>
+                            <CrearPlatoForm errores={errores} callback={crearPlato} editable={false} imagenPrevia={setImagenPrevia}/>
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={6}>

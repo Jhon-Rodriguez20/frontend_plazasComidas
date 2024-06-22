@@ -1,4 +1,5 @@
 import './css/App.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { RestaurantePage } from "./pages/restaurante/RestaurantePage";
 import { PlatoPage } from './pages/plato/PlatoPage';
@@ -16,6 +17,9 @@ import { MisEmpleadosPage } from './pages/usuario/MisEmpleadosPage';
 import { CrearRestaurantePage } from './pages/restaurante/CrearRestaurantePage';
 import { CrearPlatoPage } from './pages/plato/CrearPlatoPage';
 import { MisRestaurantesPage } from './pages/usuario/MisRestaurantesPage';
+import { VerPlatosPage } from './pages/plato/VerPlatos';
+import { EditarPlatoPage } from './pages/plato/EditarPlatoPage';
+import { ToastContainer } from 'react-toastify';
 
 getAutenticacionToken();
 
@@ -39,8 +43,11 @@ function App() {
                             <Route path='/crear/restaurante/:id' element={<CrearRestaurantePage />} />
                             <Route path='/crear/plato/:id' element={<CrearPlatoPage />} />
                             <Route path='/misRestaurantes' element={<MisRestaurantesPage />} />
+                            <Route path='/verPlatos/:id' element={<VerPlatosPage />} />
+                            <Route path='/editar/plato/:id' element={<EditarPlatoPage />} />
                         </Route>
                     </Routes>
+                    <ToastContainer />
                 </BrowserRouter>
             </ThemeProvider>
         </Provider>

@@ -7,6 +7,7 @@ export const RESTAURANTE_DETALLE_GET_ENDPOINT = API_URL + "/restaurante";
 
 // ENDPOINTS DE PLATOS
 export const CREARPLATO_RESTAURANTE_POST_ENDPOINT = API_URL + "/plato";
+export const EDITARPLATO_RESTAURANTE_PUT_ENDPOINT = API_URL + "/plato";
 export const PLATOS_RESTAURANTE_GET_ENDPOINT = API_URL + "/plato/restaurante";
 export const PLATO_DETALLE_GET_ENDPOINT = API_URL + "/plato";
 

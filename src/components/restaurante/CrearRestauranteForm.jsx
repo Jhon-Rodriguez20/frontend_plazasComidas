@@ -3,6 +3,7 @@ import { Box, TextField, Button, Grid, Typography } from "@mui/material";
 import PropTypes from 'prop-types';
 import { FileDrop } from "react-file-drop";
 import { useParams } from "react-router-dom";
+import useAlertas from "../common/alertas/tipoAlertas";
 
 function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
     const {id} = useParams();
@@ -12,6 +13,7 @@ function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
     const [telefono, setTelefono] = useState("");
     const [imagenRestaurante, setImgRestaurante] = useState("");
     const [idUsuario, setIdUsuario] = useState("");
+    const {mostrarAlertaAdvertencia} = useAlertas();
 
     useEffect(()=> {
         setIdUsuario(id);
@@ -19,6 +21,10 @@ function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
 
     const enviarFormulario = (event) => {
         event.preventDefault();
+        if (!imagenRestaurante) {
+            mostrarAlertaAdvertencia("Por favor, cargue una imagen del restaurante.");
+            return;
+        }
         callback({ razonSocial, nit, direccion, telefono, imagenRestaurante, idUsuario });
     }
 

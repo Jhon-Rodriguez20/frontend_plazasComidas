@@ -20,8 +20,8 @@ export const obtenerMisGerentes = async ()=> {
         return usuariosGerentes;
 
     } catch (error) {
-        console.error("Error: ", error);
-        throw error;
+        // console.error("Error: ", error);
+        // throw error;
     }
 }
 
@@ -44,8 +44,8 @@ export const obtenerMisEmpleados = async ()=> {
         return usuariosEmpleados;
 
     } catch (error) {
-        console.error("Error: ", error);
-        throw error;
+        // console.error("Error: ", error);
+        // throw error;
     }
 }
 
@@ -68,7 +68,7 @@ export const obtenerMisRestaurantes = async ()=> {
         return misRestaurantes;
 
     } catch (error) {
-        console.error("Error: ", error);
-        throw error;
+        // console.error("Error: ", error);
+        // throw error;
     }
 }

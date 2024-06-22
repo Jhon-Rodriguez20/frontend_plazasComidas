@@ -6,11 +6,13 @@ import { SIGNUP_POST_ENDPOINT } from '../../connections/helpers/endpoints';
 import { Box, Container, Typography, Button } from '@mui/material';
 import { BackDropProgreso } from "../../components/common/loading/BackDropProgreso";
 import MenuBookIconWithGradient from "../../assets/MenuBookSvg";
+import useAlertas from "../../components/common/alertas/tipoAlertas";
 
 function CrearUsuarioPage() {
     const [errores, setErrores] = useState({});
     const [cargando, setCargando] = useState(false);
     const navegar = useNavigate();
+    const { mostrarAlertaExito, mostrarAlertaError } = useAlertas();
 
     const registro = async ({ nombre, celular, email, ocupacion, descripcionTrabajo, password, idRol }) => {
         const error = {};
@@ -28,9 +30,12 @@ function CrearUsuarioPage() {
             });
             setCargando(false);
             navegar("/usuario/loguearse");
+            mostrarAlertaExito("Usuario creado exitosamente.")
+
         } catch (err) {
             setCargando(false);
-            console.error(err);
+            const mensajeError = err.response?.data?.error || "Ocurrió un error al registrarse.";
+            mostrarAlertaError(mensajeError);
         }
     }
 
