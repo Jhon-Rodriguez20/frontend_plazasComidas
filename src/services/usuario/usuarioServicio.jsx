@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL, USUARIO_MISGERENTES_GET_ENDPOINT, USUARIO_MISEMPLEADOS_GET_ENDPOINT, USUARIO_MISRESTAURANTES_GET_ENDPOINT } from "../../connections/helpers/endpoints";
+import { API_URL, USUARIO_MISGERENTES_GET_ENDPOINT, USUARIO_MISEMPLEADOS_GET_ENDPOINT, USUARIO_MISRESTAURANTES_GET_ENDPOINT, USUARIO_MISPEDIDOS_GET_ENDPOINT } from "../../connections/helpers/endpoints";
 
 export const obtenerMisGerentes = async ()=> {
 
@@ -20,8 +20,8 @@ export const obtenerMisGerentes = async ()=> {
         return usuariosGerentes;
 
     } catch (error) {
-        // console.error("Error: ", error);
-        // throw error;
+        console.error("Error: ", error);
+        throw error;
     }
 }
 
@@ -44,8 +44,8 @@ export const obtenerMisEmpleados = async ()=> {
         return usuariosEmpleados;
 
     } catch (error) {
-        // console.error("Error: ", error);
-        // throw error;
+        console.error("Error: ", error);
+        throw error;
     }
 }
 
@@ -68,7 +68,19 @@ export const obtenerMisRestaurantes = async ()=> {
         return misRestaurantes;
 
     } catch (error) {
-        // console.error("Error: ", error);
-        // throw error;
+        console.error("Error: ", error);
+        throw error;
+    }
+}
+
+export const obtenerMisPedidos = async () => {
+
+    try {
+        const respuesta = await axios.get(USUARIO_MISPEDIDOS_GET_ENDPOINT);
+        return respuesta.data.pedidoEntity;
+
+    } catch (error) {
+        console.error("");
+        throw error;
     }
 }

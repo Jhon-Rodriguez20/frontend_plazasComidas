@@ -53,8 +53,8 @@ function IniciarSesion() {
             <BackDropProgreso abrir={loading}/>
             <Box 
                 sx={{
-                    width: '80%',
-                    maxWidth: '85%',
+                    width: '85%',
+                    maxWidth: '90%',
                     padding: 3,
                     boxShadow: 3,
                     borderRadius: 2,

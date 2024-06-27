@@ -19,3 +19,7 @@
     transition: 0.3s ease;
     transform: scale(0.95);
 }
+
+.chip:hover {
+    background-color: #FFA726 !important;
+}

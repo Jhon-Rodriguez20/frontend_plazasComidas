@@ -1,28 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, BottomNavigation, BottomNavigationAction, Menu, MenuItem } from '@mui/material';
 import { MenuOutlined, Home, Logout, Login, SupervisorAccount, People, AssignmentInd, Group, PersonAdd, Fastfood, Restaurant } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { cerrarSesion } from '../connections/usuarioAcciones';
 
 function NavbarCelular() {
-    const [value, setValue] = useState(0);
+    const location = useLocation();
+    const [value, setValue] = useState(location.pathname);
     const [anchorEl, setAnchorEl] = useState(null);
     const conectado = useSelector((estado) => estado.conectado);
     const usuario = useSelector((estado) => estado.usuario);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        setValue(location.pathname);
+    }, [location.pathname]);
+
     const handleOpenMenu = (event) => {
         setAnchorEl(event.currentTarget);
-    };
+    }
 
     const handleCloseMenu = () => {
         setAnchorEl(null);
-    };
+    }
 
     const handleLogout = () => {
+        setAnchorEl(null);
         dispatch(cerrarSesion());
-    };
+    }
 
     const getNavigationActions = () => {
         const actions = [];
@@ -34,6 +40,7 @@ function NavbarCelular() {
                 key="home" 
                 label="Home" 
                 icon={<Home />} 
+                value="/" 
             />
         );
         
@@ -44,7 +51,8 @@ function NavbarCelular() {
                     label="Crear gerente" 
                     icon={<SupervisorAccount />} 
                     component={Link} 
-                    to="/crearGerente" 
+                    to="/crear/gerente" 
+                    value="/crear/gerente"
                 />
             );
         }
@@ -55,7 +63,8 @@ function NavbarCelular() {
                     label="Crear empleado" 
                     icon={<People />} 
                     component={Link} 
-                    to="/crearEmpleado" 
+                    to="/crear/empleado" 
+                    value="/crear/empleado"
                 />
             );
         }
@@ -66,7 +75,8 @@ function NavbarCelular() {
                     label="Ver pedidos" 
                     icon={<Fastfood />} 
                     component={Link} 
-                    to="/verPedidos" 
+                    to="/pedidos/restaurante" 
+                    value="/pedidos/restaurante"
                 />
             );
         }        
@@ -79,6 +89,7 @@ function NavbarCelular() {
                     key="iniciar-sesion" 
                     label="Iniciar sesión" 
                     icon={<Login />} 
+                    value="/usuario/loguearse"
                 />
             );
             actions.push(
@@ -88,6 +99,7 @@ function NavbarCelular() {
                     key="crear-cuenta" 
                     label="Registrarse" 
                     icon={<PersonAdd />} 
+                    value="/usuario/registrarse"
                 />
             );
         }
@@ -140,7 +152,7 @@ function NavbarCelular() {
                     </MenuItem>
                 )}
                 {usuario.rol === "4" && conectado && (
-                    <MenuItem component={Link} to="/" onClick={handleCloseMenu}>
+                    <MenuItem component={Link} to="/verPedidos/hechos" onClick={handleCloseMenu}>
                         <Fastfood sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis pedidos
                     </MenuItem>
                 )}

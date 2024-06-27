@@ -50,6 +50,7 @@ function PlatoPage() {
                                 <PlatoCard
                                     platoEntidad={plato}
                                     mostrar={false}
+                                    mostrarAcciones={false}
                                     click={() => abrirDetalle(plato)}
                                 />
                             </Grid>

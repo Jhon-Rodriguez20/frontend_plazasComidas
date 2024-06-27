@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Grid, Card, CardContent, CardMedia, Typography, IconButton, Menu, MenuItem, Fade, Box } from "@mui/material";
+import { Grid, Card, CardContent, CardMedia, Typography,
+ IconButton, Menu, MenuItem, Fade, Box, Stack, Badge } from "@mui/material";
 import { Link } from "react-router-dom";
 import { API_URL } from "../../connections/helpers/endpoints";
 import PropTypes from "prop-types";
-import { Place, Restaurant, AddBox, MoreVert, DinnerDining } from '@mui/icons-material';
+import { Place, Restaurant, AddBox, MoreVert, DinnerDining, Fastfood } from '@mui/icons-material';
+import { useSelector } from "react-redux";
 
 function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -23,6 +25,8 @@ function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
         event.stopPropagation();
     }
 
+    const conectado = useSelector((estado) => estado.conectado);
+    const usuario = useSelector((estado) => estado.usuario);
     const imagenUrl = `${API_URL}${restauranteEntity.imgRestaurante}`;
 
     return (
@@ -43,7 +47,13 @@ function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
                         <Place sx={{ color: '#c2c2c2', marginRight: 1 }} /> {restauranteEntity.direccion}
                     </Typography>
                 </CardContent>
-                {mostrar && (
+                {/* <Stack direction="row" spacing={2}>
+            <HourglassEmpty />
+            <CheckCircle />
+            <LocalShipping />
+            <Build  />
+        </Stack> */}
+                {mostrar && conectado && usuario.rol === "2" ? (
                     <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
                         <IconButton aria-label="settings" onClick={handleClick}>
                             <MoreVert />
@@ -67,7 +77,15 @@ function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
                             </MenuItem>
                         </Menu>
                     </Box>
-                )}
+                ) : (mostrar && conectado && usuario.rol === "3") ? (
+                    <Link to={`/verPedidos/restaurante/${restauranteEntity.idRestaurante}`} style={{ textDecoration: 'none' }}>
+                        <Stack sx={{position: 'absolute', top: 15, right: 15}}>
+                            <Badge badgeContent={4} color="secondary">
+                                <Fastfood color="action" />
+                            </Badge>
+                        </Stack>
+                    </Link>
+                ) : ""}
             </Card>
         </Grid>
     )

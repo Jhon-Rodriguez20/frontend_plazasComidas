@@ -3,9 +3,10 @@ import { Grid, Card, CardContent, CardMedia, Typography, IconButton, Menu, MenuI
 import { Link } from "react-router-dom";
 import { Edit, MoreVert } from '@mui/icons-material';
 import { API_URL } from "../../connections/helpers/endpoints";
+import { EliminarPlatoMenuItem } from "./EliminarPlatoMenuItem";
 import PropTypes from "prop-types";
 
-function PlatoCard({ platoEntidad, mostrar, click }) {
+function PlatoCard({ platoEntidad, mostrar, mostrarAcciones, click }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -44,26 +45,30 @@ function PlatoCard({ platoEntidad, mostrar, click }) {
                         $ {platoEntidad.precio}
                     </Typography>
                 </CardContent>
-                <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
-                    <IconButton aria-label="settings" onClick={handleClick}>
-                        <MoreVert />
-                    </IconButton>
-                    <Menu
-                        id="fade-menu"
-                        MenuListProps={{
-                            'aria-labelledby': 'fade-button',
-                        }}
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        TransitionComponent={Fade}
-                        onClick={handleMenuClick}
-                    >
-                        <MenuItem component={Link} to={`/editar/plato/${platoEntidad.idPlato}`}>
-                            <Edit sx={{ color: '#c2c2c2', marginRight: 1 }} /> Editar plato
-                        </MenuItem>
-                    </Menu>
-                </Box>
+                {mostrarAcciones ? (
+                    <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
+                        <IconButton aria-label="settings" onClick={handleClick}>
+                            <MoreVert />
+                        </IconButton>
+                        <Menu
+                            id="fade-menu"
+                            MenuListProps={{
+                                'aria-labelledby': 'fade-button',
+                            }}
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            TransitionComponent={Fade}
+                            onClick={handleMenuClick}
+                        >
+                            <MenuItem component={Link} to={`/editar/plato/${platoEntidad.idPlato}`}>
+                                <Edit sx={{ color: 'blue', marginRight: 1 }} /> Editar plato
+                            </MenuItem>
+                            <EliminarPlatoMenuItem id={platoEntidad.idPlato}
+                                nombrePlato={platoEntidad.nombrePlato} nombreRestaurante={platoEntidad.nombreRestaurante} />
+                        </Menu>
+                    </Box>
+                ) : ""}                
             </Card>
         </Grid>
     );
@@ -72,12 +77,14 @@ function PlatoCard({ platoEntidad, mostrar, click }) {
 PlatoCard.propTypes = {
     click: PropTypes.func.isRequired,
     mostrar: PropTypes.bool.isRequired,
+    mostrarAcciones: PropTypes.bool.isRequired,
     platoEntidad: PropTypes.shape({
         nombrePlato: PropTypes.string,
         precio: PropTypes.number,
         imgPlato: PropTypes.string,
         mostrado: PropTypes.string,
-        idPlato: PropTypes.string
+        idPlato: PropTypes.string,
+        nombreRestaurante: PropTypes.string
     }).isRequired
 }
 

@@ -3,7 +3,7 @@ import { API_URL, PLATOS_RESTAURANTE_GET_ENDPOINT, PLATO_DETALLE_GET_ENDPOINT } 
 
 export const obtenerPlatosRestaurante = async (id) => {
 
-    try {        
+    try {
         const respuesta = await axios.get(`${PLATOS_RESTAURANTE_GET_ENDPOINT}/${id}`);
         const platos = respuesta.data.platoEntity;
 
@@ -32,7 +32,7 @@ export const leerDetallePlato = async (plato) => {
         return respuesta.data.platoEntity;
         
     } catch (error) {
-        // console.error("Error: ", error);
-        // throw error;
+        console.error("Error: ", error);
+        throw error;
     }
 }

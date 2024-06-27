@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CrearUsuarioForm } from '../../components/auth/CrearUsuarioForm';
-import { SIGNUP_POST_ENDPOINT } from '../../connections/helpers/endpoints';
-import { Box, Container, Typography, Button } from '@mui/material';
+import { CREARGERENTE_POST_ENDPOINT } from '../../connections/helpers/endpoints';
+import { Box, Container, Typography } from '@mui/material';
 import { BackDropProgreso } from "../../components/common/loading/BackDropProgreso";
 import MenuBookIconWithGradient from "../../assets/MenuBookSvg";
 import useAlertas from "../../components/common/alertas/tipoAlertas";
 
-function CrearUsuarioPage() {
+function CrearGerentePage() {
     const [errores, setErrores] = useState({});
     const [cargando, setCargando] = useState(false);
     const navegar = useNavigate();
@@ -20,7 +20,7 @@ function CrearUsuarioPage() {
         setCargando(true);
 
         try {
-            await axios.post(SIGNUP_POST_ENDPOINT, {
+            await axios.post(CREARGERENTE_POST_ENDPOINT, {
                 nombre, celular, email, ocupacion, descripcionTrabajo, password, idRol
             }, {
                 headers: {
@@ -29,12 +29,12 @@ function CrearUsuarioPage() {
                 }
             });
             setCargando(false);
-            navegar("/usuario/loguearse");
-            mostrarAlertaExito("Usuario creado exitosamente.");
+            navegar("/misGerentes");
+            mostrarAlertaExito("Gerente creado exitosamente.");
 
         } catch (err) {
             setCargando(false);
-            const mensajeError = err.response?.data?.error || "Ocurrió un error al registrarse.";
+            const mensajeError = err.response?.data?.error || "Ocurrió un error al crear el gerente.";
             mostrarAlertaError(mensajeError);
         }
     }
@@ -66,28 +66,13 @@ function CrearUsuarioPage() {
                     <MenuBookIconWithGradient width={100} height={100} />
                 </Box>                
                 <Typography variant="subtitle1" color="text.secondary" mb={3} align="center" gutterBottom>
-                    ¡Bienvenido de nuevo!
+                    ¡Crea un gerente para adminstrar bien tu restaurante!
                 </Typography>
-                <CrearUsuarioForm errores={errores} callback={registro} defaultOcupacion="Cliente"
-                    defaultDescTrabajo="Hacer pedidos" defaultIdRol="4" mostrarChips={false} />
-                <Box mt={9}>
-                    <Typography variant="subtitle2" color="text.secondary" textAlign="center">
-                        ¿Ya tienes una cuenta?
-                        <Button 
-                            variant="contained" 
-                            size="small" 
-                            color="primary" 
-                            sx={{ padding: 1.5, marginLeft: 1 }} 
-                            component={Link} 
-                            to={'/usuario/loguearse'}
-                        >
-                            Iniciar sesión
-                        </Button>
-                    </Typography>
-                </Box>
+                <CrearUsuarioForm errores={errores} callback={registro} defaultOcupacion="Gerente"
+                defaultDescTrabajo="Administrar restaurante asignado" defaultIdRol="2" mostrarChips={false} />
             </Box>
         </Container>
     )
 }
 
-export { CrearUsuarioPage }
+export { CrearGerentePage }

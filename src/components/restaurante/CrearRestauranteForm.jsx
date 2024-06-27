@@ -6,41 +6,62 @@ import { useParams } from "react-router-dom";
 import useAlertas from "../common/alertas/tipoAlertas";
 
 function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
-    const {id} = useParams();
+    const { id } = useParams();
     const [razonSocial, setRazonSocial] = useState("");
     const [nit, setNit] = useState("");
     const [direccion, setDireccion] = useState("");
     const [telefono, setTelefono] = useState("");
     const [imagenRestaurante, setImgRestaurante] = useState("");
     const [idUsuario, setIdUsuario] = useState("");
-    const {mostrarAlertaAdvertencia} = useAlertas();
+    const [erroresLocal, setErroresLocal] = useState({});
+    const { mostrarAlertaAdvertencia } = useAlertas();
 
-    useEffect(()=> {
+    useEffect(() => {
         setIdUsuario(id);
     }, [id]);
 
     const enviarFormulario = (event) => {
         event.preventDefault();
+        const erroresValidacion = {};
+
+        if (!razonSocial) {
+            erroresValidacion.razonSocial = "La razón social es obligatoria.";
+        }
+        if (!nit) {
+            erroresValidacion.nit = "El NIT es obligatorio.";
+        }
+        if (!direccion) {
+            erroresValidacion.direccion = "La dirección es obligatoria.";
+        }
+        if (!telefono) {
+            erroresValidacion.telefono = "El teléfono es obligatorio.";
+        }
         if (!imagenRestaurante) {
+            erroresValidacion.imagenRestaurante = "Por favor, cargue una imagen del restaurante.";
             mostrarAlertaAdvertencia("Por favor, cargue una imagen del restaurante.");
+        }
+
+        if (Object.keys(erroresValidacion).length > 0) {
+            setErroresLocal(erroresValidacion);
             return;
         }
+
+        setErroresLocal({});
         callback({ razonSocial, nit, direccion, telefono, imagenRestaurante, idUsuario });
-    }
+    };
 
     const cargarImagen = useCallback((imagen) => {
         const imagenCargar = imagen[0];
-        if(imagenCargar) {
+        if (imagenCargar) {
             const validarMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-            if(!validarMimeTypes.includes(imagenCargar.type)) {
-                alert("Tipo de archivo no válido. Por favor, sube una imagen (jpeg, png, gif).");
+            if (!validarMimeTypes.includes(imagenCargar.type)) {
+                mostrarAlertaAdvertencia("Tipo de archivo no válido. Por favor, sube una imagen (jpeg, png, gif).");
                 return;
             }
         }
         setImgRestaurante(imagenCargar);
         imagenPrevia(URL.createObjectURL(imagenCargar));
-
-    }, [imagenPrevia])
+    }, [imagenPrevia, mostrarAlertaAdvertencia]);
 
     return (
         <Box component="form" onSubmit={enviarFormulario} encType="multipart/form-data">
@@ -54,8 +75,8 @@ function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
                         label="Razón social"
                         value={razonSocial}
                         onChange={(e) => setRazonSocial(e.target.value)}
-                        error={!!errores.razonSocial}
-                        helperText={errores.razonSocial}
+                        error={!!erroresLocal.razonSocial || !!errores.razonSocial}
+                        helperText={erroresLocal.razonSocial || errores.razonSocial}
                         required
                     />
                 </Grid>
@@ -68,8 +89,8 @@ function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
                         label="NIT"
                         value={nit}
                         onChange={(e) => setNit(e.target.value)}
-                        error={!!errores.nit}
-                        helperText={errores.nit}
+                        error={!!erroresLocal.nit || !!errores.nit}
+                        helperText={erroresLocal.nit || errores.nit}
                         required
                     />
                 </Grid>
@@ -82,8 +103,8 @@ function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
                         label="Dirección"
                         value={direccion}
                         onChange={(e) => setDireccion(e.target.value)}
-                        error={!!errores.direccion}
-                        helperText={errores.direccion}
+                        error={!!erroresLocal.direccion || !!errores.direccion}
+                        helperText={erroresLocal.direccion || errores.direccion}
                         required
                     />
                 </Grid>
@@ -96,40 +117,40 @@ function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
                         label="Teléfono o celular"
                         value={telefono}
                         onChange={(e) => setTelefono(e.target.value)}
-                        error={!!errores.telefono}
-                        helperText={errores.telefono}
+                        error={!!erroresLocal.telefono || !!errores.telefono}
+                        helperText={erroresLocal.telefono || errores.telefono}
                         required
                     />
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12} mb={1}>
-                    <FileDrop onDrop={cargarImagen} onTargetClick={()=> document.getElementById("formImagen").click()}>
-                        <input id="formImagen" type="file" style={{ display: 'none'}}
-                            onChange={(e)=> cargarImagen(e.target.files)} accept="image/jpeg, image/png, image/gif"
+                    <FileDrop onDrop={cargarImagen} onTargetClick={() => document.getElementById("formImagen").click()}>
+                        <input id="formImagen" type="file" style={{ display: 'none' }}
+                            onChange={(e) => cargarImagen(e.target.files)} accept="image/jpeg, image/png, image/gif"
                         />
-                        <Box sx={{ border: '2px dashed gray', padding: 5, textAlign: 'center', cursor: 'pointer'}}>
+                        <Box sx={{ border: '2px dashed gray', padding: 5, textAlign: 'center', cursor: 'pointer' }}>
                             <Typography variant="body1" color="GrayText">
                                 Arrastra y suelta una imagen aquí, o haz clic para seleccionar una
                             </Typography>
                         </Box>
                     </FileDrop>
-                    {errores.imagenRestaurante && (
+                    {erroresLocal.imagenRestaurante && (
                         <Typography color="error" variant="body2">
-                            {errores.imagenRestaurante}
+                            {erroresLocal.imagenRestaurante}
                         </Typography>
                     )}
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={6} className="form-ocultar">
                     <TextField
-                        fullWidth                        
+                        fullWidth
                         variant="outlined"
                         type="text"
                         label="IdUsuario"
                         value={idUsuario}
                         onChange={(e) => setIdUsuario(e.target.value)}
-                        error={!!errores.idUsuario}
-                        helperText={errores.idUsuario}
+                        error={!!erroresLocal.idUsuario || !!errores.idUsuario}
+                        helperText={erroresLocal.idUsuario || errores.idUsuario}
                         disabled
-                        required                        
+                        required
                     />
                 </Grid>
                 <Grid item xs={12} mt={2}>
@@ -148,7 +169,7 @@ function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
                 </Grid>
             </Grid>
         </Box>
-    )
+    );
 }
 
 CrearRestauranteForm.propTypes = {
@@ -162,6 +183,6 @@ CrearRestauranteForm.propTypes = {
     }).isRequired,
     callback: PropTypes.func.isRequired,
     imagenPrevia: PropTypes.func
-}
+};
 
-export {CrearRestauranteForm}
+export { CrearRestauranteForm }

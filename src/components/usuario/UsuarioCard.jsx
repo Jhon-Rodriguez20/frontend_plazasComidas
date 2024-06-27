@@ -4,6 +4,7 @@ import { API_URL } from "../../connections/helpers/endpoints";
 import PropTypes from "prop-types";
 import avatar2 from "../../assets/img/avatar1.jpg";
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const ProfileAvatar = styled(Avatar)({
     width: 100,
@@ -14,7 +15,8 @@ const ProfileAvatar = styled(Avatar)({
 });
 
 function UsuarioPerfilCard({ usuarioEntity }) {
-
+    const conectado = useSelector((estado) => estado.conectado);
+    const usuario = useSelector((estado) => estado.usuario);
     const imagenUrl = `${API_URL}${usuarioEntity.imgPerfil}`;
 
     return (
@@ -35,11 +37,13 @@ function UsuarioPerfilCard({ usuarioEntity }) {
                 <Typography variant="subtitle1" color="text.secondary">
                     {usuarioEntity.ocupacion}
                 </Typography>
-                <Box mt={3} display="flex" justifyContent="center">
-                    <Button variant='contained' size='medium' component={Link} to={`/crear/restaurante/${usuarioEntity.idUsuario}`}>
-                        Crear un restaurante
-                    </Button>
-                </Box>
+                {conectado && usuario.rol === "1" ? (
+                    <Box mt={3} display="flex" justifyContent="center">
+                        <Button variant='contained' size='medium' component={Link} to={`/crear/restaurante/${usuarioEntity.idUsuario}`}>
+                            Crear un restaurante
+                        </Button>
+                    </Box>
+                ): ""}                
             </CardContent>
         </Card>
     );

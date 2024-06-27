@@ -13,15 +13,16 @@ function NavbarWeb() {
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
-    };
+    }
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
-    };
+    }
 
     const handleLogout = () => {
+        setAnchorElUser(null);
         dispatch(cerrarSesion());
-    };
+    }
 
     return (
         <AppBar position="static">
@@ -33,13 +34,13 @@ function NavbarWeb() {
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center' }}>
                     {usuario.rol === "1" && conectado && (
-                        <Button color="inherit" component={Link} to="/"><SupervisorAccount sx={{ marginRight: 1 }} /> Crear gerente</Button>
+                        <Button color="inherit" component={Link} to="/crear/gerente"><SupervisorAccount sx={{ marginRight: 1 }} /> Crear gerente</Button>
                     )}
                     {usuario.rol === "2" && conectado && (
-                        <Button color="inherit" component={Link} to="/"><People sx={{ marginRight: 1 }} /> Crear empleado</Button>
+                        <Button color="inherit" component={Link} to="/crear/empleado"><People sx={{ marginRight: 1 }} /> Crear empleado</Button>
                     )}
                     {usuario.rol === "3" && conectado && (
-                        <Button color="inherit" component={Link} to="/"><Fastfood sx={{ marginRight: 1 }} /> Ver pedidos</Button>
+                        <Button color="inherit" component={Link} to="/pedidos/restaurante"><Fastfood sx={{ marginRight: 1 }} /> Ver pedidos</Button>
                     )}
                     {!conectado ? (
                         <>
@@ -87,7 +88,7 @@ function NavbarWeb() {
                                         </MenuItem>
                                     )}
                                     {usuario.rol === "4" && conectado && (
-                                        <MenuItem onClick={handleCloseUserMenu} component={Link} to="/">
+                                        <MenuItem onClick={handleCloseUserMenu} component={Link} to="/verPedidos/hechos">
                                             <Fastfood sx={{ color: '#c2c2c2', marginRight: 1 }} /> Ver mis pedidos
                                         </MenuItem>
                                     )}

@@ -32,7 +32,7 @@ function MisEmpleadosPage() {
                 ) : (
                     <Grid container spacing={3} mb={5}>
                         {empleados.map(empleado => (
-                            <Grid item xs={12} sm={6} md={6} lg={6} key={empleado.idUsuario}>
+                            <Grid item xs={12} sm={6} md={4} lg={4} key={empleado.idUsuario}>
                                 <UsuarioPerfilCard 
                                     usuarioEntity={empleado} 
                                 />

@@ -1,5 +1,6 @@
 import './css/App.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'moment/locale/es';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { RestaurantePage } from "./pages/restaurante/RestaurantePage";
 import { PlatoPage } from './pages/plato/PlatoPage';
@@ -20,6 +21,12 @@ import { MisRestaurantesPage } from './pages/usuario/MisRestaurantesPage';
 import { VerPlatosPage } from './pages/plato/VerPlatos';
 import { EditarPlatoPage } from './pages/plato/EditarPlatoPage';
 import { ToastContainer } from 'react-toastify';
+import { CrearGerentePage } from './pages/usuario/CrearGerentePage';
+import { CrearEmpleadoPage } from './pages/usuario/CrearEmpleadoPage';
+import { PedidosRestaurantePage } from './pages/pedido/PedidosRestaurantePage';
+import { VerPedidosRestaurantePage } from './pages/pedido/VerPedidosRestaurante';
+import { PedidoDetallePage } from './pages/pedido/PedidoDetallePage';
+import { MisPedidosPage } from './pages/usuario/MisPedidosPage';
 
 getAutenticacionToken();
 
@@ -45,6 +52,12 @@ function App() {
                             <Route path='/misRestaurantes' element={<MisRestaurantesPage />} />
                             <Route path='/verPlatos/:id' element={<VerPlatosPage />} />
                             <Route path='/editar/plato/:id' element={<EditarPlatoPage />} />
+                            <Route path='/crear/gerente' element={<CrearGerentePage />} />
+                            <Route path='/crear/empleado' element={<CrearEmpleadoPage />} />
+                            <Route path='/pedidos/restaurante' element={<PedidosRestaurantePage />} />
+                            <Route path='/verPedidos/restaurante/:id' element={<VerPedidosRestaurantePage />} />
+                            <Route path='/pedido/informacion/:id' element={<PedidoDetallePage />} />
+                            <Route path='/verPedidos/hechos/' element={<MisPedidosPage />} />
                         </Route>
                     </Routes>
                     <ToastContainer />

@@ -24,7 +24,7 @@ function CrearPlatoPage() {
             {headers: {'Content-Type': 'multipart/form-data'}}
         ).then(()=> {
             setCargando(false);
-            navegar("/");
+            navegar("/misRestaurantes");
             mostrarAlertaExito("Plato creado exitosamente.");
         }).catch((err)=> {
             setCargando(false);

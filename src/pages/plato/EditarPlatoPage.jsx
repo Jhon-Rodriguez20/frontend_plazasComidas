@@ -20,9 +20,7 @@ function EditarPlatoPage() {
             .then(respuesta => {
                 setPlato(respuesta.data.platoEntity);
             })
-            .catch(err => {
-                console.error(err);
-            });
+            .catch(() => {});
     }, [id]);
 
     const editarPlato = async ({ precio, descripcion, mostrado }) => {
