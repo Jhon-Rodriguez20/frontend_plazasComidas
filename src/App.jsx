@@ -27,6 +27,7 @@ import { PedidosRestaurantePage } from './pages/pedido/PedidosRestaurantePage';
 import { VerPedidosRestaurantePage } from './pages/pedido/VerPedidosRestaurante';
 import { PedidoDetallePage } from './pages/pedido/PedidoDetallePage';
 import { MisPedidosPage } from './pages/usuario/MisPedidosPage';
+import { EditarPedidoEstadoPage } from './pages/pedido/EditarPedidoEstadoPage';
 
 getAutenticacionToken();
 
@@ -58,6 +59,7 @@ function App() {
                             <Route path='/verPedidos/restaurante/:id' element={<VerPedidosRestaurantePage />} />
                             <Route path='/pedido/informacion/:id' element={<PedidoDetallePage />} />
                             <Route path='/verPedidos/hechos/' element={<MisPedidosPage />} />
+                            <Route path='/pedido/editar-estado/:idPedido' element={<EditarPedidoEstadoPage />} />
                         </Route>
                     </Routes>
                     <ToastContainer />

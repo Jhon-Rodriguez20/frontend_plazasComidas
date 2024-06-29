@@ -1,13 +1,18 @@
 import PropTypes from "prop-types";
-import { Typography, Grid, Card, CardMedia, CardContent } from '@mui/material';
-import { DateRange, Restaurant, Phone, PersonOutline, Person,
-    Receipt, FastfoodOutlined, Payment, AttachMoney, Info
- } from "@mui/icons-material";
+import { Typography, Grid, Card, CardMedia, CardContent, Box } from '@mui/material';
+import { DateRange, Restaurant, Phone, PersonOutline, Person, Receipt, FastfoodOutlined, Payment, AttachMoney } from "@mui/icons-material";
+import { EstadoCirculo } from './PedidoEstado';
+import { useNavigate } from 'react-router-dom';
 
 function PedidoDetalle({ pedidoEntity }) {
     const fecha = new Date(pedidoEntity.fechaPedido);
-    const options = {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true}
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
     const fechaFormateada = fecha.toLocaleString('es-ES', options);
+    const navigate = useNavigate();
+
+    const handleEstadoChange = (nuevoEstado) => {
+        navigate(`/pedido/editar-estado/${pedidoEntity.idPedido}`, { state: { nuevoEstado } });
+    };
 
     return (
         <>
@@ -80,18 +85,20 @@ function PedidoDetalle({ pedidoEntity }) {
                     <Typography variant="h6" color="text.secondary" gutterBottom>
                         {pedidoEntity.totalPagar} COP
                     </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                    <Typography variant="h6" gutterBottom>
-                        <Info/> Estado de pedido
-                    </Typography>
-                    <Typography variant="h6" color="text.secondary" gutterBottom>
-                        {pedidoEntity.estado}
-                    </Typography>
-                </Grid>
+                </Grid>                
             </Grid>
 
-            <Typography variant="h4" fontWeight={"bold"} textAlign={"center"} mt={5} mb={7}>
+            <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" textAlign="center">
+                <Typography variant="h4" fontWeight="bold" display="flex" alignItems="center" mt={5} mb={3}>
+                    Estado del pedido
+                </Typography>
+                <EstadoCirculo estado={pedidoEntity.estado} onEstadoChange={handleEstadoChange} />
+                <Typography variant="h6" color="text.secondary" gutterBottom>
+                    {pedidoEntity.estado}
+                </Typography>
+            </Box>
+
+            <Typography variant="h4" fontWeight={"bold"} textAlign={"center"} mt={7} mb={7}>
                 Detalles del pedido
             </Typography>
             <Grid container spacing={2}>
@@ -126,7 +133,9 @@ function PedidoDetalle({ pedidoEntity }) {
 }
 
 PedidoDetalle.propTypes = {
+    idPedido: PropTypes.string,
     pedidoEntity: PropTypes.shape({
+        idPedido: PropTypes.string,
         razonSocial: PropTypes.string,
         nombrePersona: PropTypes.string,
         fechaPedido: PropTypes.string,
