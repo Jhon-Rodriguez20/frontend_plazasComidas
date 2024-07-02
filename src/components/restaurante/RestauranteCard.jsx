@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Grid, Card, CardContent, CardMedia, Typography,
  IconButton, Menu, MenuItem, Fade, Box, Stack, Badge } from "@mui/material";
 import { Link } from "react-router-dom";
 import { API_URL } from "../../connections/helpers/endpoints";
+import { obtenerTotalPedidosRestaurante } from "../../services/pedido/pedidoServicio";
 import PropTypes from "prop-types";
 import { Place, Restaurant, AddBox, MoreVert, DinnerDining, Fastfood } from '@mui/icons-material';
 import { useSelector } from "react-redux";
 
 function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
+    const [numPedidos, setNumPedidos] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const conectado = useSelector((estado) => estado.conectado);
+    const usuario = useSelector((estado) => estado.usuario);
+    const imagenUrl = `${API_URL}${restauranteEntity.imgRestaurante}`;
 
     const handleClick = (event) => {
         event.stopPropagation();
@@ -25,14 +30,27 @@ function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
         event.stopPropagation();
     }
 
-    const conectado = useSelector((estado) => estado.conectado);
-    const usuario = useSelector((estado) => estado.usuario);
-    const imagenUrl = `${API_URL}${restauranteEntity.imgRestaurante}`;
+    useEffect(() => {
+        const obtenerNumPedidos = async () => {
+            try {
+                const totalPedidos = await obtenerTotalPedidosRestaurante(restauranteEntity.idRestaurante);
+                setNumPedidos(totalPedidos);
+            } catch (error) {
+                console.error("Error al obtener el número de pedidos:", error);
+            }
+        };
+
+        if (usuario.rol === "3") {
+            obtenerNumPedidos();
+        }
+    }, [restauranteEntity.idRestaurante, usuario.rol]);
 
     return (
         <Grid container onClick={onClick}>
             <Card sx={{ display: "flex", alignItems: 'center', padding: '4%', marginTop: 3, maxWidth: { xs: '100%', sm: '100%', md:'100%', lg: '100%' }, minWidth: { xs: '93%', sm: '93%', md:'92%', lg: '92%'},
-                        maxHeight: { xs: '100%', sm: '100%', md:'100%', lg: '100%' }, minHeight: {xs: '95%', sm: '95%', md:'100%', lg: '100%'}, position: 'relative' }}>
+                        maxHeight: { xs: '100%', sm: '100%', md:'100%', lg: '100%' }, minHeight: {xs: '95%', sm: '95%', md:'100%', lg: '100%'}, position: 'relative' }}
+                className="tarjeta-estilo"
+                >
                 <CardMedia
                     component="img"
                     sx={{ width: 110, height: 110, borderRadius: '50%' }}
@@ -47,14 +65,8 @@ function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
                         <Place sx={{ color: '#c2c2c2', marginRight: 1 }} /> {restauranteEntity.direccion}
                     </Typography>
                 </CardContent>
-                {/* <Stack direction="row" spacing={2}>
-            <HourglassEmpty />
-            <CheckCircle />
-            <LocalShipping />
-            <Build  />
-        </Stack> */}
                 {mostrar && conectado && usuario.rol === "2" ? (
-                    <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
+                    <Box sx={{ position: 'absolute', top: 5, right: 2 }}>
                         <IconButton aria-label="settings" onClick={handleClick}>
                             <MoreVert />
                         </IconButton>
@@ -79,10 +91,11 @@ function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
                     </Box>
                 ) : (mostrar && conectado && usuario.rol === "3") ? (
                     <Link to={`/verPedidos/restaurante/${restauranteEntity.idRestaurante}`} style={{ textDecoration: 'none' }}>
-                        <Stack sx={{position: 'absolute', top: 15, right: 15}}>
-                            <Badge badgeContent={4} color="secondary">
-                                <Fastfood color="action" />
-                            </Badge>
+                        <Stack sx={{ position: 'absolute', top: 15, right: 15 }}>
+                            {numPedidos > 0 && (
+                                <Badge badgeContent={numPedidos > 9 ? "9+" : numPedidos} color="secondary"/>
+                            )}
+                            <Fastfood color="action" />                            
                         </Stack>
                     </Link>
                 ) : ""}

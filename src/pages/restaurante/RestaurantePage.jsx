@@ -32,7 +32,7 @@ function RestaurantePage() {
     }
 
     return (
-        <Container>
+        <Container sx={{mb: 8}}>
             {buscando ? (
                 <SkeletonCard contador={6} />
             ) : (
@@ -47,7 +47,7 @@ function RestaurantePage() {
                             <Grid item xs={12} sm={6} md={6} lg={6} key={restaurante.idRestaurante}>
                                 <RestauranteCard 
                                     restauranteEntity={restaurante}
-                                    mostrar={false} 
+                                    mostrar={false}
                                     onClick={() => abrirDetalle(restaurante)}
                                 />
                             </Grid>

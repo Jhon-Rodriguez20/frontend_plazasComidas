@@ -60,7 +60,7 @@ function NavbarCelular() {
             actions.push(
                 <BottomNavigationAction 
                     key="crear-empleado" 
-                    label="Crear empleado" 
+                    label="CrearEmpleado"
                     icon={<People />} 
                     component={Link} 
                     to="/crear/empleado" 

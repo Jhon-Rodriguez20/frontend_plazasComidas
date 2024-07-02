@@ -3,16 +3,16 @@ import { Typography, Grid, Card, CardMedia, CardContent, Box } from '@mui/materi
 import { DateRange, Restaurant, Phone, PersonOutline, Person, Receipt, FastfoodOutlined, Payment, AttachMoney } from "@mui/icons-material";
 import { EstadoCirculo } from './PedidoEstado';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 function PedidoDetalle({ pedidoEntity }) {
     const fecha = new Date(pedidoEntity.fechaPedido);
     const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
     const fechaFormateada = fecha.toLocaleString('es-ES', options);
-    const navigate = useNavigate();
+    const usuario = useSelector((estado) => estado.usuario);
+    const navegar = useNavigate();
 
-    const handleEstadoChange = (nuevoEstado) => {
-        navigate(`/pedido/editar-estado/${pedidoEntity.idPedido}`, { state: { nuevoEstado } });
-    };
+    const handleEditarEstado = () => (usuario.rol === "3") ? navegar(`/pedido/editar-estado/${pedidoEntity.idPedido}`) : null;
 
     return (
         <>
@@ -21,78 +21,86 @@ function PedidoDetalle({ pedidoEntity }) {
             </Typography>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Typography variant="h5" color="ButtonText">
-                        <PersonOutline/> Datos del cliente
+                    <Typography variant="h5" color="ButtonText" display="flex" alignItems="center">
+                        <PersonOutline sx={{ marginRight: 1 }} /> Datos del cliente
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
-                    <Typography variant="h6" gutterBottom>
-                        <Person/> Cliente
+                    <Typography variant="h6" gutterBottom display="flex" alignItems="center">
+                        <Person sx={{ marginRight: 1 }} /> Cliente
                     </Typography>
                     <Typography variant="h6" color="text.secondary" gutterBottom>
                         {pedidoEntity.nombrePersona}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
-                    <Typography variant="h6" gutterBottom>
-                        <Phone/> Número de contacto
+                    <Typography variant="h6" gutterBottom display="flex" alignItems="center">
+                        <Phone sx={{ marginRight: 1 }} /> Número de contacto
                     </Typography>
                     <Typography variant="h6" color="text.secondary" gutterBottom>
                         {pedidoEntity.celular}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
-                    <Typography variant="h6" gutterBottom>
-                        <Restaurant /> Nombre restaurante
+                    <Typography variant="h6" gutterBottom display="flex" alignItems="center">
+                        <Restaurant sx={{ marginRight: 1 }} /> Nombre restaurante
                     </Typography>
                     <Typography variant="h6" color="text.secondary" gutterBottom>
                         {pedidoEntity.razonSocial}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} mt={3}>
-                    <Typography variant="h5" color="ButtonText">
-                        <FastfoodOutlined/> Datos del pedido
+                    <Typography variant="h5" color="ButtonText" display="flex" alignItems="center">
+                        <FastfoodOutlined sx={{ marginRight: 1 }} /> Datos del pedido
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
-                    <Typography variant="h6" gutterBottom>
-                        <DateRange /> Fecha de pedido
+                    <Typography variant="h6" gutterBottom display="flex" alignItems="center">
+                        <DateRange sx={{ marginRight: 1 }} /> Fecha de pedido
                     </Typography>
                     <Typography variant="h6" color="text.secondary" gutterBottom>
                         {fechaFormateada}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
-                    <Typography variant="h6" gutterBottom>
-                        <Receipt/> Número de pedido
+                    <Typography variant="h6" gutterBottom display="flex" alignItems="center">
+                        <Receipt sx={{ marginRight: 1 }} /> Número de pedido
                     </Typography>
                     <Typography variant="h6" color="text.secondary" gutterBottom>
                         {pedidoEntity.numeroPedido}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
-                    <Typography variant="h6" gutterBottom>
-                        <Payment/> Método de pago
+                    <Typography variant="h6" gutterBottom display="flex" alignItems="center">
+                        <Payment sx={{ marginRight: 1 }} /> Método de pago
                     </Typography>
                     <Typography variant="h6" color="text.secondary" gutterBottom>
                         {pedidoEntity.metodoPago}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
-                    <Typography variant="h6" gutterBottom>
-                        <AttachMoney/> Total a pagar
+                    <Typography variant="h6" gutterBottom display="flex" alignItems="center">
+                        <AttachMoney sx={{ marginRight: 1 }} /> Total a pagar
                     </Typography>
                     <Typography variant="h6" color="text.secondary" gutterBottom>
                         {pedidoEntity.totalPagar} COP
                     </Typography>
-                </Grid>                
+                </Grid>
             </Grid>
 
-            <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" textAlign="center">
+            <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                textAlign="center"
+                onClick={handleEditarEstado}
+                sx={{ cursor: 'pointer' }}
+            >
                 <Typography variant="h4" fontWeight="bold" display="flex" alignItems="center" mt={5} mb={3}>
                     Estado del pedido
                 </Typography>
-                <EstadoCirculo estado={pedidoEntity.estado} onEstadoChange={handleEstadoChange} />
+                <EstadoCirculo estado={pedidoEntity.estado} editable={false} />
                 <Typography variant="h6" color="text.secondary" gutterBottom>
                     {pedidoEntity.estado}
                 </Typography>
@@ -105,7 +113,7 @@ function PedidoDetalle({ pedidoEntity }) {
                 {pedidoEntity.detalles.map((detalle) => {
                     return (
                         <Grid item xs={12} sm={6} md={4} lg={4} key={detalle.idDetalle}>
-                            <Card>
+                            <Card className="tarjeta-estilo" sx={{ mb: 5 }}>
                                 <CardMedia
                                     component="img"
                                     height="auto"
@@ -125,7 +133,7 @@ function PedidoDetalle({ pedidoEntity }) {
                                 </CardContent>
                             </Card>
                         </Grid>
-                    );
+                    )
                 })}
             </Grid>
         </>
@@ -133,27 +141,7 @@ function PedidoDetalle({ pedidoEntity }) {
 }
 
 PedidoDetalle.propTypes = {
-    idPedido: PropTypes.string,
-    pedidoEntity: PropTypes.shape({
-        idPedido: PropTypes.string,
-        razonSocial: PropTypes.string,
-        nombrePersona: PropTypes.string,
-        fechaPedido: PropTypes.string,
-        numeroPedido: PropTypes.string,
-        totalPagar: PropTypes.number,
-        metodoPago: PropTypes.string,
-        estado: PropTypes.string,
-        celular: PropTypes.string,
-        detalles: PropTypes.arrayOf(
-            PropTypes.shape({
-                idDetalle: PropTypes.string,
-                nombrePlato: PropTypes.string,
-                precio: PropTypes.number,
-                cantidad: PropTypes.number,
-                imgPlato: PropTypes.string
-            })
-        ).isRequired
-    }).isRequired
-}
+    pedidoEntity: PropTypes.object.isRequired,
+};
 
 export { PedidoDetalle }

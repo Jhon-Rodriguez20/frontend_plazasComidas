@@ -30,7 +30,9 @@ function PlatoCard({ platoEntidad, mostrar, mostrarAcciones, click }) {
 
     return (
         <Grid container onClick={click}>
-            <Card sx={{ display: "flex", alignItems: 'center', padding: '4%', marginTop: 3, width: '100%', height: 'auto', position: 'relative' }}>
+            <Card sx={{ display: "flex", alignItems: 'center', padding: '4%', marginTop: 3, width: '100%', height: 'auto', position: 'relative' }}
+                className="tarjeta-estilo"
+            >
                 <CardMedia
                     component="img"
                     sx={{ width: 110, height: 110, borderRadius: '50%' }}
@@ -46,7 +48,7 @@ function PlatoCard({ platoEntidad, mostrar, mostrarAcciones, click }) {
                     </Typography>
                 </CardContent>
                 {mostrarAcciones ? (
-                    <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
+                    <Box sx={{ position: 'absolute', top: 5, right: 2 }}>
                         <IconButton aria-label="settings" onClick={handleClick}>
                             <MoreVert />
                         </IconButton>

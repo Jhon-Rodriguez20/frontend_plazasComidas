@@ -1,11 +1,13 @@
-import { useLocation, useParams, useNavigate } from "react-router-dom";
-import { Typography, Button, Box } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Typography, Button, Box, Chip } from "@mui/material";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { EstadoCirculo } from '../../components/pedido/PedidoEstado';
 import { EDITARPEDIDO_ESTADO_PUT_ENDPOINT } from "../../connections/helpers/endpoints";
+import { verPedidoDetalle } from "../../services/pedido/pedidoServicio";
 import { BackDropProgreso } from "../../components/common/loading/BackDropProgreso";
 import useAlertas from '../../components/common/alertas/tipoAlertas';
+import { CheckCircle } from "@mui/icons-material";
 
 const estadoIds = {
     "Pendiente": "1",
@@ -14,18 +16,41 @@ const estadoIds = {
     "Entregado": "4"
 };
 
-const EditarPedidoEstadoPage = () => {
+function EditarPedidoEstadoPage() {
     const { idPedido } = useParams();
-    const { state } = useLocation();
     const navigate = useNavigate();
     const [cargando, setCargando] = useState(false);
     const { mostrarAlertaExito, mostrarAlertaError } = useAlertas();
-    const nuevoEstado = state?.nuevoEstado || "";
-    const [estadoSeleccionado, setEstadoSeleccionado] = useState(nuevoEstado);
-    const handleEstadoChange = (nuevoEstado) => setEstadoSeleccionado(nuevoEstado);
+    const [estado, setEstado] = useState("");
+    const [estadoSeleccionado, setEstadoSeleccionado] = useState("");
+    const cargaInicial = useRef(true);
 
     useEffect(() => {
-    }, [nuevoEstado, navigate, idPedido]);
+        const obtenerEstadoActual = async (id) => {
+            try {
+                const pedidoDetalle = await verPedidoDetalle(id);
+                const estadoActual = pedidoDetalle.estado;
+                if (cargaInicial.current) { // Evita que se reinicie el estado al actual, manteniendo así el estado que selecciona el usuario
+                    setEstado(estadoActual);
+                    setEstadoSeleccionado(estadoActual);
+                    cargaInicial.current = false; // Marcar que la carga inicial ha terminado
+                }
+
+            } catch (error) {
+                mostrarAlertaError("Ocurrió un error al obtener el estado actual del pedido.");
+            }
+        };
+
+        obtenerEstadoActual(idPedido);
+    }, [idPedido, mostrarAlertaError]);
+
+    const handleCambiarEstado = (nuevoEstado) => {
+        const estadoIndex = Object.keys(estadoIds).indexOf(estado);
+        const nuevoEstadoIndex = Object.keys(estadoIds).indexOf(nuevoEstado);
+        if (nuevoEstadoIndex === estadoIndex + 1) {
+            setEstadoSeleccionado(nuevoEstado);
+        }
+    };
 
     const handleConfirmarEstado = () => {
         const idEstado = estadoIds[estadoSeleccionado];
@@ -48,18 +73,36 @@ const EditarPedidoEstadoPage = () => {
         <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" textAlign="center">
             <BackDropProgreso abrir={cargando} />
             <Typography variant="h4" fontWeight="bold" display="flex" alignItems="center" mt={5} mb={3}>
-                Confirmar nuevo estado del pedido
+                Seleccionar nuevo estado del pedido
             </Typography>
-            <EstadoCirculo estado={estadoSeleccionado} onEstadoChange={handleEstadoChange} />
-            <Typography variant="h6" color="text.secondary" gutterBottom sx={{mt: 1}}>
+            <EstadoCirculo estado={estadoSeleccionado} cambiarEstado={handleCambiarEstado} editable={true} />
+            <Typography variant="h6" color="text.secondary" gutterBottom sx={{ mt: 1 }}>
                 Estado seleccionado: {estadoSeleccionado}
             </Typography>
-            <Button variant="contained" color="primary" onClick={handleConfirmarEstado}
-             disabled={!estadoSeleccionado} sx={{mt: 2}}>
+            {estado === "Entregado" ? (
+                <Chip
+                    label={"El pedido ya se ha entregado."}
+                    icon={<CheckCircle sx={{color: '#fff !important'}} />}
+                    sx={{
+                        mt: 3,
+                        fontWeight: 'semibold',
+                        backgroundColor: '#FFA726',
+                        color: '#FFF'
+                    }}
+                />
+            ) : (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleConfirmarEstado}
+                    disabled={!estadoSeleccionado || estadoSeleccionado === estado}
+                    sx={{ mt: 2 }}
+                >
                 Confirmar
             </Button>
+            )}
         </Box>
     );
 }
 
-export {EditarPedidoEstadoPage}
+export { EditarPedidoEstadoPage }

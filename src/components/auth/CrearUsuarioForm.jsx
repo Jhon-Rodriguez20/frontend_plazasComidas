@@ -24,7 +24,7 @@ function CrearUsuarioForm({ errores, callback, mostrarChips, defaultOcupacion, d
     };
 
     return (
-        <Box component="form" onSubmit={enviarFormulario}>
+        <Box component="form" onSubmit={enviarFormulario} mb={6}>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={mostrarChips ? 6 : 12}>
                     <Grid container spacing={2}>

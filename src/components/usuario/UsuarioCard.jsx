@@ -20,7 +20,7 @@ function UsuarioPerfilCard({ usuarioEntity }) {
     const imagenUrl = `${API_URL}${usuarioEntity.imgPerfil}`;
 
     return (
-        <Card sx={{ maxWidth: 345, borderRadius: 3, boxShadow: 3, marginTop: 3 }}>
+        <Card className="tarjeta-estilo" sx={{ maxWidth: 345, borderRadius: 3, boxShadow: 2, marginTop: 3 }}>
             <CardMedia
                 component="img"
                 height="170"
