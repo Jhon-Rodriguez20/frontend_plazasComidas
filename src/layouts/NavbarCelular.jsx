@@ -9,8 +9,8 @@ function NavbarCelular() {
     const location = useLocation();
     const [value, setValue] = useState(location.pathname);
     const [anchorEl, setAnchorEl] = useState(null);
-    const conectado = useSelector((estado) => estado.conectado);
-    const usuario = useSelector((estado) => estado.usuario);
+    const conectado = useSelector((estado) => estado.usuario.conectado);
+    const usuario = useSelector((estado) => estado.usuario.usuario);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -44,7 +44,7 @@ function NavbarCelular() {
             />
         );
         
-        if (usuario.rol === "1" && conectado) {
+        if (usuario && usuario.rol === "1" && conectado) {
             actions.push(
                 <BottomNavigationAction 
                     key="crear-gerente" 
@@ -56,7 +56,7 @@ function NavbarCelular() {
                 />
             );
         }
-        if (usuario.rol === "2" && conectado) {
+        if (usuario && usuario.rol === "2" && conectado) {
             actions.push(
                 <BottomNavigationAction 
                     key="crear-empleado" 
@@ -68,7 +68,7 @@ function NavbarCelular() {
                 />
             );
         }
-        if (usuario.rol === "3" && conectado) {
+        if (usuario && usuario.rol === "3" && conectado) {
             actions.push(
                 <BottomNavigationAction 
                     key="ver-pedidos" 
@@ -136,22 +136,22 @@ function NavbarCelular() {
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-                {usuario.rol === "1" && conectado && (
+                {usuario && usuario.rol === "1" && conectado && (
                     <MenuItem component={Link} to="/misGerentes" onClick={handleCloseMenu}>
                         <AssignmentInd sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis gerentes
                     </MenuItem>
                 )}
-                {usuario.rol === "2" && conectado && (
+                {usuario && usuario.rol === "2" && conectado && (
                     <MenuItem component={Link} to="/misRestaurantes" onClick={handleCloseMenu}>
                         <Restaurant sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis restaurantes
                     </MenuItem>
                 )}
-                {usuario.rol === "2" && conectado && (
+                {usuario && usuario.rol === "2" && conectado && (
                     <MenuItem component={Link} to="/misEmpleados" onClick={handleCloseMenu}>
                         <Group sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis empleados
                     </MenuItem>
                 )}
-                {usuario.rol === "4" && conectado && (
+                {usuario && usuario.rol === "4" && conectado && (
                     <MenuItem component={Link} to="/verPedidos/hechos" onClick={handleCloseMenu}>
                         <Fastfood sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis pedidos
                     </MenuItem>

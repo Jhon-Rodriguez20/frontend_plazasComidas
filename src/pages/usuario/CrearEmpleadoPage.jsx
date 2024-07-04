@@ -48,7 +48,8 @@ function CrearEmpleadoPage() {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                minHeight: '80vh'
+                minHeight: '80vh',
+                mb: 8
             }}
         >
             <BackDropProgreso abrir={cargando} />

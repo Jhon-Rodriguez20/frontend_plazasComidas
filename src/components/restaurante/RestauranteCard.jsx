@@ -12,8 +12,8 @@ function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
     const [numPedidos, setNumPedidos] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const conectado = useSelector((estado) => estado.conectado);
-    const usuario = useSelector((estado) => estado.usuario);
+    const conectado = useSelector((estado) => estado.usuario.conectado);
+    const usuario = useSelector((estado) => estado.usuario.usuario);
     const imagenUrl = `${API_URL}${restauranteEntity.imgRestaurante}`;
 
     const handleClick = (event) => {

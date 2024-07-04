@@ -34,7 +34,7 @@ function VerPlatosPage() {
     }
 
     return (
-        <Container>
+        <Container sx={{mb: 8}}>
             {buscando ? (
                 <SkeletonCard contador={6}/>
             ) : (

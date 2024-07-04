@@ -1,14 +1,19 @@
 import { useState } from "react";
-import { Grid, Card, CardContent, CardMedia, Typography, IconButton, Menu, MenuItem, Fade, Box } from "@mui/material";
+import { Grid, Card, CardContent, CardMedia, Typography, IconButton, Menu, MenuItem, Fade, Box, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Edit, MoreVert } from '@mui/icons-material';
+import { Edit, MoreVert, EmojiFoodBeverage } from '@mui/icons-material';
 import { API_URL } from "../../connections/helpers/endpoints";
 import { EliminarPlatoMenuItem } from "./EliminarPlatoMenuItem";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import { agregarPlato } from "../../store/pedidoStore"; // Importa la acción de agregarPlato
 
 function PlatoCard({ platoEntidad, mostrar, mostrarAcciones, click }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const conectado = useSelector((estado) => estado.usuario.conectado);
+    const usuario = useSelector((estado) => estado.usuario.usuario); // Accede a la información del usuario
+    const dispatch = useDispatch(); // Usa useDispatch para despachar acciones
 
     const handleClick = (event) => {
         event.stopPropagation();
@@ -22,6 +27,11 @@ function PlatoCard({ platoEntidad, mostrar, mostrarAcciones, click }) {
 
     const handleMenuClick = (event) => {
         event.stopPropagation();
+    }
+
+    const agregarAlPedido = (event) => {
+        event.stopPropagation();
+        dispatch(agregarPlato(platoEntidad)); // Despacha la acción para agregar el plato
     }
 
     const imagenUrl = `${API_URL}${platoEntidad.imgPlato}`;
@@ -70,7 +80,18 @@ function PlatoCard({ platoEntidad, mostrar, mostrarAcciones, click }) {
                                 nombrePlato={platoEntidad.nombrePlato} nombreRestaurante={platoEntidad.nombreRestaurante} />
                         </Menu>
                     </Box>
-                ) : ""}                
+                ) : (usuario && usuario.rol === "4" && conectado) ? (
+                    <Box sx={{ position: 'absolute', top: 12, right: 15 }}>
+                        <Tooltip title="Agregar al pedido">
+                            <IconButton
+                                onClick={agregarAlPedido} // Asocia la función agregarAlPedido al click
+                                aria-label="agregar"
+                            >
+                                <EmojiFoodBeverage sx={{ fontSize: 30 }} />
+                            </IconButton>
+                        </Tooltip>
+                    </Box>
+                ) : null}
             </Card>
         </Grid>
     );

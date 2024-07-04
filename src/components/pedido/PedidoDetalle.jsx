@@ -9,7 +9,7 @@ function PedidoDetalle({ pedidoEntity }) {
     const fecha = new Date(pedidoEntity.fechaPedido);
     const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
     const fechaFormateada = fecha.toLocaleString('es-ES', options);
-    const usuario = useSelector((estado) => estado.usuario);
+    const usuario = useSelector((estado) => estado.usuario.usuario);
     const navegar = useNavigate();
 
     const handleEditarEstado = () => (usuario.rol === "3") ? navegar(`/pedido/editar-estado/${pedidoEntity.idPedido}`) : null;
@@ -109,11 +109,11 @@ function PedidoDetalle({ pedidoEntity }) {
             <Typography variant="h4" fontWeight={"bold"} textAlign={"center"} mt={7} mb={7}>
                 Detalles del pedido
             </Typography>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} mb={8}>
                 {pedidoEntity.detalles.map((detalle) => {
                     return (
                         <Grid item xs={12} sm={6} md={4} lg={4} key={detalle.idDetalle}>
-                            <Card className="tarjeta-estilo" sx={{ mb: 5 }}>
+                            <Card className="tarjeta-estilo" sx={{ mb: 3 }}>
                                 <CardMedia
                                     component="img"
                                     height="auto"

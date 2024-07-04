@@ -4,37 +4,33 @@ import { setAutenticacionToken } from './helpers/token';
 import { jwtDecode } from 'jwt-decode';
 import { usuario } from '../states/sliceReducers';
 
-export const autenticacion = (datos) => dispatch=> {
+export const autenticacion = (datos) => dispatch => {
 
     return new Promise((resolver, rechazar) => {
 
-        axios.post(SIGNIN_POST_ENDPOINT, datos,
-            {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
-        }).then(respuesta=> {
+        axios.post(SIGNIN_POST_ENDPOINT, datos, {
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
 
-            const {authorization} = respuesta.headers;
-
+        }).then(respuesta => {
+            const { authorization } = respuesta.headers;
             localStorage.setItem('token', authorization);
-
             setAutenticacionToken(authorization);
 
             const tokenDecodificado = jwtDecode(authorization);
-
-            dispatch(usuario({ conectado: true, usuario:tokenDecodificado }))
-
+            dispatch(usuario({ conectado: true, usuario: tokenDecodificado }));
             resolver(respuesta);
 
         }).catch(err => {
-            rechazar("Error al autenticarse: ", err)
-        })
-    })
+            rechazar("Error al autenticarse: ", err);
+        });
+    });
 }
 
 export const cerrarSesion = () => dispatch => {
 
     localStorage.removeItem('token');
-
     setAutenticacionToken(false);
-
     dispatch(usuario({ usuario:{}, conectado: false }));
+    window.location.href = "/usuario/loguearse";
+
 }

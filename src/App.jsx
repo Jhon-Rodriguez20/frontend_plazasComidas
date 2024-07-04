@@ -5,7 +5,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { RestaurantePage } from "./pages/restaurante/RestaurantePage";
 import { PlatoPage } from './pages/plato/PlatoPage';
 import { NavbarWeb } from './layouts/NavbarWeb';
-import { store } from './states/store';
 import { getAutenticacionToken } from './connections/helpers/token';
 import { NavbarCelular } from './layouts/NavbarCelular';
 import { useMediaQuery, ThemeProvider, createTheme } from '@mui/material';
@@ -28,6 +27,8 @@ import { VerPedidosRestaurantePage } from './pages/pedido/VerPedidosRestaurante'
 import { PedidoDetallePage } from './pages/pedido/PedidoDetallePage';
 import { MisPedidosPage } from './pages/usuario/MisPedidosPage';
 import { EditarPedidoEstadoPage } from './pages/pedido/EditarPedidoEstadoPage';
+import { CrearPedido } from './components/pedido/CrearPedido';
+import { store } from './states/store';
 
 getAutenticacionToken();
 
@@ -63,6 +64,7 @@ function App() {
                         </Route>
                     </Routes>
                     <ToastContainer />
+                    <CrearPedido/>
                 </BrowserRouter>
             </ThemeProvider>
         </Provider>

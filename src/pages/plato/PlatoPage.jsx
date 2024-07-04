@@ -5,10 +5,13 @@ import { NoMeals } from "@mui/icons-material";
 import { obtenerPlatosRestaurante, leerDetallePlato } from "../../services/plato/platoServicio";
 import { Container, Grid, Box, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { PlatoDetalle } from "../../components/plato/PlatoDetalle";
+import { establecerIdRestaurante } from "../../store/pedidoStore";
 
 function PlatoPage() {
     const { id } = useParams();
+    const dispatch = useDispatch();
     const [platos, setPlatos] = useState([]);
     const [buscando, setBuscando] = useState(true);
     const [detalleAbrir, setDetalleAbrir] = useState(false);
@@ -22,19 +25,20 @@ function PlatoPage() {
                 .finally(() => setBuscando(false));
         }
         verPlatos();
-    }, [id]);
+        dispatch(establecerIdRestaurante(id));
+    }, [id, dispatch]);
 
     const abrirDetalle = (plato) => {
         leerDetallePlato(plato)
-        .then(detalle => {
-            setDetallePlato(detalle);
-            setDetalleAbrir(true);
-        })
-        .catch(() => {});
+            .then(detalle => {
+                setDetallePlato(detalle);
+                setDetalleAbrir(true);
+            })
+            .catch(() => {});
     }
 
     return (
-        <Container>
+        <Container sx={{mb: 8}}>
             {buscando ? (
                 <SkeletonCard contador={6}/>
             ) : (

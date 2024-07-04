@@ -34,7 +34,7 @@ function CrearRestaurantePage() {
     }
 
     return (
-        <Container className="d-flex justify-content-center mt-4">
+        <Container sx={{mb: 8}}>
             <BackDropProgreso abrir={cargando} />
             <Box display="flex" justifyContent="center" alignItems="center" sx={{minHeight: '78vh'}}>
                 <Grid container alignItems='center' padding={2} sx={{border: '1px solid #ccc', borderRadius: '8px',

@@ -37,7 +37,8 @@ function EditarPedidoEstadoPage() {
                 }
 
             } catch (error) {
-                mostrarAlertaError("Ocurrió un error al obtener el estado actual del pedido.");
+                const mensajeError = error.response?.data?.error || "Ocurrió un error al obtener el estado actual del pedido.";
+                mostrarAlertaError(mensajeError);
             }
         };
 
@@ -98,7 +99,7 @@ function EditarPedidoEstadoPage() {
                     disabled={!estadoSeleccionado || estadoSeleccionado === estado}
                     sx={{ mt: 2 }}
                 >
-                Confirmar
+                Cambiar estado
             </Button>
             )}
         </Box>

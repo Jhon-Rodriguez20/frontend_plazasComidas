@@ -5,7 +5,6 @@ import { usuario } from '../../states/sliceReducers';
 import { cerrarSesion } from '../usuarioAcciones';
 
 export const setAutenticacionToken = (token) => {
-    
     if(token) {
         axios.defaults.headers.common["Authorization"] = token;
     } else {
@@ -14,16 +13,15 @@ export const setAutenticacionToken = (token) => {
 }
 
 export const getAutenticacionToken = () => {
-
     if(localStorage.token) {
         setAutenticacionToken(localStorage.token);
         const tokenDecodificado = jwtDecode(localStorage.token);
-        store.dispatch(usuario({ usuario: tokenDecodificado, conectado: true }))
+        store.dispatch(usuario({ usuario: tokenDecodificado, conectado: true }));
         const tiempoActualToken = Math.floor(Date.now() / 1000);
         
         if(tokenDecodificado.exp < tiempoActualToken) {
             store.dispatch(cerrarSesion());
-            window.location.href="/usuario/loguearse";
+            window.location.href = "/usuario/loguearse";
         }
     }
 }

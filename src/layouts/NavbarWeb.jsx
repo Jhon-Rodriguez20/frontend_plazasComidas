@@ -7,8 +7,8 @@ import { cerrarSesion } from '../connections/usuarioAcciones';
 
 function NavbarWeb() {
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const conectado = useSelector((estado) => estado.conectado);
-    const usuario = useSelector((estado) => estado.usuario);
+    const conectado = useSelector((estado) => estado.usuario.conectado);
+    const usuario = useSelector((estado) => estado.usuario.usuario);
     const dispatch = useDispatch();
 
     const handleOpenUserMenu = (event) => {
@@ -33,13 +33,13 @@ function NavbarWeb() {
                     </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center' }}>
-                    {usuario.rol === "1" && conectado && (
+                    {usuario && usuario.rol === "1" && conectado && (
                         <Button color="inherit" component={Link} to="/crear/gerente"><SupervisorAccount sx={{ marginRight: 1 }} /> Crear gerente</Button>
                     )}
                     {usuario.rol === "2" && conectado && (
                         <Button color="inherit" component={Link} to="/crear/empleado"><People sx={{ marginRight: 1 }} /> Crear empleado</Button>
                     )}
-                    {usuario.rol === "3" && conectado && (
+                    {usuario && usuario.rol === "3" && conectado && (
                         <Button color="inherit" component={Link} to="/pedidos/restaurante"><Fastfood sx={{ marginRight: 1 }} /> Ver pedidos</Button>
                     )}
                     {!conectado ? (
@@ -72,22 +72,22 @@ function NavbarWeb() {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
-                                    {usuario.rol === "1" && conectado && (
+                                    {usuario && usuario.rol === "1" && conectado && (
                                         <MenuItem onClick={handleCloseUserMenu} component={Link} to="/misGerentes">
                                             <AssignmentInd sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis gerentes
                                         </MenuItem>
                                     )}
-                                    {usuario.rol === "2" && conectado && (
+                                    {usuario && usuario.rol === "2" && conectado && (
                                         <MenuItem onClick={handleCloseUserMenu} component={Link} to="/misRestaurantes">
                                             <Restaurant sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis restaurantes
                                         </MenuItem>
                                     )}
-                                    {usuario.rol === "2" && conectado && (
+                                    {usuario && usuario.rol === "2" && conectado && (
                                         <MenuItem onClick={handleCloseUserMenu} component={Link} to="/misEmpleados">
                                             <Group sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis empleados
                                         </MenuItem>
                                     )}
-                                    {usuario.rol === "4" && conectado && (
+                                    {usuario && usuario.rol === "4" && conectado && (
                                         <MenuItem onClick={handleCloseUserMenu} component={Link} to="/verPedidos/hechos">
                                             <Fastfood sx={{ color: '#c2c2c2', marginRight: 1 }} /> Ver mis pedidos
                                         </MenuItem>

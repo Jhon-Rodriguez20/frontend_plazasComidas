@@ -15,8 +15,8 @@ const ProfileAvatar = styled(Avatar)({
 });
 
 function UsuarioPerfilCard({ usuarioEntity }) {
-    const conectado = useSelector((estado) => estado.conectado);
-    const usuario = useSelector((estado) => estado.usuario);
+    const conectado = useSelector((estado) => estado.usuario.conectado);
+    const usuario = useSelector((estado) => estado.usuario.usuario);
     const imagenUrl = `${API_URL}${usuarioEntity.imgPerfil}`;
 
     return (
