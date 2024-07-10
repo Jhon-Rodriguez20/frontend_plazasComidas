@@ -1,15 +1,17 @@
 import { AppBar, Toolbar, Typography, Button, Box, Tooltip, Avatar, IconButton, Menu, MenuItem } from '@mui/material';
-import { Logout, Login, SupervisorAccount, People, AssignmentInd, Group, PersonAdd, Fastfood, Restaurant } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Logout, Login, SupervisorAccount, People, AssignmentInd, Group, PersonAdd, Fastfood, Restaurant, Settings } from '@mui/icons-material';
+import { Link, NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { cerrarSesion } from '../connections/usuarioAcciones';
+import logo from "../assets/img/PlazaDelicias.webp";
 
 function NavbarWeb() {
     const [anchorElUser, setAnchorElUser] = useState(null);
     const conectado = useSelector((estado) => estado.usuario.conectado);
     const usuario = useSelector((estado) => estado.usuario.usuario);
     const dispatch = useDispatch();
+    const iniciales = conectado && usuario && usuario.name ? usuario.name.slice(0, 2).toUpperCase() : '';
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -26,11 +28,14 @@ function NavbarWeb() {
 
     return (
         <AppBar position="static">
-            <Toolbar sx={{ justifyContent: 'space-between', flexDirection: { xs: 'column', sm: 'row' } }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Typography variant="h6" component="div">
-                        Plazas de comidas
-                    </Typography>
+            <Toolbar sx={{ bgcolor: '#FFF', color: '#FFA726', justifyContent: 'space-between', flexDirection: { xs: 'column', sm: 'row' } }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }} component={NavLink} to="/">
+                    <Typography 
+                        component="img" 
+                        src={logo} 
+                        sx={{ mt: 1, mb: 1, width: { xs: '80%', sm: 'auto' }, maxWidth: 200 }}
+                        alt="Logo"
+                    />
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center' }}>
                     {usuario && usuario.rol === "1" && conectado && (
@@ -53,7 +58,7 @@ function NavbarWeb() {
                             <>
                                 <Tooltip title="Abrir configuración">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, marginLeft: 2 }}>
-                                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                        <Avatar sx={{ bgcolor: '#FFA726', color: '#FFF' }}>{iniciales}</Avatar>
                                     </IconButton>
                                 </Tooltip>
                                 <Menu
@@ -92,6 +97,9 @@ function NavbarWeb() {
                                             <Fastfood sx={{ color: '#c2c2c2', marginRight: 1 }} /> Ver mis pedidos
                                         </MenuItem>
                                     )}
+                                    <MenuItem onClick={handleCloseUserMenu} component={Link} to={`/perfil/${usuario.sub}`}>
+                                        <Settings sx={{ color: '#c2c2c2', marginRight: 1 }} /> Configuración
+                                    </MenuItem>
                                     <MenuItem onClick={handleLogout}>
                                         <Logout sx={{ color: '#c2c2c2', marginRight: 1 }} /> Cerrar sesión
                                     </MenuItem>

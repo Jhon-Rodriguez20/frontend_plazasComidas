@@ -16,7 +16,7 @@ function PedidoDetalle({ pedidoEntity }) {
 
     return (
         <>
-            <Typography variant="h4" fontWeight={"bold"} textAlign={"center"} mt={3} mb={7}>
+            <Typography variant="h4" fontWeight={"bold"} textAlign={"center"} mt={5} mb={7}>
                 Datos del pedido
             </Typography>
             <Grid container spacing={2}>
@@ -34,7 +34,7 @@ function PedidoDetalle({ pedidoEntity }) {
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
-                    <Typography variant="h6" gutterBottom display="flex" alignItems="center">
+                    <Typography variant="h6" display="flex" alignItems="center" gutterBottom>
                         <Phone sx={{ marginRight: 1 }} /> Número de contacto
                     </Typography>
                     <Typography variant="h6" color="text.secondary" gutterBottom>
@@ -51,7 +51,7 @@ function PedidoDetalle({ pedidoEntity }) {
                 </Grid>
                 <Grid item xs={12} mt={3}>
                     <Typography variant="h5" color="ButtonText" display="flex" alignItems="center">
-                        <FastfoodOutlined sx={{ marginRight: 1 }} /> Datos del pedido
+                        <FastfoodOutlined sx={{ marginRight: 1 }} /> Información del pedido
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
@@ -113,7 +113,7 @@ function PedidoDetalle({ pedidoEntity }) {
                 {pedidoEntity.detalles.map((detalle) => {
                     return (
                         <Grid item xs={12} sm={6} md={4} lg={4} key={detalle.idDetalle}>
-                            <Card className="tarjeta-estilo" sx={{ mb: 3 }}>
+                            <Card className="tarjeta-estilo" sx={{ mb: 3, borderRadius: 4 }}>
                                 <CardMedia
                                     component="img"
                                     height="auto"

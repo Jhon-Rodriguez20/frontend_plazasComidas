@@ -49,7 +49,7 @@ function CrearUsuarioPage() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 minHeight: '80vh',
-                mb: 8
+                mb: 5
             }}
         >
             <BackDropProgreso abrir={cargando} />
@@ -70,15 +70,14 @@ function CrearUsuarioPage() {
                     ¡Bienvenido de nuevo!
                 </Typography>
                 <CrearUsuarioForm errores={errores} callback={registro} defaultOcupacion="Cliente"
-                    defaultDescTrabajo="Hacer pedidos" defaultIdRol="4" mostrarChips={false} />
-                <Box mt={9}>
+                    defaultDescTrabajo="Hacer pedidos" defaultIdRol="4" mostrarChips={false} editar={false} />
+                <Box>
                     <Typography variant="subtitle2" color="text.secondary" textAlign="center">
                         ¿Ya tienes una cuenta?
                         <Button 
-                            variant="contained" 
                             size="small" 
-                            color="primary" 
-                            sx={{ padding: 1.5, marginLeft: 1 }} 
+                            className="estilo-botones-autenticacion"
+                            sx={{padding: 1.2, ml: 1, fontWeight: 'bold', color: '#fff'}}
                             component={Link} 
                             to={'/usuario/loguearse'}
                         >

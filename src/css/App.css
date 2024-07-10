@@ -1,34 +1,78 @@
 .form-ocultar {
-    display: none;
+  display: none;
 }
 
 .estilo-form {
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 16px;
-    border-radius: 8px;
-    background-color: #fff;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.estilo-botones-autenticacion {
+  background-color: #FFA726 !important;
+}
+
+.estilo-botones-autenticacion:active {
+  transform: scale(0.9);
 }
 
 .estilo-button {
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  font-size: 18px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  padding: 0.7em 2em;
+  border: 3px solid #FFA726;
+  border-radius: 2px;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s ease all;
+  z-index: 1;
 }
 
-.estilo-button:hover {
-    box-shadow: none;
-    transition: 0.3s ease;
-    transform: scale(0.95);
+.estilo-button:before {
+  transition: 0.5s all ease;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  opacity: 0;
+  content: '';
+  background-color: #FFA726;
+  z-index: -1;
+}
+
+.estilo-button:hover, .estilo-button:focus {
+  color: #fff;
+}
+  
+.estilo-button:hover:before, .estilo-button:focus:before {
+  transition: 0.5s all ease;
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+.estilo-button:active {
+  transform: scale(0.9);
 }
 
 .chip:hover {
-    background-color: #FFA726 !important;
+  background-color: #FFA726 !important;
+}
+
+.tarjeta-estilo {
+  box-shadow: 15px 15px 30px #bebebe, -15px -15px 30px #ffffff;
+  transition: 0.2s ease-in-out;
 }
 
 .tarjeta-estilo:hover {    
-    filter: drop-shadow(
-        0 0 5px #c2c2c2
-    );
-    transition: 0.3s ease;
-    transform: scale(0.98);
-    cursor: pointer;
+  cursor: pointer;
+  box-shadow: 0px 10px 20px rgba(0,0,0,0.1);
 }

@@ -100,6 +100,8 @@ function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlat
                         onChange={(e) => setDescripcion(e.target.value)}
                         error={!!errores.descripcion}
                         helperText={errores.descripcion}
+                        multiline
+                        rows={3}
                         required
                     />
                 </Grid>
@@ -142,10 +144,9 @@ function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlat
                     <Box display='flex' justifyContent='center'>
                         <Button
                             type="submit"
-                            variant="contained"
-                            color="primary"
-                            size="medium"
                             className="estilo-button"
+                            sx={{border: '1px solid', borderColor: '#FEA93C', color: '#FEA93C', textTransform: 'uppercase', fontWeight: 'bold'}}
+                            size="medium"
                             fullWidth
                         >
                             {editable ? "Actualizar plato" : "Crear plato"}

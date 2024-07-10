@@ -47,8 +47,7 @@ function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
 
     return (
         <Grid container onClick={onClick}>
-            <Card sx={{ display: "flex", alignItems: 'center', padding: '4%', marginTop: 3, maxWidth: { xs: '100%', sm: '100%', md:'100%', lg: '100%' }, minWidth: { xs: '93%', sm: '93%', md:'92%', lg: '92%'},
-                        maxHeight: { xs: '100%', sm: '100%', md:'100%', lg: '100%' }, minHeight: {xs: '95%', sm: '95%', md:'100%', lg: '100%'}, position: 'relative' }}
+            <Card sx={{ display: "flex", alignItems: 'center', padding: '4%', marginTop: 3, width: '100%', height: 'auto', position: 'relative', borderRadius: 3 }}
                 className="tarjeta-estilo"
                 >
                 <CardMedia
@@ -58,7 +57,7 @@ function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
                     alt={restauranteEntity.razonSocial}
                 />
                 <CardContent sx={{ flex: 1 }}>
-                    <Typography variant="h6" component="div" sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <Typography variant="h6" component="div" sx={{ display: 'flex', alignItems: 'center', mb: 1, fontWeight: 'bold', color: "#C56B22" }}>
                         <Restaurant sx={{ marginRight: 1 }} /> {restauranteEntity.razonSocial}
                     </Typography>
                     <Typography variant="subtitle2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
@@ -67,7 +66,7 @@ function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
                 </CardContent>
                 {mostrar && conectado && usuario.rol === "2" ? (
                     <Box sx={{ position: 'absolute', top: 5, right: 2 }}>
-                        <IconButton aria-label="settings" onClick={handleClick}>
+                        <IconButton onClick={handleClick}>
                             <MoreVert />
                         </IconButton>
                         <Menu
@@ -91,7 +90,7 @@ function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
                     </Box>
                 ) : (mostrar && conectado && usuario.rol === "3") ? (
                     <Link to={`/verPedidos/restaurante/${restauranteEntity.idRestaurante}`} style={{ textDecoration: 'none' }}>
-                        <Stack sx={{ position: 'absolute', top: 15, right: 15 }}>
+                        <Stack className="icono-pedido" sx={{ position: 'absolute', top: 15, right: 15 }}>
                             {numPedidos > 0 && (
                                 <Badge badgeContent={numPedidos > 9 ? "9+" : numPedidos} color="secondary"/>
                             )}

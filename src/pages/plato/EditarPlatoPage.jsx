@@ -46,7 +46,9 @@ function EditarPlatoPage() {
             <BackDropProgreso abrir={cargando} />
             <Box display="flex" justifyContent="center" alignItems="center" sx={{ minHeight: '70vh', width: '100%' }}>
                 <Grid container alignItems='center' padding={3} sx={{
-                    border: '1px solid #ccc', borderRadius: '8px',
+                    border: '1px solid #ccc',
+                    bgcolor: '#fff',
+                    borderRadius: '8px',
                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
                     width: '100%'
                 }}>

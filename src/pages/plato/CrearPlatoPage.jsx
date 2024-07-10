@@ -38,7 +38,7 @@ function CrearPlatoPage() {
             <BackDropProgreso abrir={cargando} />
             <Box display="flex" justifyContent="center" alignItems="center" sx={{minHeight: '78vh'}}>
                 <Grid container alignItems='center' padding={2} sx={{border: '1px solid #ccc', borderRadius: '8px',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'}}>
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)', bgcolor: '#fff'}}>
                     <Grid item xs={12} md={6}>
                         <Box>
                             <Typography variant="h5" textAlign="center" fontWeight={"bold"} mt={4} mb={4}>Crear plato</Typography>

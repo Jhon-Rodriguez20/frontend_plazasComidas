@@ -65,7 +65,7 @@ const CrearPedido = () => {
         try {
             await axios.post(CREARPEDIDO_POST_ENDPOINT, pedido);
             navegar("/verPedidos/hechos");
-            mostrarAlertaExito("Pedido creado exitosamente");
+            mostrarAlertaExito("Pedido ordenado exitosamente");
             dispatch(vaciarPedido());
             setAbrir(false);
         } catch (error) {
@@ -131,7 +131,10 @@ const CrearPedido = () => {
                         </ListItem>
                         <ListItem>
                             <Box display={'flex'} justifyContent={'center'} width={'100%'}>
-                                <Button variant='contained' color='primary' onClick={handleCrearPedido}>Comprar</Button>
+                                <Button className="estilo-button" onClick={handleCrearPedido} size='medium'
+                                    sx={{border: '1px solid', borderColor: '#FEA93C', color: '#FEA93C', textTransform: 'uppercase', fontWeight: 'bold'}}>
+                                    Ordenar pedido
+                                </Button>
                             </Box>
                         </ListItem>
                     </List>

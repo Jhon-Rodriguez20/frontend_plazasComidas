@@ -22,29 +22,6 @@ function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
 
     const enviarFormulario = (event) => {
         event.preventDefault();
-        const erroresValidacion = {};
-
-        if (!razonSocial) {
-            erroresValidacion.razonSocial = "La razón social es obligatoria.";
-        }
-        if (!nit) {
-            erroresValidacion.nit = "El NIT es obligatorio.";
-        }
-        if (!direccion) {
-            erroresValidacion.direccion = "La dirección es obligatoria.";
-        }
-        if (!telefono) {
-            erroresValidacion.telefono = "El teléfono es obligatorio.";
-        }
-        if (!imagenRestaurante) {
-            erroresValidacion.imagenRestaurante = "Por favor, cargue una imagen del restaurante.";
-            mostrarAlertaAdvertencia("Por favor, cargue una imagen del restaurante.");
-        }
-
-        if (Object.keys(erroresValidacion).length > 0) {
-            setErroresLocal(erroresValidacion);
-            return;
-        }
 
         setErroresLocal({});
         callback({ razonSocial, nit, direccion, telefono, imagenRestaurante, idUsuario });
@@ -157,10 +134,9 @@ function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
                     <Box display='flex' justifyContent='center'>
                         <Button
                             type="submit"
-                            variant="contained"
-                            color="primary"
-                            size="medium"
                             className="estilo-button"
+                            sx={{border: '1px solid', borderColor: '#FEA93C', color: '#FEA93C', textTransform: 'uppercase', fontWeight: 'bold'}}
+                            size="medium"
                             fullWidth
                         >
                             Crear restaurante

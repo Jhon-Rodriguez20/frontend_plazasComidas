@@ -13,7 +13,7 @@ function PedidoCard({ pedidoEntity, mostrarAccion }) {
 
     return (
         <Grid container>
-            <Card sx={{ display: "flex", alignItems: 'center', padding: '4%', marginTop: 3, width: '100%', position: 'relative' }}
+            <Card sx={{ display: "flex", alignItems: 'center', padding: '4%', marginTop: 3, width: '100%', height: 'auto', position: 'relative', borderRadius: 4 }}
                 className="tarjeta-estilo"
             >
                 <CardMedia>
@@ -45,7 +45,9 @@ function PedidoCard({ pedidoEntity, mostrarAccion }) {
                     <Typography variant="body2" color="text.secondary" mb={2}>
                         {moment(pedidoEntity.fechaPedido).fromNow()}
                     </Typography>
-                    <Button variant='contained' className='estilo-button' size='small' component={Link} to={`/pedido/informacion/${pedidoEntity.idPedido}`}>
+                    <Button sx={{ border: '1px solid', borderColor: '#FEA93C', color: '#FFF', textTransform: 'uppercase', fontWeight: 'bold'}}
+                        className='estilo-botones-autenticacion' size='medium' component={Link} 
+                        to={`/pedido/informacion/${pedidoEntity.idPedido}`}>
                         Consultar detalle
                     </Button>
                     {mostrarAccion && pedidoEntity.idEstado === "1" && (

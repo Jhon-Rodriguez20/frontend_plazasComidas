@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Box, BottomNavigation, BottomNavigationAction, Menu, MenuItem } from '@mui/material';
-import { MenuOutlined, Home, Logout, Login, SupervisorAccount, People, AssignmentInd, Group, PersonAdd, Fastfood, Restaurant } from '@mui/icons-material';
-import { Link, useLocation } from 'react-router-dom';
+import { Box, BottomNavigation, BottomNavigationAction, Menu, MenuItem, AppBar, Toolbar, Typography } from '@mui/material';
+import { MenuOutlined, Home, Logout, Login, SupervisorAccount, People, AssignmentInd, Group, PersonAdd, Fastfood, Restaurant, Settings } from '@mui/icons-material';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { cerrarSesion } from '../connections/usuarioAcciones';
+import logo from "../assets/img/PlazaDelicias.webp";
 
 function NavbarCelular() {
     const location = useLocation();
@@ -12,6 +13,32 @@ function NavbarCelular() {
     const conectado = useSelector((estado) => estado.usuario.conectado);
     const usuario = useSelector((estado) => estado.usuario.usuario);
     const dispatch = useDispatch();
+    const [esScrolling, setIsScrolling] = useState(false);
+    const [esFixed, setIsFixed] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            const appBarHeight = document.getElementById('appBar').offsetHeight;
+            
+            if (scrollTop > appBarHeight && !esFixed) {
+                setIsFixed(true);
+            } else if (scrollTop <= appBarHeight && esFixed) {
+                setIsFixed(false);
+            }
+
+            if (scrollTop > 0) {
+                setIsScrolling(true);
+            } else {
+                setIsScrolling(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [esFixed]);
 
     useEffect(() => {
         setValue(location.pathname);
@@ -31,9 +58,9 @@ function NavbarCelular() {
     }
 
     const getNavigationActions = () => {
-        const actions = [];
+        const acciones = [];
 
-        actions.push(
+        acciones.push(
             <BottomNavigationAction 
                 component={Link} 
                 to="/" 
@@ -41,11 +68,17 @@ function NavbarCelular() {
                 label="Home" 
                 icon={<Home />} 
                 value="/" 
+                sx={{
+                    color: value === "/" ? '#FFA726' : '#898989',
+                    '&.Mui-selected': {
+                        color: '#FFA726',
+                    }
+                }}
             />
         );
         
         if (usuario && usuario.rol === "1" && conectado) {
-            actions.push(
+            acciones.push(
                 <BottomNavigationAction 
                     key="crear-gerente" 
                     label="Crear gerente" 
@@ -53,11 +86,17 @@ function NavbarCelular() {
                     component={Link} 
                     to="/crear/gerente" 
                     value="/crear/gerente"
+                    sx={{
+                        color: value === "/crear/gerente" ? '#FFA726' : '#898989',
+                        '&.Mui-selected': {
+                            color: '#FFA726',
+                        }
+                    }}
                 />
             );
         }
         if (usuario && usuario.rol === "2" && conectado) {
-            actions.push(
+            acciones.push(
                 <BottomNavigationAction 
                     key="crear-empleado" 
                     label="CrearEmpleado"
@@ -65,11 +104,17 @@ function NavbarCelular() {
                     component={Link} 
                     to="/crear/empleado" 
                     value="/crear/empleado"
+                    sx={{
+                        color: value === "/crear/empleado" ? '#FFA726' : '#898989',
+                        '&.Mui-selected': {
+                            color: '#FFA726',
+                        }
+                    }}
                 />
             );
         }
         if (usuario && usuario.rol === "3" && conectado) {
-            actions.push(
+            acciones.push(
                 <BottomNavigationAction 
                     key="ver-pedidos" 
                     label="Ver pedidos" 
@@ -77,12 +122,18 @@ function NavbarCelular() {
                     component={Link} 
                     to="/pedidos/restaurante" 
                     value="/pedidos/restaurante"
+                    sx={{
+                        color: value === "/pedidos/restaurante" ? '#FFA726' : '#898989',
+                        '&.Mui-selected': {
+                            color: '#FFA726',
+                        }
+                    }}
                 />
             );
         }        
         
         if (!conectado) {
-            actions.push(
+            acciones.push(
                 <BottomNavigationAction 
                     component={Link} 
                     to="/usuario/loguearse" 
@@ -90,9 +141,15 @@ function NavbarCelular() {
                     label="Iniciar sesión" 
                     icon={<Login />} 
                     value="/usuario/loguearse"
+                    sx={{
+                        color: value === "/usuario/loguearse" ? '#FFA726' : '#898989',
+                        '&.Mui-selected': {
+                            color: '#FFA726',
+                        }
+                    }}
                 />
             );
-            actions.push(
+            acciones.push(
                 <BottomNavigationAction 
                     component={Link} 
                     to="/usuario/registrarse" 
@@ -100,24 +157,76 @@ function NavbarCelular() {
                     label="Registrarse" 
                     icon={<PersonAdd />} 
                     value="/usuario/registrarse"
+                    sx={{
+                        color: value === "/usuario/registrarse" ? '#FFA726' : '#898989',
+                        '&.Mui-selected': {
+                            color: '#FFA726',
+                        }
+                    }}
                 />
             );
         }
         if (conectado) {
-            actions.push(
+            acciones.push(
                 <BottomNavigationAction
                     key="menu" 
                     label="Menú" 
-                    icon={<MenuOutlined />} 
+                    icon={<MenuOutlined />}
                     onClick={handleOpenMenu}
+                    sx={{
+                        color: '#898989',
+                        '&.Mui-selected': {
+                            color: '#FFA726',
+                        }
+                    }}
                 />
             );
         }
 
-        return actions;
+        return acciones;
     };
 
     return (
+        <>
+        <AppBar
+            id="appBar"
+            position={esFixed ? 'fixed' : 'static'}
+            sx={{
+                bgcolor: '#FFF',
+                transition: 'top 0.6s ease',
+                top: esFixed ? (esScrolling ? 0 : -50) : 0,
+                boxShadow: esFixed ? 3 : 1,
+                borderBottomLeftRadius: 5,
+                borderBottomRightRadius: 5
+            }}
+        >
+            <Toolbar
+                sx={{
+                    bgcolor: '#FFF',
+                    color: '#FFA726',
+                    justifyContent: 'space-between',
+                    flexDirection: { xs: 'column', sm: 'row' }                    
+                }}
+            >
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        width: { xs: '100%', sm: 'auto' },
+                        justifyContent: { xs: 'center', sm: 'flex-start' }
+                    }}
+                    component={NavLink}
+                    to="/"
+                >
+                    <Typography
+                        component="img"
+                        src={logo}
+                        sx={{ mt: 1, mb: 1, width: { xs: '80%', sm: 'auto' }, maxWidth: 200 }}
+                        alt="Logo"
+                    />
+                </Box>
+            </Toolbar>
+        </AppBar>
         <Box sx={{ width: '100%', position: 'fixed', bottom: 0, left: 0, zIndex: 1000, overflowX: 'auto' }}>
             <BottomNavigation
                 showLabels
@@ -156,11 +265,15 @@ function NavbarCelular() {
                         <Fastfood sx={{ color: '#c2c2c2', marginRight: 1 }} /> Mis pedidos
                     </MenuItem>
                 )}
+                <MenuItem component={Link} to={`/perfil/${usuario.sub}`} onClick={handleCloseMenu}>
+                    <Settings sx={{ color: '#c2c2c2', marginRight: 1 }} /> Configuración
+                </MenuItem>
                 <MenuItem onClick={handleLogout}>
                     <Logout sx={{ color: '#c2c2c2', marginRight: 1 }} /> Cerrar sesión
                 </MenuItem>
             </Menu>
         </Box>
+        </>
     );
 }
 

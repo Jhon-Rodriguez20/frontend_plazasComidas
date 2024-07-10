@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { Typography, CardMedia, Grid } from '@mui/material';
-import { Restaurant, Description, FoodBank, MonetizationOn } from '@mui/icons-material';
+import { Typography, CardMedia, Grid, Chip } from '@mui/material';
+import { Restaurant, Description, FoodBank } from '@mui/icons-material';
 import { API_URL } from "../../connections/helpers/endpoints";
 import { DetalleContenedor } from '../common/detalleDrawer/DetalleContenedor';
 
@@ -17,22 +17,26 @@ function PlatoDetalle({ abrir, cerrar, platoEntidad }) {
             />            
             <Grid container spacing={1}>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
-                    <Typography variant="h5" sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', mt: 0.5, mb: 2 }}>
-                        <FoodBank sx={{ marginRight: 1, fontSize: "125%" }} /> {platoEntidad.nombrePlato}
+                    <Typography variant="h4" sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', mt: 0.5, mb: 2, color: "#C56B22" }}>
+                        <FoodBank sx={{ marginRight: 1, fontSize: 45 }} /> {platoEntidad.nombrePlato}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
-                    <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', mb: 1, fontWeight: "bold" }}>
-                        <MonetizationOn sx={{ fontSize: "95%" }}/> {platoEntidad.precio}
+                    <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', mb: 1, mt: 0.3, fontWeight: "bold", color: "#C56B22" }}>
+                        <Chip
+                            sx={{color: '#fff', bgcolor: '#FFA726', fontSize: 25, pt: 3, pb: 3}}
+                            key={`${platoEntidad.precio} COP`}
+                            label={`$${platoEntidad.precio} COP`}>                            
+                        </Chip>
                     </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant="subtitle2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <Typography variant="body1" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                         <Restaurant sx={{ color: '#c2c2c2', marginRight: 1 }} /> {platoEntidad.nombreRestaurante}
                     </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant="subtitle2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', mb: 1, justifyContent: "justify" }}>
+                    <Typography variant="subtitle1" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', mb: 1, justifyContent: "justify" }}>
                         <Description sx={{ color: '#c2c2c2', marginRight: 1 }} /> {platoEntidad.descPlato}
                     </Typography>
                 </Grid>                            

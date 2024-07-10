@@ -47,7 +47,8 @@ function IniciarSesion() {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                minHeight: '80vh'
+                minHeight: '80vh',
+                mb: 7.5
             }}
         >
             <BackDropProgreso abrir={loading}/>
@@ -72,10 +73,9 @@ function IniciarSesion() {
                     <Typography variant="subtitle2" color="text.secondary" textAlign="center">
                         ¿No tienes una cuenta? 
                         <Button 
-                            variant="contained" 
                             size="small" 
-                            color="primary" 
-                            sx={{ padding: 1.5, marginLeft: 1 }} 
+                            className="estilo-botones-autenticacion"
+                            sx={{padding: 1.2, ml: 1, fontWeight: 'bold', color: '#fff'}}
                             component={Link} 
                             to={'/usuario/registrarse'}
                         >

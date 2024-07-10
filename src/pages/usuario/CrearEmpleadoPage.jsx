@@ -69,7 +69,7 @@ function CrearEmpleadoPage() {
                 <Typography variant="subtitle1" color="text.secondary" mb={3} align="center" gutterBottom>
                     ¡Crea un empleado capaz de realizar su labor correspondiente!
                 </Typography>
-                <CrearUsuarioForm errores={errores} callback={registro} defaultIdRol="3" mostrarChips={true} />
+                <CrearUsuarioForm errores={errores} callback={registro} defaultIdRol="3" mostrarChips={true} editar={false} />
             </Box>
         </Container>
     )

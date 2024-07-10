@@ -29,6 +29,7 @@ import { MisPedidosPage } from './pages/usuario/MisPedidosPage';
 import { EditarPedidoEstadoPage } from './pages/pedido/EditarPedidoEstadoPage';
 import { CrearPedido } from './components/pedido/CrearPedido';
 import { store } from './states/store';
+import { EditarInformacionPerfilPage } from './pages/usuario/EditarInformacionPerfilPage';
 
 getAutenticacionToken();
 
@@ -61,9 +62,10 @@ function App() {
                             <Route path='/pedido/informacion/:id' element={<PedidoDetallePage />} />
                             <Route path='/verPedidos/hechos/' element={<MisPedidosPage />} />
                             <Route path='/pedido/editar-estado/:idPedido' element={<EditarPedidoEstadoPage />} />
+                            <Route path='/perfil/:id' element={<EditarInformacionPerfilPage />} />
                         </Route>
                     </Routes>
-                    <ToastContainer />
+                    <ToastContainer/>
                     <CrearPedido/>
                 </BrowserRouter>
             </ThemeProvider>

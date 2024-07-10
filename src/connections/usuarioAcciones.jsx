@@ -29,6 +29,7 @@ export const autenticacion = (datos) => dispatch => {
 export const cerrarSesion = () => dispatch => {
 
     localStorage.removeItem('token');
+    localStorage.removeItem('pedido');
     setAutenticacionToken(false);
     dispatch(usuario({ usuario:{}, conectado: false }));
     window.location.href = "/usuario/loguearse";

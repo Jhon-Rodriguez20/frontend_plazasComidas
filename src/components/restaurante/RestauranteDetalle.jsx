@@ -16,8 +16,8 @@ function RestauranteDetalle({ abrir, cerrar, restauranteEntity }) {
                 image={imagenUrl}
                 alt={restauranteEntity.razonSocial}
             />
-            <Typography variant="h5" sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Restaurant sx={{ marginRight: 1 }} /> {restauranteEntity.razonSocial}
+            <Typography variant="h4" sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', mb: 2, color: "#C56B22" }}>
+                <Restaurant sx={{ marginRight: 1, fontSize: 30 }} /> {restauranteEntity.razonSocial}
             </Typography>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
@@ -37,10 +37,11 @@ function RestauranteDetalle({ abrir, cerrar, restauranteEntity }) {
                 </Grid>                            
             </Grid>
             <Box display='flex' justifyContent='center' mt={2}>
-                <Button variant='contained' component={Link} to={`/platos/restaurante/${restauranteEntity.idRestaurante}`}>
+                <Button className="estilo-button" sx={{border: '1px solid', borderColor: '#FEA93C', color: '#FEA93C', textTransform: 'uppercase', fontWeight: 'bold'}}
+                    component={Link} to={`/platos/restaurante/${restauranteEntity.idRestaurante}`}>
                     <RestaurantMenu sx={{ marginRight: 1 }} />Ver platos
                 </Button>
-            </Box>                    
+            </Box>
         </>
     ) : (
         <Typography variant="body2">Cargando...</Typography>

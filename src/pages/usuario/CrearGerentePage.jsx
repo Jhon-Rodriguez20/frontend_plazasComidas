@@ -41,7 +41,7 @@ function CrearGerentePage() {
 
     return (
         <Container 
-            maxWidth="sm" 
+            maxWidth="sm"
             sx={{
                 marginTop: 3,
                 display: 'flex',
@@ -70,7 +70,7 @@ function CrearGerentePage() {
                     ¡Crea un gerente para adminstrar bien tu restaurante!
                 </Typography>
                 <CrearUsuarioForm errores={errores} callback={registro} defaultOcupacion="Gerente"
-                defaultDescTrabajo="Administrar restaurante asignado" defaultIdRol="2" mostrarChips={false} />
+                defaultDescTrabajo="Administrar restaurante asignado" defaultIdRol="2" mostrarChips={false} editar={false} />
             </Box>
         </Container>
     )

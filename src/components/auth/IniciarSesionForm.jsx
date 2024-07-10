@@ -42,11 +42,10 @@ function IniciarSesionForm({ errores, callback }) {
             <Box display='flex' justifyContent='center'>
                 <Button 
                     type="submit"
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    fullWidth
                     className="estilo-button"
+                    sx={{border: '1px solid', borderColor: '#FEA93C', color: '#FEA93C', textTransform: 'uppercase', fontWeight: 'bold'}}
+                    size="large"
+                    fullWidth                    
                 >
                     Iniciar sesión
                 </Button>

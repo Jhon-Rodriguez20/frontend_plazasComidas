@@ -6,6 +6,7 @@ export const SIGNUP_POST_ENDPOINT = API_URL + "/usuario/crearUsuario/externo";
 export const CREARGERENTE_POST_ENDPOINT = API_URL + "/usuario/crearUsuario/gerente";
 export const CREAREMPLEADO_POST_ENDPOINT = API_URL + "/usuario/crearUsuario/empleado";
 export const EDITARDESCRIPCION_PUT_ENDPOINT = API_URL + "/usuario/descripcion";
+export const USUARIO_INFORMACION_PERFIL_GET_ENDPOINT = API_URL + "/usuario/informacion/perfil";
 export const USUARIO_MISGERENTES_GET_ENDPOINT = API_URL + "/usuario/gerentes";
 export const USUARIO_MISEMPLEADOS_GET_ENDPOINT = API_URL + "/usuario/empleados";
 export const USUARIO_MISRESTAURANTES_GET_ENDPOINT = API_URL + "/usuario/restaurantes/pertenecientes";
