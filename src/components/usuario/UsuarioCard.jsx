@@ -3,9 +3,10 @@ import { styled } from '@mui/system';
 import { API_URL } from "../../connections/helpers/endpoints";
 import PropTypes from "prop-types";
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
-import {Phone, Email} from '@mui/icons-material';
+import { Phone, Email } from '@mui/icons-material';
+import { ValidarUsuarioConectado } from "../../middleware/ValidarUsuarioConectado";
+import { ValidarUsuarioRol } from "../../middleware/ValidarUsuarioRol";
 
 const ProfileAvatar = styled(Avatar)({
     width: 130,
@@ -16,8 +17,6 @@ const ProfileAvatar = styled(Avatar)({
 });
 
 function UsuarioPerfilCard({ usuarioEntity }) {
-    const conectado = useSelector((estado) => estado.usuario.conectado);
-    const usuario = useSelector((estado) => estado.usuario.usuario);
     const imagenUrl = `${API_URL}${usuarioEntity.imgPerfil}`;
 
     const colorAleatorio = useMemo(() => {
@@ -69,19 +68,22 @@ function UsuarioPerfilCard({ usuarioEntity }) {
                 <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'justify', mt: 3 }}>
                     {usuarioEntity.descripcionTrabajo}
                 </Typography>
-                {conectado && usuario.rol === "1" ? (
-                    <Box mt={3} display="flex" justifyContent="center">
-                        <Button
-                            className="estilo-button"
-                            sx={{border: '1px solid', borderColor: '#FEA93C', color: '#FEA93C', textTransform: 'uppercase', fontWeight: 'bold'}}
-                            size='medium'
-                            component={Link}
-                            to={`/crear/restaurante/${usuarioEntity.idUsuario}`}
-                        >
-                            Crear un restaurante
-                        </Button>
-                    </Box>
-                ) : ""}                
+
+                <ValidarUsuarioConectado conectado={true}>
+                    <ValidarUsuarioRol rolesPermitidos={["1"]}>
+                        <Box mt={3} display="flex" justifyContent="center">
+                            <Button
+                                className="estilo-button"
+                                sx={{border: '1px solid', borderColor: '#FEA93C', color: '#FEA93C', textTransform: 'uppercase', fontWeight: 'bold'}}
+                                size='medium'
+                                component={Link}
+                                to={`/crear/restaurante/${usuarioEntity.idUsuario}`}
+                            >
+                                Crear un restaurante
+                            </Button>
+                        </Box>
+                    </ValidarUsuarioRol>
+                </ValidarUsuarioConectado>             
             </CardContent>
         </Card>
     );

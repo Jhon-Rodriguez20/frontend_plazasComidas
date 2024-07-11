@@ -34,7 +34,7 @@ function CrearPlatoPage() {
     }
 
     return (
-        <Container sx={{mb: 8}}>
+        <Container sx={{ mb: 8, mt: 4 }}>
             <BackDropProgreso abrir={cargando} />
             <Box display="flex" justifyContent="center" alignItems="center" sx={{minHeight: '78vh'}}>
                 <Grid container alignItems='center' padding={2} sx={{border: '1px solid #ccc', borderRadius: '8px',

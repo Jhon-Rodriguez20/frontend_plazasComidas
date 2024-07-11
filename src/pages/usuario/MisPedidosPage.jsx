@@ -12,7 +12,7 @@ function MisPedidosPage() {
         const verPedidos = async () => {
             obtenerMisPedidos()
                 .then(data => setPedidos(data))
-                .catch(error => console.error("Error al obtener los pedidos: ", error))
+                .catch(() => {})
                 .finally(() => setBuscando(false));
         };
         verPedidos();

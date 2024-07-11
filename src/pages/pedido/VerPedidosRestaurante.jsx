@@ -15,7 +15,7 @@ function VerPedidosRestaurantePage() {
         const verPedidosRestaurantes = async () => {
             obtenerPedidosRestaurante(id)
                 .then(data => setPedidosRestaurante(data))
-                .catch(error => console.error("Error al obtener los pedidos de restaurantes: ", error))
+                .catch(() => {})
                 .finally(() => setBuscando(false));
         };
         verPedidosRestaurantes();

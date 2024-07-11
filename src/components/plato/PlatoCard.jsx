@@ -5,22 +5,24 @@ import { Edit, MoreVert, EmojiFoodBeverage, Visibility, VisibilityOff } from '@m
 import { API_URL } from "../../connections/helpers/endpoints";
 import { EliminarPlatoMenuItem } from "./EliminarPlatoMenuItem";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import { ValidarUsuarioConectado } from "../../middleware/ValidarUsuarioConectado";
+import { ValidarUsuarioRol } from "../../middleware/ValidarUsuarioRol";
 import { agregarPlato } from "../../store/pedidoStore";
 
 function PlatoCard({ platoEntidad, mostrar, mostrarAcciones, click }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const conectado = useSelector((estado) => estado.usuario.conectado);
-    const usuario = useSelector((estado) => estado.usuario.usuario);
     const dispatch = useDispatch();
+    const imagenUrl = `${API_URL}${platoEntidad.imgPlato}`;
+
 
     const handleClick = (event) => {
         event.stopPropagation();
         setAnchorEl(event.currentTarget);
     }
 
-    const handleClose = (event) => {
+    const handleCerrar = (event) => {
         event.stopPropagation();
         setAnchorEl(null);
     }
@@ -33,8 +35,6 @@ function PlatoCard({ platoEntidad, mostrar, mostrarAcciones, click }) {
         event.stopPropagation();
         dispatch(agregarPlato(platoEntidad));
     }
-
-    const imagenUrl = `${API_URL}${platoEntidad.imgPlato}`;
 
     if (!mostrar && platoEntidad.mostrado !== "1") return null;
 
@@ -49,6 +49,7 @@ function PlatoCard({ platoEntidad, mostrar, mostrarAcciones, click }) {
                     image={imagenUrl}
                     alt={platoEntidad.nombrePlato}
                 />
+
                 <CardContent>
                     <Typography variant="h6" component="div">
                         {platoEntidad.nombrePlato}
@@ -66,41 +67,50 @@ function PlatoCard({ platoEntidad, mostrar, mostrarAcciones, click }) {
                         </Typography>
                     ) : null }
                 </CardContent>
+
                 {mostrarAcciones ? (
-                    <Box sx={{ position: 'absolute', top: 5, right: 2 }}>
-                        <IconButton aria-label="settings" onClick={handleClick}>
-                            <MoreVert />
-                        </IconButton>
-                        <Menu
-                            id="fade-menu"
-                            MenuListProps={{
-                                'aria-labelledby': 'fade-button',
-                            }}
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            TransitionComponent={Fade}
-                            onClick={handleMenuClick}
-                        >
-                            <MenuItem component={Link} to={`/editar/plato/${platoEntidad.idPlato}`}>
-                                <Edit sx={{ color: 'blue', marginRight: 1 }} /> Editar plato
-                            </MenuItem>
-                            <EliminarPlatoMenuItem id={platoEntidad.idPlato}
-                                nombrePlato={platoEntidad.nombrePlato} nombreRestaurante={platoEntidad.nombreRestaurante} />
-                        </Menu>
-                    </Box>
-                ) : (usuario && usuario.rol === "4" && conectado) ? (
-                    <Box sx={{ position: 'absolute', top: 12, right: 15 }}>
-                        <Tooltip title="Agregar al pedido">
-                            <IconButton
-                                onClick={agregarAlPedido}
-                                aria-label="agregar"
-                            >
-                                <EmojiFoodBeverage sx={{ fontSize: 30 }} />
-                            </IconButton>
-                        </Tooltip>
-                    </Box>
-                ) : null}
+                    <ValidarUsuarioConectado conectado={true}>
+                        <ValidarUsuarioRol rolesPermitidos={["2"]}>
+                            <Box sx={{ position: 'absolute', top: 5, right: 2 }}>
+                                <IconButton aria-label="settings" onClick={handleClick}>
+                                    <MoreVert />
+                                </IconButton>
+                                <Menu
+                                    id="fade-menu"
+                                    MenuListProps={{
+                                        'aria-labelledby': 'fade-button',
+                                    }}
+                                    anchorEl={anchorEl}
+                                    open={open}
+                                    onClose={handleCerrar}
+                                    TransitionComponent={Fade}
+                                    onClick={handleMenuClick}
+                                >
+                                    <MenuItem component={Link} to={`/editar/plato/${platoEntidad.idPlato}`}>
+                                        <Edit sx={{ color: 'blue', marginRight: 1 }} /> Editar
+                                    </MenuItem>
+                                    <EliminarPlatoMenuItem id={platoEntidad.idPlato}
+                                        nombrePlato={platoEntidad.nombrePlato} nombreRestaurante={platoEntidad.nombreRestaurante} />
+                                </Menu>
+                            </Box>
+                        </ValidarUsuarioRol>
+                    </ValidarUsuarioConectado>
+                ) : (
+                    <ValidarUsuarioConectado conectado={true}>
+                        <ValidarUsuarioRol rolesPermitidos={["4"]}>
+                            <Box sx={{ position: 'absolute', top: 12, right: 15 }}>
+                                <Tooltip title="Agregar al pedido">
+                                    <IconButton
+                                        onClick={agregarAlPedido}
+                                        aria-label="agregar"
+                                    >
+                                        <EmojiFoodBeverage sx={{ fontSize: 30 }} />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                        </ValidarUsuarioRol>
+                    </ValidarUsuarioConectado>
+                )}
             </Card>
         </Grid>
     );

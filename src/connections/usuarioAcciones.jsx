@@ -21,17 +21,16 @@ export const autenticacion = (datos) => dispatch => {
             resolver(respuesta);
 
         }).catch(err => {
-            rechazar("Error al autenticarse: ", err);
+            rechazar(err);
         });
     });
 }
 
 export const cerrarSesion = () => dispatch => {
-
     localStorage.removeItem('token');
     localStorage.removeItem('pedido');
     setAutenticacionToken(false);
-    dispatch(usuario({ usuario:{}, conectado: false }));
+    dispatch(usuario({ usuario: {}, conectado: false }));
     window.location.href = "/usuario/loguearse";
 
 }

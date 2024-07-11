@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-import { Grid, Card, CardContent, CardMedia, Typography,
- IconButton, Menu, MenuItem, Fade, Box, Stack, Badge } from "@mui/material";
+import { Grid, Card, CardContent, CardMedia, Typography, Box, Stack, Badge } from "@mui/material";
 import { Link } from "react-router-dom";
 import { API_URL } from "../../connections/helpers/endpoints";
 import { obtenerTotalPedidosRestaurante } from "../../services/pedido/pedidoServicio";
 import PropTypes from "prop-types";
-import { Place, Restaurant, AddBox, MoreVert, DinnerDining, Fastfood } from '@mui/icons-material';
+import { Place, Restaurant, Fastfood } from '@mui/icons-material';
 import { useSelector } from "react-redux";
+import { MenuOpciones } from "../../config/restaurante/MenuOpciones";
+import { ValidarUsuarioConectado } from "../../middleware/ValidarUsuarioConectado";
+import { ValidarUsuarioRol } from "../../middleware/ValidarUsuarioRol";
 
 function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
     const [numPedidos, setNumPedidos] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-    const conectado = useSelector((estado) => estado.usuario.conectado);
     const usuario = useSelector((estado) => estado.usuario.usuario);
     const imagenUrl = `${API_URL}${restauranteEntity.imgRestaurante}`;
 
@@ -21,7 +21,7 @@ function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
         setAnchorEl(event.currentTarget);
     }
 
-    const handleClose = (event) => {
+    const handleCerrar = (event) => {
         event.stopPropagation();
         setAnchorEl(null);
     }
@@ -64,40 +64,35 @@ function RestauranteCard({ restauranteEntity, onClick, mostrar }) {
                         <Place sx={{ color: '#c2c2c2', marginRight: 1 }} /> {restauranteEntity.direccion}
                     </Typography>
                 </CardContent>
-                {mostrar && conectado && usuario.rol === "2" ? (
-                    <Box sx={{ position: 'absolute', top: 5, right: 2 }}>
-                        <IconButton onClick={handleClick}>
-                            <MoreVert />
-                        </IconButton>
-                        <Menu
-                            id="fade-menu"
-                            MenuListProps={{
-                                'aria-labelledby': 'fade-button',
-                            }}
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            TransitionComponent={Fade}
-                            onClick={handleMenuClick}
-                        >
-                            <MenuItem component={Link} to={`/crear/plato/${restauranteEntity.idRestaurante}`}>
-                                <AddBox sx={{ color: '#c2c2c2', marginRight: 1 }} /> Crear plato
-                            </MenuItem>
-                            <MenuItem component={Link} to={`/verPlatos/${restauranteEntity.idRestaurante}`}>
-                                <DinnerDining sx={{ color: '#c2c2c2', marginRight: 1 }} /> Ver platos
-                            </MenuItem>
-                        </Menu>
-                    </Box>
-                ) : (mostrar && conectado && usuario.rol === "3") ? (
-                    <Link to={`/verPedidos/restaurante/${restauranteEntity.idRestaurante}`} style={{ textDecoration: 'none' }}>
-                        <Stack className="icono-pedido" sx={{ position: 'absolute', top: 15, right: 15 }}>
-                            {numPedidos > 0 && (
-                                <Badge badgeContent={numPedidos > 9 ? "9+" : numPedidos} color="secondary"/>
-                            )}
-                            <Fastfood color="action" />                            
-                        </Stack>
-                    </Link>
-                ) : ""}
+                {mostrar && (
+                    <>
+                        <ValidarUsuarioConectado conectado={true}>
+                            <ValidarUsuarioRol rolesPermitidos={["2"]}>
+                                <Box sx={{ position: 'absolute', top: 5, right: 2 }}>
+                                    <MenuOpciones 
+                                        anchorEl={anchorEl}
+                                        handleClick={handleClick}
+                                        handleCerrar={handleCerrar}
+                                        handleMenuClick={handleMenuClick}
+                                        restauranteId={restauranteEntity.idRestaurante}
+                                    />
+                                </Box>
+                            </ValidarUsuarioRol>
+                        </ValidarUsuarioConectado>
+                        <ValidarUsuarioConectado conectado={true}>
+                            <ValidarUsuarioRol rolesPermitidos={["3"]}>
+                                <Link to={`/verPedidos/restaurante/${restauranteEntity.idRestaurante}`} sx={{ textDecoration: 'none' }}>
+                                    <Stack className="icono-pedido" sx={{ position: 'absolute', top: 15, right: 15 }}>
+                                        {numPedidos > 0 && (
+                                            <Badge badgeContent={numPedidos > 9 ? "9+" : numPedidos} color="secondary"/>
+                                        )}
+                                        <Fastfood color="action" />
+                                    </Stack>
+                                </Link>
+                            </ValidarUsuarioRol>
+                        </ValidarUsuarioConectado>
+                    </>
+                )}
             </Card>
         </Grid>
     )

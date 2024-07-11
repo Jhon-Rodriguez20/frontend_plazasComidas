@@ -1,11 +1,21 @@
-import { useSelector } from "react-redux";
-import { Outlet, Navigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { Outlet, Navigate } from 'react-router-dom';
+import PropTypes from "prop-types";
 
-function RutaPrivada() {
-    const conectado = useSelector(estado=> estado.usuario.conectado);
-    // const usuario = useSelector((estado) => estado.usuario);
+function RutaPrivadaConRol({ rolesPermitidos }) {
+    const conectado = useSelector((estado) => estado.usuario.conectado);
+    const usuario = useSelector((estado) => estado.usuario.usuario);
+    const tienePermiso = rolesPermitidos.includes(usuario.rol);
 
-    return (conectado) ? <Outlet/> : <Navigate to={"/usuario/loguearse"} replace/>
+    if (!conectado) {
+        return <Navigate to="/usuario/loguearse" replace />;
+    }
+
+    return tienePermiso ? <Outlet /> : <Navigate to="/" replace />;
 }
 
-export {RutaPrivada}
+RutaPrivadaConRol.propTypes = {
+    rolesPermitidos: PropTypes.array.isRequired
+}
+
+export { RutaPrivadaConRol }

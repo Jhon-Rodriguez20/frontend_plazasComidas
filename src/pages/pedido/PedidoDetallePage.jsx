@@ -17,6 +17,7 @@ function PedidoDetallePage() {
                 const data = await verPedidoDetalle(id);
                 setPedido(data);
                 setCargando(false);
+                
             } catch (error) {
                 navegar(-1);
             }

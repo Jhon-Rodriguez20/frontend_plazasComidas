@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Container, Grid, Box, Typography } from "@mui/material";
-import { Restaurant } from "@mui/icons-material";
-import { SkeletonCard } from "../../components/common/loading/Skeleton";
+import { SentimentVeryDissatisfied } from "@mui/icons-material";
 import { RestauranteCard } from "../../components/restaurante/RestauranteCard";
-import { obtenerMisRestaurantes } from "../../services/usuario/usuarioServicio";
-import { leerDetalleRestaurante } from "../../services/restaurante/restauranteServicio";
+import { obtenerRestaurantes, leerDetalleRestaurante } from "../../services/restaurante/restauranteServicio";
+import { SkeletonCard } from "../../components/common/loading/Skeleton";
 import { RestauranteDetalle } from "../../components/restaurante/RestauranteDetalle";
+import PropTypes from "prop-types";
 
-function MisRestaurantesPage() {
+function RestauranteLista({ mostrarPropiedad, extraBottomSpacing }) {
     const [restaurantes, setRestaurantes] = useState([]);
     const [buscando, setBuscando] = useState(true);
     const [detalleAbrir, setDetalleAbrir] = useState(false);
@@ -15,7 +15,7 @@ function MisRestaurantesPage() {
 
     useEffect(() => {
         const verRestaurantes = async () => {
-            obtenerMisRestaurantes()
+            obtenerRestaurantes()
                 .then(data => setRestaurantes(data))
                 .catch(() => {})
                 .finally(() => setBuscando(false));
@@ -33,22 +33,22 @@ function MisRestaurantesPage() {
     }
 
     return (
-        <Container sx={{mb: 8}}>
+        <Container sx={{ mb: extraBottomSpacing }}>
             {buscando ? (
                 <SkeletonCard contador={6} />
             ) : (
                 restaurantes.length === 0 ? (
                     <Box textAlign="center" mt={4}>
-                        <Restaurant sx={{ fontSize: 60 }} color="action" />
+                        <SentimentVeryDissatisfied sx={{ fontSize: 60 }} color="action" />
                         <Typography variant="h6" mt={2}>No se encontraron restaurantes</Typography>
                     </Box>
                 ) : (
                     <Grid container spacing={3} mb={5}>
                         {restaurantes.map(restaurante => (
                             <Grid item xs={12} sm={6} md={6} lg={6} key={restaurante.idRestaurante}>
-                                <RestauranteCard
-                                    mostrar={true}
+                                <RestauranteCard 
                                     restauranteEntity={restaurante}
+                                    mostrar={mostrarPropiedad}
                                     onClick={() => abrirDetalle(restaurante)}
                                 />
                             </Grid>
@@ -58,7 +58,12 @@ function MisRestaurantesPage() {
             )}
             <RestauranteDetalle abrir={detalleAbrir} cerrar={() => setDetalleAbrir(false)} restauranteEntity={restauranteDetalle} />
         </Container>
-    )
+    );
 }
 
-export {MisRestaurantesPage}
+RestauranteLista.propTypes = {
+    mostrarPropiedad: PropTypes.bool.isRequired,
+    extraBottomSpacing: PropTypes.number.isRequired
+}
+
+export { RestauranteLista }

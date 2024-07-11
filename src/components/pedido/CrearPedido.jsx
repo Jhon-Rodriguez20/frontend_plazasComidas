@@ -1,4 +1,3 @@
-// CrearPedido.jsx
 import { useState, useEffect } from 'react';
 import { Fab, Tooltip, List, ListItem, ListItemText, ListItemAvatar, Avatar, IconButton, Badge, Box, Typography, Button, useMediaQuery, useTheme } from '@mui/material';
 import { ShoppingCart, Delete, Remove, Add } from '@mui/icons-material';
@@ -22,7 +21,11 @@ const CrearPedido = () => {
     const navegar = useNavigate();
     const { mostrarAlertaAdvertencia, mostrarAlertaExito, mostrarAlertaError } = useAlertas();
 
-    useEffect(() => {}, [idRestaurante]);
+    useEffect(() => {
+        if (platosSeleccionados.length === 0) {
+            setAbrir(false);
+        }
+    }, [platosSeleccionados]);
 
     const handleAbrir = () => {
         setAbrir(true);
@@ -78,7 +81,7 @@ const CrearPedido = () => {
         <>
             {platosSeleccionados.length > 0 && (
                 <Tooltip title="Ver Pedido">
-                    <Fab color="secondary" aria-label="ver pedido" onClick={handleAbrir} sx={{ position: 'fixed', top: "50%", right: 16 }}>
+                    <Fab color='warning' aria-label="ver pedido" onClick={handleAbrir} sx={{ position: 'fixed', top: "50%", right: 16 }}>
                         <Badge badgeContent={platosSeleccionados.length} color="error">
                             <ShoppingCart sx={{ fontSize: 30 }} />
                         </Badge>
