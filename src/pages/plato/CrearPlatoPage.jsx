@@ -33,6 +33,10 @@ function CrearPlatoPage() {
         })
     }
 
+    const handleSeleccionarImagen = (file, previewURL) => {
+        setImagenPrevia(previewURL);
+    }
+
     return (
         <Container sx={{ mb: 8, mt: 4 }}>
             <BackDropProgreso abrir={cargando} />
@@ -43,7 +47,7 @@ function CrearPlatoPage() {
                         <Box>
                             <Typography variant="h5" textAlign="center" fontWeight={"bold"} mt={4} mb={4}>Crear plato</Typography>
                             {errores.new && <Alert variant="danger">{errores.new}</Alert>}
-                            <CrearPlatoForm errores={errores} callback={crearPlato} editable={false} imagenPrevia={setImagenPrevia}/>
+                            <CrearPlatoForm errores={errores} callback={crearPlato} editable={false} imagenSeleccionada={handleSeleccionarImagen}/>
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -52,17 +56,17 @@ function CrearPlatoPage() {
                             padding={2}
                             justifyContent="center"
                             alignItems="center"
-                            sx={{ width: '100%', height: '450px', marginBottom: '2%', overflow: 'hidden' }}
+                            sx={{ width: '100%', height: '100%', mt: 2, mb: 2, overflow: 'hidden' }}
                         >
                             {imagenPrevia ? (
                                 <Box
                                     component="img"
                                     src={imagenPrevia}
                                     alt="Previsualización de la imagen"
-                                    sx={{ width: '90%', height: '100%', objectFit: 'contain' }}
+                                    sx={{ width: '100%', height: '100%', objectFit: 'contain', mr: 4 }}
                                 />
                             ) : (
-                                <ImageNotSupported sx={{ fontSize: 150, color: '#ccc' }} />
+                                <ImageNotSupported sx={{ fontSize: 150, color: '#ccc', mr: 3 }} />
                             )}
                         </Box>
                     </Grid>

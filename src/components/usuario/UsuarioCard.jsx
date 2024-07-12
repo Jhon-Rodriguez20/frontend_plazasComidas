@@ -75,7 +75,7 @@ function UsuarioPerfilCard({ usuarioEntity }) {
                             <Button
                                 className="estilo-button"
                                 sx={{border: '1px solid', borderColor: '#FEA93C', color: '#FEA93C', textTransform: 'uppercase', fontWeight: 'bold'}}
-                                size='medium'
+                                size='large'
                                 component={Link}
                                 to={`/crear/restaurante/${usuarioEntity.idUsuario}`}
                             >

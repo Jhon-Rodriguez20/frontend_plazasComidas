@@ -1,16 +1,16 @@
-import { useCallback, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, TextField, Button, Grid, Typography, Switch, FormControlLabel } from "@mui/material";
 import PropTypes from 'prop-types';
-import { FileDrop } from "react-file-drop";
 import { useParams } from "react-router-dom";
 import useAlertas from "../common/alertas/tipoAlertas";
+import { CargarImagenWebp } from "../common/cargarImagen/CargarImagenWebp";
 
-function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlato = "", pPrecio = '', pDescripcion = "", pImagenPlato = "", pRestauranteId = "", pMostrado = "" }) {
+function CrearPlatoForm({ errores, callback, editable, imagenSeleccionada, pNombrePlato = "", pPrecio = '', pDescripcion = "", pImagenPlato = "", pRestauranteId = "", pMostrado = "" }) {
     const { id } = useParams();
     const [nombrePlato, setNombrePlato] = useState(pNombrePlato);
     const [precio, setPrecio] = useState(pPrecio);
     const [descripcion, setDescripcion] = useState(pDescripcion);
-    const [imagenPlato, setImgPlato] = useState(pImagenPlato);
+    const [imagenPlato, setImagenPlato] = useState(pImagenPlato);
     const [restauranteId, setRestauranteId] = useState(pRestauranteId);
     const [mostrado, setMostrado] = useState(pMostrado === "1");
     const { mostrarAlertaAdvertencia } = useAlertas();
@@ -18,6 +18,11 @@ function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlat
     useEffect(() => {
         setRestauranteId(id);
     }, [id]);
+
+    const handleSeleccionarImagen = (file, previewURL) => {
+        setImagenPlato(file);
+        imagenSeleccionada(file, previewURL);
+    };
 
     const enviarFormulario = (event) => {
         event.preventDefault();
@@ -27,20 +32,7 @@ function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlat
         }
         (!editable) ? callback({ nombrePlato, precio, descripcion, imagenPlato, restauranteId }) :
             callback({ precio, descripcion, mostrado: mostrado ? "1" : "0" });
-    }
-
-    const cargarImagen = useCallback((imagen) => {
-        const imagenCargar = imagen[0];
-        if (imagenCargar) {
-            const validarMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-            if (!validarMimeTypes.includes(imagenCargar.type)) {
-                alert("Tipo de archivo no válido. Por favor, sube una imagen (jpeg, png, gif).");
-                return;
-            }
-        }
-        setImgPlato(imagenCargar);
-        imagenPrevia(URL.createObjectURL(imagenCargar));
-    }, [imagenPrevia]);
+    };
 
     return (
         <Box component="form" onSubmit={enviarFormulario} encType="multipart/form-data">
@@ -123,31 +115,21 @@ function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlat
                 )}
                 {!editable && (
                     <Grid item xs={12} sm={12} md={12} lg={12} mb={1}>
-                        <FileDrop onDrop={cargarImagen} onTargetClick={() => document.getElementById("formImagen").click()}>
-                            <input id="formImagen" type="file" style={{ display: 'none' }}
-                                onChange={(e) => cargarImagen(e.target.files)} accept="image/jpeg, image/png, image/gif"
-                            />
-                            <Box sx={{ border: '2px dashed gray', padding: 5, textAlign: 'center', cursor: 'pointer' }}>
-                                <Typography variant="body1" color="GrayText">
-                                    Arrastra y suelta una imagen aquí, o haz clic para seleccionar una
-                                </Typography>
-                            </Box>
-                        </FileDrop>
+                        <CargarImagenWebp imagenSeleccionada={handleSeleccionarImagen} mostrarCuadro={true} />
                         {errores.imagenPlato && (
                             <Typography color="error" variant="body2">
                                 {errores.imagenPlato}
                             </Typography>
                         )}
                     </Grid>
-                )}                
+                )}
                 <Grid item xs={12} mt={2}>
                     <Box display='flex' justifyContent='center'>
                         <Button
                             type="submit"
                             className="estilo-button"
-                            sx={{border: '1px solid', borderColor: '#FEA93C', color: '#FEA93C', textTransform: 'uppercase', fontWeight: 'bold'}}
-                            size="medium"
-                            fullWidth
+                            sx={{ border: '1px solid', borderColor: '#FEA93C', color: '#FEA93C', textTransform: 'uppercase', fontWeight: 'bold', width: 200 }}
+                            size="large"
                         >
                             {editable ? "Actualizar plato" : "Crear plato"}
                         </Button>
@@ -155,7 +137,7 @@ function CrearPlatoForm({ errores, callback, imagenPrevia, editable, pNombrePlat
                 </Grid>
             </Grid>
         </Box>
-    )
+    );
 }
 
 CrearPlatoForm.propTypes = {
@@ -175,7 +157,7 @@ CrearPlatoForm.propTypes = {
     pRestauranteId: PropTypes.string,
     pMostrado: PropTypes.string,
     editable: PropTypes.bool,
-    imagenPrevia: PropTypes.func
-}
+    imagenSeleccionada: PropTypes.func.isRequired
+};
 
 export { CrearPlatoForm }

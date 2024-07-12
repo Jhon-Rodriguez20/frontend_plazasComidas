@@ -1,11 +1,10 @@
-import { useCallback, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, TextField, Button, Grid, Typography } from "@mui/material";
 import PropTypes from 'prop-types';
-import { FileDrop } from "react-file-drop";
 import { useParams } from "react-router-dom";
-import useAlertas from "../common/alertas/tipoAlertas";
+import { CargarImagenWebp } from "../common/cargarImagen/CargarImagenWebp";
 
-function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
+function CrearRestauranteForm({ errores, callback, imagenSeleccionada }) {
     const { id } = useParams();
     const [razonSocial, setRazonSocial] = useState("");
     const [nit, setNit] = useState("");
@@ -14,11 +13,15 @@ function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
     const [imagenRestaurante, setImgRestaurante] = useState("");
     const [idUsuario, setIdUsuario] = useState("");
     const [erroresLocal, setErroresLocal] = useState({});
-    const { mostrarAlertaAdvertencia } = useAlertas();
 
     useEffect(() => {
         setIdUsuario(id);
     }, [id]);
+
+    const handleSeleccionarImagen = (file, previewURL) => {
+        setImgRestaurante(file);
+        imagenSeleccionada(file, previewURL);
+    };
 
     const enviarFormulario = (event) => {
         event.preventDefault();
@@ -26,19 +29,6 @@ function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
         setErroresLocal({});
         callback({ razonSocial, nit, direccion, telefono, imagenRestaurante, idUsuario });
     };
-
-    const cargarImagen = useCallback((imagen) => {
-        const imagenCargar = imagen[0];
-        if (imagenCargar) {
-            const validarMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-            if (!validarMimeTypes.includes(imagenCargar.type)) {
-                mostrarAlertaAdvertencia("Tipo de archivo no válido. Por favor, sube una imagen (jpeg, png, gif).");
-                return;
-            }
-        }
-        setImgRestaurante(imagenCargar);
-        imagenPrevia(URL.createObjectURL(imagenCargar));
-    }, [imagenPrevia, mostrarAlertaAdvertencia]);
 
     return (
         <Box component="form" onSubmit={enviarFormulario} encType="multipart/form-data">
@@ -100,16 +90,7 @@ function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
                     />
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12} mb={1}>
-                    <FileDrop onDrop={cargarImagen} onTargetClick={() => document.getElementById("formImagen").click()}>
-                        <input id="formImagen" type="file" style={{ display: 'none' }}
-                            onChange={(e) => cargarImagen(e.target.files)} accept="image/jpeg, image/png, image/gif"
-                        />
-                        <Box sx={{ border: '2px dashed gray', padding: 5, textAlign: 'center', cursor: 'pointer' }}>
-                            <Typography variant="body1" color="GrayText">
-                                Arrastra y suelta una imagen aquí, o haz clic para seleccionar una
-                            </Typography>
-                        </Box>
-                    </FileDrop>
+                    <CargarImagenWebp imagenSeleccionada={handleSeleccionarImagen} mostrarCuadro={true} />
                     {erroresLocal.imagenRestaurante && (
                         <Typography color="error" variant="body2">
                             {erroresLocal.imagenRestaurante}
@@ -135,9 +116,8 @@ function CrearRestauranteForm({ errores, callback, imagenPrevia }) {
                         <Button
                             type="submit"
                             className="estilo-button"
-                            sx={{border: '1px solid', borderColor: '#FEA93C', color: '#FEA93C', textTransform: 'uppercase', fontWeight: 'bold'}}
-                            size="medium"
-                            fullWidth
+                            sx={{border: '1px solid', borderColor: '#FEA93C', color: '#FEA93C', textTransform: 'uppercase', fontWeight: 'bold', width: 200}}
+                            size="large"                            
                         >
                             Crear restaurante
                         </Button>
@@ -158,7 +138,7 @@ CrearRestauranteForm.propTypes = {
         idUsuario: PropTypes.string
     }).isRequired,
     callback: PropTypes.func.isRequired,
-    imagenPrevia: PropTypes.func
+    imagenSeleccionada: PropTypes.func
 };
 
 export { CrearRestauranteForm }
