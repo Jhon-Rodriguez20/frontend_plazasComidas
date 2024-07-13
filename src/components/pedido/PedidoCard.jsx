@@ -4,12 +4,15 @@ import { IconoPendiente } from '../static/icon/IconoPendiente';
 import { IconoPreparandoComida } from '../static/icon/IconoPreparando';
 import { IconoListo } from '../static/icon/IconoListo';
 import { IconoPedidoEntregado } from '../static/icon/IconoEntregado';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { EliminarPedidoBoton } from "./EliminarPedidoToolTip";
 import { Link } from 'react-router-dom';
 
+dayjs.extend(relativeTime);
+dayjs.locale('es');
+
 function PedidoCard({ pedidoEntity, mostrarAccion }) {
-    moment.locale('es');
 
     return (
         <Grid container>
@@ -43,7 +46,7 @@ function PedidoCard({ pedidoEntity, mostrarAccion }) {
                         {pedidoEntity.nombrePersona}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" mb={2}>
-                        {moment(pedidoEntity.fechaPedido).fromNow()}
+                        {dayjs(pedidoEntity.fechaPedido).fromNow()}
                     </Typography>
                     <Button sx={{ border: '1px solid', borderColor: '#FEA93C', color: '#FFF', textTransform: 'uppercase', fontWeight: 'bold'}}
                         className='estilo-botones-autenticacion' size='medium' component={Link} 

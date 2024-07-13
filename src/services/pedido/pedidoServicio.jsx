@@ -1,16 +1,19 @@
 import axios from "axios";
 import { API_URL, PEDIDOSRESTAURANTE_GET_ENDPOINT, PEDIDO_DETALLE_GET_ENDPOINT } from "../../connections/helpers/endpoints";
 
-export const obtenerPedidosRestaurante = async (id) => {
+export const obtenerPedidosRestaurante = async (id, page, pageSize) => {
     try {
-        const respuesta = await axios.get(`${PEDIDOSRESTAURANTE_GET_ENDPOINT}/${id}`);
-        return respuesta.data.pedidoEntity;
+        const respuesta = await axios.get(`${PEDIDOSRESTAURANTE_GET_ENDPOINT}/${id}`, {
+            params: { page, pageSize }
+        });
+        const { pedidoEntity, total } = respuesta.data;
+        return { pedidos: pedidoEntity, total };
 
     } catch (error) {
-        console.error("");
+        console.error(error);
         throw error;
     }
-}
+};
 
 export const obtenerTotalPedidosRestaurante = async (id) => {
     try {
@@ -19,10 +22,22 @@ export const obtenerTotalPedidosRestaurante = async (id) => {
         const pedidosNuevos = pedidos.filter(pedido => pedido.idEstado === "1").length;
         return pedidosNuevos;
     } catch (error) {
-        console.error("Error al cargar el número de pedidos del restaurante:", error);
+        console.error(error);
         throw error;
     }
-}
+};
+
+export const obtenerTotalPedidosPendientesPorEntregar = async (id) => {
+    try {
+        const respuesta = await axios.get(`${PEDIDOSRESTAURANTE_GET_ENDPOINT}/${id}`);
+        const pedidos = respuesta.data.pedidoEntity;
+        const pedidosPendientes = pedidos.filter(pedido => pedido.idEstado !== "4").length;
+        return pedidosPendientes;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
 
 export const verPedidoDetalle = async (idPedido) => { 
     try {
@@ -35,7 +50,7 @@ export const verPedidoDetalle = async (idPedido) => {
 
         return pedidoDetalle;
     } catch (error) {
-        console.error("Error al cargar el detalle del pedido:", error);
+        console.error(error);
         throw error;
     }
-}
+};

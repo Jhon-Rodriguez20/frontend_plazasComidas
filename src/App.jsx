@@ -1,6 +1,6 @@
 import './css/App.css';
 import 'react-toastify/dist/ReactToastify.css';
-import 'moment/locale/es';
+import 'dayjs/locale/es';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { RestaurantePage } from "./pages/restaurante/RestaurantePage";
 import { PlatoPage } from './pages/plato/PlatoPage';

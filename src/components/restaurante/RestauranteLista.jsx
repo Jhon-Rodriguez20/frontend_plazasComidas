@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { Container, Grid, Box, Typography, Stack } from "@mui/material";
 import { SentimentVeryDissatisfied } from "@mui/icons-material";
 import { RestauranteCard } from "../../components/restaurante/RestauranteCard";
-import { obtenerRestaurantes, leerDetalleRestaurante } from "../../services/restaurante/restauranteServicio";
+import { leerDetalleRestaurante } from "../../services/restaurante/restauranteServicio";
 import { SkeletonCard } from "../../components/common/loading/Skeleton";
 import { RestauranteDetalle } from "../../components/restaurante/RestauranteDetalle";
 import PropTypes from "prop-types";
 import { Paginacion } from "../common/paginacion/Paginacion";
 
-function RestauranteLista({ mostrarPropiedad, extraBottomSpacing }) {
+function RestauranteLista({ obtenerRestaurantes, mostrarPropiedad, extraBottomSpacing, mensaje }) {
     const [restaurantes, setRestaurantes] = useState([]);
     const [buscando, setBuscando] = useState(true);
     const [detalleAbrir, setDetalleAbrir] = useState(false);
@@ -19,7 +19,6 @@ function RestauranteLista({ mostrarPropiedad, extraBottomSpacing }) {
 
     useEffect(() => {
         const verRestaurantes = async () => {
-            setBuscando(true);
             try {
                 const { restaurantes, total } = await obtenerRestaurantes(page, pageSize);
                 setRestaurantes(restaurantes);
@@ -31,7 +30,7 @@ function RestauranteLista({ mostrarPropiedad, extraBottomSpacing }) {
             }
         };
         verRestaurantes();
-    }, [page, pageSize]);
+    }, [obtenerRestaurantes, page, pageSize]);
 
     const abrirDetalle = (restaurante) => {
         leerDetalleRestaurante(restaurante)
@@ -54,7 +53,7 @@ function RestauranteLista({ mostrarPropiedad, extraBottomSpacing }) {
                 restaurantes.length === 0 ? (
                     <Box textAlign="center" mt={4}>
                         <SentimentVeryDissatisfied sx={{ fontSize: 60 }} color="action" />
-                        <Typography variant="h6" mt={2}>No se encontraron restaurantes</Typography>
+                        <Typography variant="h6" mt={2}>{mensaje}</Typography>
                     </Box>
                 ) : (
                     <>
@@ -85,8 +84,10 @@ function RestauranteLista({ mostrarPropiedad, extraBottomSpacing }) {
 }
 
 RestauranteLista.propTypes = {
+    obtenerRestaurantes: PropTypes.func.isRequired,
     mostrarPropiedad: PropTypes.bool.isRequired,
-    extraBottomSpacing: PropTypes.number.isRequired
+    extraBottomSpacing: PropTypes.number.isRequired,
+    mensaje: PropTypes.string.isRequired
 };
 
 export { RestauranteLista }

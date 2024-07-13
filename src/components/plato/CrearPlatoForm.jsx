@@ -157,7 +157,7 @@ CrearPlatoForm.propTypes = {
     pRestauranteId: PropTypes.string,
     pMostrado: PropTypes.string,
     editable: PropTypes.bool,
-    imagenSeleccionada: PropTypes.func.isRequired
+    imagenSeleccionada: PropTypes.func
 };
 
 export { CrearPlatoForm }

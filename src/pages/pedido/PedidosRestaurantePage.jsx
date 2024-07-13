@@ -1,11 +1,15 @@
 import { RestauranteLista } from "../../components/restaurante/RestauranteLista";
-import { Footer } from "../../layouts/footer/Footer";
+import { obtenerRestaurantes } from "../../services/restaurante/restauranteServicio"
 
 function PedidosRestaurantePage() {
     return (
         <>
-            <RestauranteLista mostrarPropiedad={true} extraBottomSpacing={8} />
-            <Footer />
+            <RestauranteLista
+                obtenerRestaurantes={obtenerRestaurantes}
+                mostrarPropiedad={true}
+                extraBottomSpacing={8}
+                mensaje="No se encontraron los pedidos de los restaurantes"
+            />
         </>
     );
 }

@@ -21,7 +21,7 @@ function PlatoDetalle({ abrir, cerrar, platoEntidad }) {
                         <FoodBank sx={{ marginRight: 1, fontSize: 45 }} /> {platoEntidad.nombrePlato}
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={6}>
+                <Grid item xs={12} sm={12} md={12} lg={6}>
                     <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', mb: 1, mt: 0.3, fontWeight: "bold", color: "#C56B22" }}>
                         <Chip
                             sx={{color: '#fff', bgcolor: '#FFA726', fontSize: 25, pt: 3, pb: 3}}

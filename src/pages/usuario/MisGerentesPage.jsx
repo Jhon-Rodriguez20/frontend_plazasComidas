@@ -1,5 +1,5 @@
 import { obtenerMisGerentes } from "../../services/usuario/usuarioServicio";
-import { UsuarioLista } from "../../config/usuario/UsuarioLista";
+import { UsuarioLista } from "../../components/usuario/UsuarioLista";
 import { VerifiedUser } from "@mui/icons-material";
 
 function MisGerentesPage() {

@@ -1,14 +1,15 @@
 import axios from "axios";
 import { API_URL, USUARIO_MISGERENTES_GET_ENDPOINT, USUARIO_MISEMPLEADOS_GET_ENDPOINT, USUARIO_MISRESTAURANTES_GET_ENDPOINT, USUARIO_MISPEDIDOS_GET_ENDPOINT } from "../../connections/helpers/endpoints";
 
-export const obtenerMisGerentes = async ()=> {
-
+export const obtenerMisGerentes = async (page, pageSize) => {
     try {
-        const respuesta = await axios.get(USUARIO_MISGERENTES_GET_ENDPOINT);
-        const usuariosGerentes = respuesta.data.usuarioEntity;
+        const respuesta = await axios.get(USUARIO_MISGERENTES_GET_ENDPOINT, {
+            params: { page, pageSize }
+        });
+        const { usuarioEntity, total } = respuesta.data;
 
         await Promise.all(
-            usuariosGerentes.map(gerente =>
+            usuarioEntity.map(gerente =>
                 new Promise((resolve, reject) => {
                     const img = new Image();
                     img.src = `${API_URL}${gerente.imgPerfil}`;
@@ -16,23 +17,24 @@ export const obtenerMisGerentes = async ()=> {
                     img.onerror = reject;
                 })
             )
-        )
-        return usuariosGerentes;
+        );
+        return { usuarios: usuarioEntity, total };
 
     } catch (error) {
-        console.error("Error: ", error);
+        console.error(error);
         throw error;
     }
 }
 
-export const obtenerMisEmpleados = async ()=> {
-
+export const obtenerMisEmpleados = async (page, pageSize) => {
     try {
-        const respuesta = await axios.get(USUARIO_MISEMPLEADOS_GET_ENDPOINT);
-        const usuariosEmpleados = respuesta.data.usuarioEntity;
+        const respuesta = await axios.get(USUARIO_MISEMPLEADOS_GET_ENDPOINT, {
+            params: { page, pageSize }
+        });
+        const { usuarioEntity, total } = respuesta.data;
 
         await Promise.all(
-            usuariosEmpleados.map(empleado =>
+            usuarioEntity.map(empleado =>
                 new Promise((resolve, reject) => {
                     const img = new Image();
                     img.src = `${API_URL}${empleado.imgPerfil}`;
@@ -40,23 +42,25 @@ export const obtenerMisEmpleados = async ()=> {
                     img.onerror = reject;
                 })
             )
-        )
-        return usuariosEmpleados;
+        );
+        return { usuarios: usuarioEntity, total };
 
     } catch (error) {
-        console.error("Error: ", error);
+        console.error(error);
         throw error;
     }
 }
 
-export const obtenerMisRestaurantes = async ()=> {
+export const obtenerMisRestaurantes = async (page, pageSize) => {
 
     try {
-        const respuesta = await axios.get(USUARIO_MISRESTAURANTES_GET_ENDPOINT);
-        const misRestaurantes = respuesta.data.restauranteEntity;
+        const respuesta = await axios.get(USUARIO_MISRESTAURANTES_GET_ENDPOINT, {
+            params: { page, pageSize }
+        });
+        const { restauranteEntity, total } = respuesta.data;
 
         await Promise.all(
-            misRestaurantes.map(restaurante =>
+            restauranteEntity.map(restaurante =>
                 new Promise((resolve, reject) => {
                     const img = new Image();
                     img.src = `${API_URL}${restaurante.imgRestaurante}`;
@@ -65,7 +69,7 @@ export const obtenerMisRestaurantes = async ()=> {
                 })
             )
         )
-        return misRestaurantes;
+        return {restaurantes: restauranteEntity, total};
 
     } catch (error) {
         console.error("Error: ", error);
@@ -73,11 +77,14 @@ export const obtenerMisRestaurantes = async ()=> {
     }
 }
 
-export const obtenerMisPedidos = async () => {
+export const obtenerMisPedidos = async (page, pageSize) => {
 
     try {
-        const respuesta = await axios.get(USUARIO_MISPEDIDOS_GET_ENDPOINT);
-        return respuesta.data.pedidoEntity;
+        const respuesta = await axios.get(USUARIO_MISPEDIDOS_GET_ENDPOINT, {
+            params: { page, pageSize }
+        });
+        const { pedidoEntity, total } = respuesta.data;
+        return { pedidos: pedidoEntity, total };
 
     } catch (error) {
         console.error("");

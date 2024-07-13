@@ -93,12 +93,12 @@ function EditarPedidoEstadoPage() {
                 />
             ) : (
                 <Button
-                    variant="contained"
-                    color="primary"
+                    className="estilo-button"
+                    size="large"
                     onClick={handleConfirmarEstado}
                     disabled={!estadoSeleccionado || estadoSeleccionado === estado}
-                    sx={{ mt: 2 }}
-                >
+                    sx={{ mt: 2, border: '1px solid', borderColor: '#FEA93C', color: '#FEA93C', textTransform: 'uppercase', fontWeight: 'bold', width: 200 }}
+                    >
                 Cambiar estado
             </Button>
             )}

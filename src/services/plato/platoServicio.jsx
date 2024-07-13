@@ -1,14 +1,16 @@
 import axios from "axios";
 import { API_URL, PLATOS_RESTAURANTE_GET_ENDPOINT, PLATO_DETALLE_GET_ENDPOINT } from "../../connections/helpers/endpoints";
 
-export const obtenerPlatosRestaurante = async (id) => {
+export const obtenerPlatosRestaurante = async (id, page, pageSize) => {
 
     try {
-        const respuesta = await axios.get(`${PLATOS_RESTAURANTE_GET_ENDPOINT}/${id}`);
-        const platos = respuesta.data.platoEntity;
+        const respuesta = await axios.get(`${PLATOS_RESTAURANTE_GET_ENDPOINT}/${id}`, {
+            params: { page, pageSize }
+        });
+        const { platoEntity, total } = respuesta.data;
 
         await Promise.all(
-            platos.map(plato =>
+            platoEntity.map(plato =>
                 new Promise((resolve, reject) => {
                     const img = new Image();
                     img.src = `${API_URL}${plato.imgPlato}`;
@@ -17,7 +19,7 @@ export const obtenerPlatosRestaurante = async (id) => {
                 })
             )
         );
-        return platos;
+        return { platos: platoEntity, total};
 
     } catch (error) {
         console.error("");

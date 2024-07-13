@@ -3,10 +3,11 @@ import { SkeletonCard } from "../../components/common/loading/Skeleton";
 import { PlatoCard } from "./PlatoCard";
 import { NoMeals } from "@mui/icons-material";
 import { obtenerPlatosRestaurante, leerDetallePlato } from "../../services/plato/platoServicio";
-import { Container, Grid, Box, Typography } from "@mui/material";
+import { Container, Grid, Box, Typography, Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { PlatoDetalle } from "./PlatoDetalle";
 import PropTypes from "prop-types";
+import { Paginacion } from "../common/paginacion/Paginacion";
 
 function PlatoLista({ dispatchAccion, mostrarAcciones }) {
     const { id } = useParams();
@@ -14,19 +15,27 @@ function PlatoLista({ dispatchAccion, mostrarAcciones }) {
     const [buscando, setBuscando] = useState(true);
     const [detalleAbrir, setDetalleAbrir] = useState(false);
     const [detallePlato, setDetallePlato] = useState(null);
+    const [page, setPage] = useState(1);
+    const [pageSize] = useState(8);
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         const verPlatos = async () => {
-            obtenerPlatosRestaurante(id)
-                .then(data => setPlatos(data))
-                .catch(() => {})
-                .finally(() => setBuscando(false));
+            try {
+                const { platos, total } = await obtenerPlatosRestaurante(id, page, pageSize)
+                setPlatos(platos);
+                setTotal(total);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setBuscando(false);
+            }
         }
         verPlatos();
         if (dispatchAccion) {
             dispatchAccion(id);
         }
-    }, [id, dispatchAccion]);
+    }, [id, dispatchAccion, page, pageSize]);
 
     const abrirDetalle = (plato) => {
         leerDetallePlato(plato)
@@ -35,6 +44,10 @@ function PlatoLista({ dispatchAccion, mostrarAcciones }) {
                 setDetalleAbrir(true);
             })
             .catch(() => {});
+    }
+
+    const handleCambiarPagina = (value) => {
+        setPage(value);
     }
 
     return (
@@ -48,6 +61,7 @@ function PlatoLista({ dispatchAccion, mostrarAcciones }) {
                         <Typography variant="h6">No se encontraron platos a este restaurante</Typography>
                     </Box>
                 ) : (
+                    <>
                     <Grid container spacing={3} mb={5}>
                         {platos.map(plato => (
                             <Grid item xs={12} sm={6} md={6} lg={6} key={plato.idPlato}>
@@ -60,6 +74,14 @@ function PlatoLista({ dispatchAccion, mostrarAcciones }) {
                             </Grid>
                         ))}
                     </Grid>
+                    <Stack spacing={2} alignItems="center" mt={4}>
+                        <Paginacion 
+                            page={page} 
+                            totalPages={Math.ceil(total / pageSize)}
+                            onPageChange={handleCambiarPagina}
+                        />
+                    </Stack>
+                    </>
                 )
             )}
             <PlatoDetalle abrir={detalleAbrir} cerrar={() => setDetalleAbrir(false)} platoEntidad={detallePlato} />
