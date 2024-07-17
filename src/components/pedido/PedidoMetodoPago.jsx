@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, RadioGroup, FormControlLabel, Radio, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const PedidoMetodoPago = ({ idMetodoPago }) => {
-    const [metodo, setMetodo] = useState("");
+    const [metodo, setMetodo] = useState("1");
+
+    useEffect(() => {
+        idMetodoPago("1");
+    }, [idMetodoPago]);
 
     const handleChange = (event) => {
         const value = event.target.value;

@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { SkeletonCard } from "../../components/common/loading/Skeleton";
 import { PlatoCard } from "./PlatoCard";
-import { NoMeals } from "@mui/icons-material";
 import { obtenerPlatosRestaurante, leerDetallePlato } from "../../services/plato/platoServicio";
 import { Container, Grid, Box, Typography, Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { PlatoDetalle } from "./PlatoDetalle";
 import PropTypes from "prop-types";
 import { Paginacion } from "../common/paginacion/Paginacion";
+import { IconoNoEncontrado } from "../static/icon/IconoNoEncontrado";
 
 function PlatoLista({ dispatchAccion, mostrarAcciones }) {
     const { id } = useParams();
@@ -57,7 +57,7 @@ function PlatoLista({ dispatchAccion, mostrarAcciones }) {
             ) : (
                 platos.length === 0 ? (
                     <Box textAlign="center" mt={4}>
-                        <NoMeals sx={{ fontSize: 60 }} color="action" />
+                        <IconoNoEncontrado ancho={100} alto={100} />
                         <Typography variant="h6">No se encontraron platos a este restaurante</Typography>
                     </Box>
                 ) : (

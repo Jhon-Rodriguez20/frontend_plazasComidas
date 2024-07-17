@@ -2,34 +2,34 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
-function ConfirmarEliminarAlerta({ mensaje, onConfirmar, onCancel, trigger }) {
-    const [open, setOpen] = useState(false);
+function ConfirmarEliminarAlerta({ mensaje, onConfirmar, onCancelar, trigger }) {
+    const [abrir, setAbrir] = useState(false);
 
-    const handleOpen = (e) => {
+    const handleAbrir = (e) => {
         e.stopPropagation();
-        setOpen(true);
-    };
+        setAbrir(true);
+    }
 
-    const handleClose = () => {
-        setOpen(false);
-        if (onCancel) {
-            onCancel();
+    const handleCerrar = () => {
+        setAbrir(false);
+        if (onCancelar) {
+            onCancelar();
         }
-    };
+    }
 
-    const handleConfirm = () => {
+    const handleConfirmar = () => {
         onConfirmar();
-        setOpen(false);
-    };
+        setAbrir(false);
+    }
 
-    const TriggerElement = React.cloneElement(trigger, { onClick: handleOpen });
+    const TriggerElemento = React.cloneElement(trigger, { onClick: handleAbrir });
 
     return (
         <>
-            {TriggerElement}
+            {TriggerElemento}
             <Dialog
-                open={open}
-                onClose={handleClose}
+                open={abrir}
+                onClose={handleCerrar}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
@@ -40,10 +40,10 @@ function ConfirmarEliminarAlerta({ mensaje, onConfirmar, onCancel, trigger }) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="secondary">
+                    <Button onClick={handleCerrar} color="secondary">
                         Cancelar
                     </Button>
-                    <Button onClick={handleConfirm} color="warning"variant="contained">
+                    <Button onClick={handleConfirmar} color="warning"variant="contained">
                         Confirmar
                     </Button>
                 </DialogActions>
@@ -55,7 +55,7 @@ function ConfirmarEliminarAlerta({ mensaje, onConfirmar, onCancel, trigger }) {
 ConfirmarEliminarAlerta.propTypes = {
     mensaje: PropTypes.string.isRequired,
     onConfirmar: PropTypes.func.isRequired,
-    onCancel: PropTypes.func,
+    onCancelar: PropTypes.func,
     trigger: PropTypes.element.isRequired,
 };
 

@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { IniciarSesionForm } from "../../components/auth/IniciarSesionForm";
 import { autenticacion } from "../../connections/usuarioAcciones";
 import { BackDropProgreso } from "../../components/common/loading/BackDropProgreso";
-import MenuBookIconWithGradient from "../../assets/MenuBookSvg";
 import useAlertas from "../../components/common/alertas/tipoAlertas";
+import { FastfoodOutlined } from "@mui/icons-material";
 
 function IniciarSesion() {
     const [errores, setErrores] = useState({});
@@ -63,10 +63,10 @@ function IniciarSesion() {
                 }}
             >
                 <Box display="flex" justifyContent="center" mb={3}>
-                    <MenuBookIconWithGradient width={100} height={100} />
-                </Box>                
+                    <FastfoodOutlined sx={{ color: '#FFA726', fontSize: 70 }} />
+                </Box>
                 <Typography variant="subtitle1" color="text.secondary" mb={3} align="center" gutterBottom>
-                    ¡Descubre un festín de sabores que hará bailar tus papilas gustativas en cada bocado!
+                    ¡Bienvenido de nuevo!
                 </Typography>
                 <IniciarSesionForm errores={errores} callback={iniciarSesion} />
                 <Box mt={9}>

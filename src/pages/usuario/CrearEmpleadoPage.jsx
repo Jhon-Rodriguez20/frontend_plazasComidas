@@ -5,8 +5,8 @@ import { CrearUsuarioForm } from '../../components/auth/CrearUsuarioForm';
 import { CREAREMPLEADO_POST_ENDPOINT } from '../../connections/helpers/endpoints';
 import { Box, Container, Typography } from '@mui/material';
 import { BackDropProgreso } from "../../components/common/loading/BackDropProgreso";
-import MenuBookIconWithGradient from "../../assets/MenuBookSvg";
 import useAlertas from "../../components/common/alertas/tipoAlertas";
+import { FastfoodOutlined } from "@mui/icons-material";
 
 function CrearEmpleadoPage() {
     const [errores, setErrores] = useState({});
@@ -64,7 +64,7 @@ function CrearEmpleadoPage() {
                 }}
             >
                 <Box display="flex" justifyContent="center" mb={3}>
-                    <MenuBookIconWithGradient width={100} height={100} />
+                    <FastfoodOutlined sx={{ color: '#FFA726', fontSize: 70 }} />
                 </Box>                
                 <Typography variant="subtitle1" color="text.secondary" mb={3} align="center" gutterBottom>
                     ¡Crea un empleado capaz de realizar su labor correspondiente!

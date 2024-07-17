@@ -7,9 +7,7 @@ function RutaPrivadaConRol({ rolesPermitidos }) {
     const usuario = useSelector((estado) => estado.usuario.usuario);
     const tienePermiso = rolesPermitidos.includes(usuario.rol);
 
-    if (!conectado) {
-        return <Navigate to="/usuario/loguearse" replace />;
-    }
+    if (!conectado) return <Navigate to="/usuario/loguearse" replace />;
 
     return tienePermiso ? <Outlet /> : <Navigate to="/" replace />;
 }

@@ -137,7 +137,7 @@ function CrearPlatoForm({ errores, callback, editable, imagenSeleccionada, pNomb
                 </Grid>
             </Grid>
         </Box>
-    );
+    )
 }
 
 CrearPlatoForm.propTypes = {
@@ -158,6 +158,6 @@ CrearPlatoForm.propTypes = {
     pMostrado: PropTypes.string,
     editable: PropTypes.bool,
     imagenSeleccionada: PropTypes.func
-};
+}
 
 export { CrearPlatoForm }

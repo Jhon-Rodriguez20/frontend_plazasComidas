@@ -4,6 +4,7 @@ import { SkeletonCard } from "../../components/common/loading/Skeleton";
 import { PedidoCard } from "../../components/pedido/PedidoCard";
 import { obtenerMisPedidos } from "../../services/usuario/usuarioServicio";
 import { Paginacion } from "../../components/common/paginacion/Paginacion";
+import { IconoNoEncontrado } from "../../components/static/icon/IconoNoEncontrado";
 
 function MisPedidosPage() {
     const [pedidos, setPedidos] = useState([]);
@@ -38,7 +39,7 @@ function MisPedidosPage() {
             ) : (
                 pedidos.length === 0 ? (
                     <Box textAlign="center" mt={4}>
-                        {/* <VerifiedUser sx={{ fontSize: 60 }} color="action" /> */}
+                        <IconoNoEncontrado alto={100} ancho={100} />
                         <Typography variant="h6" mt={2}>No se encontraron pedidos</Typography>
                     </Box>
                 ) : (

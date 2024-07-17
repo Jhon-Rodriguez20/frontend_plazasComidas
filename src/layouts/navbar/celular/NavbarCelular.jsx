@@ -58,9 +58,7 @@ function NavbarCelular() {
                     bgcolor: '#FFF',
                     transition: 'top 0.6s ease',
                     top: esFixed ? (esScrolling ? 0 : -50) : 0,
-                    boxShadow: esFixed ? 3 : 1,
-                    borderBottomLeftRadius: 5,
-                    borderBottomRightRadius: 5
+                    boxShadow: esFixed ? 3 : 1
                 }}
             >
                 <Toolbar

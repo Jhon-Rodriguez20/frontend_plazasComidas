@@ -38,9 +38,7 @@ function EditarInformacionPerfilPage() {
         }
 
         axios.put(`${EDITARDESCRIPCION_PUT_ENDPOINT}/${usuarioInfoPerfil.idUsuario}`, campos, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+            headers: {'Content-Type': 'multipart/form-data'},
         })
             .then(() => {
                 setCargando(false);

@@ -16,7 +16,7 @@ function PlatoDetalle({ abrir, cerrar, platoEntidad }) {
                 alt={platoEntidad.nombrePlato}
             />            
             <Grid container spacing={1}>
-                <Grid item xs={12} sm={6} md={6} lg={6}>
+                <Grid item xs={12} sm={12} md={6} lg={6}>
                     <Typography variant="h4" sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', mt: 0.5, mb: 2, color: "#C56B22" }}>
                         <FoodBank sx={{ marginRight: 1, fontSize: 45 }} /> {platoEntidad.nombrePlato}
                     </Typography>
@@ -30,12 +30,12 @@ function PlatoDetalle({ abrir, cerrar, platoEntidad }) {
                         </Chip>
                     </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Typography variant="body1" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                         <Restaurant sx={{ color: '#c2c2c2', marginRight: 1 }} /> {platoEntidad.nombreRestaurante}
                     </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Typography variant="subtitle1" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', mb: 1, justifyContent: "justify" }}>
                         <Description sx={{ color: '#c2c2c2', marginRight: 1 }} /> {platoEntidad.descPlato}
                     </Typography>

@@ -1,12 +1,12 @@
 import { obtenerMisGerentes } from "../../services/usuario/usuarioServicio";
 import { UsuarioLista } from "../../components/usuario/UsuarioLista";
-import { VerifiedUser } from "@mui/icons-material";
+import { IconoNoEncontrado } from "../../components/static/icon/IconoNoEncontrado";
 
 function MisGerentesPage() {
     return (
         <UsuarioLista 
             obtenerUsuarios={obtenerMisGerentes}
-            icono={<VerifiedUser sx={{ fontSize: 60 }} color="action" />}
+            icono={<IconoNoEncontrado ancho={100} alto={100} />}
             mensaje="No se encontraron gerentes"
         />
     );

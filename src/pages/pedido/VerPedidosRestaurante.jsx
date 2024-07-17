@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Container, Grid, Box, Typography, Stack } from "@mui/material";
-import { SentimentVeryDissatisfied } from "@mui/icons-material";
 import { PedidoCard } from "../../components/pedido/PedidoCard";
 import { obtenerPedidosRestaurante } from "../../services/pedido/pedidoServicio";
 import { SkeletonCard } from "../../components/common/loading/Skeleton";
 import { useParams } from "react-router-dom";
 import { Paginacion } from "../../components/common/paginacion/Paginacion";
+import { IconoNoEncontrado } from "../../components/static/icon/IconoNoEncontrado";
 
 function VerPedidosRestaurantePage() {
     const { id } = useParams();
@@ -41,7 +41,7 @@ function VerPedidosRestaurantePage() {
             ) : (
                 pedidosRestaurante.length === 0 ? (
                     <Box textAlign="center" mt={4}>
-                        <SentimentVeryDissatisfied sx={{ fontSize: 60 }} color="action" />
+                        <IconoNoEncontrado ancho={100} alto={100} />
                         <Typography variant="h6" mt={2}>No se encontraron pedidos a este restaurante</Typography>
                     </Box>
                 ) : (

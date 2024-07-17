@@ -20,17 +20,17 @@ function RestauranteDetalle({ abrir, cerrar, restauranteEntity }) {
                 <Restaurant sx={{ marginRight: 1, fontSize: 30 }} /> {restauranteEntity.razonSocial}
             </Typography>
             <Grid container spacing={1}>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={12} md={6} lg={6}>
                     <Typography variant="subtitle1" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                         <Assignment sx={{ color: '#c2c2c2', marginRight: 1 }} /> {restauranteEntity.nit}
                     </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={12} md={6} lg={6}>
                     <Typography variant="subtitle2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                         <LocalPhone sx={{ color: '#c2c2c2', marginRight: 1 }} /> {restauranteEntity.telefono}
                     </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Typography variant="subtitle2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                         <Place sx={{ color: '#c2c2c2', marginRight: 1 }} /> {restauranteEntity.direccion}
                     </Typography>

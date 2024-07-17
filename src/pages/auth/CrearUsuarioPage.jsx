@@ -5,8 +5,8 @@ import { CrearUsuarioForm } from '../../components/auth/CrearUsuarioForm';
 import { SIGNUP_POST_ENDPOINT } from '../../connections/helpers/endpoints';
 import { Box, Container, Typography, Button } from '@mui/material';
 import { BackDropProgreso } from "../../components/common/loading/BackDropProgreso";
-import MenuBookIconWithGradient from "../../assets/MenuBookSvg";
 import useAlertas from "../../components/common/alertas/tipoAlertas";
+import { FastfoodOutlined } from "@mui/icons-material";
 
 function CrearUsuarioPage() {
     const [errores, setErrores] = useState({});
@@ -41,7 +41,7 @@ function CrearUsuarioPage() {
 
     return (
         <Container 
-            maxWidth="sm" 
+            maxWidth="sm"
             sx={{
                 marginTop: 3,
                 display: 'flex',
@@ -49,7 +49,7 @@ function CrearUsuarioPage() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 minHeight: '80vh',
-                mb: 5
+                mb: 7.5
             }}
         >
             <BackDropProgreso abrir={cargando} />
@@ -64,10 +64,10 @@ function CrearUsuarioPage() {
                 }}
             >
                 <Box display="flex" justifyContent="center" mb={3}>
-                    <MenuBookIconWithGradient width={100} height={100} />
-                </Box>                
+                    <FastfoodOutlined sx={{ color: '#FFA726', fontSize: 70 }} />
+                </Box>
                 <Typography variant="subtitle1" color="text.secondary" mb={3} align="center" gutterBottom>
-                    ¡Bienvenido de nuevo!
+                    ¡Descubre un festín de sabores que hará bailar tus papilas gustativas en cada bocado!
                 </Typography>
                 <CrearUsuarioForm errores={errores} callback={registro} defaultOcupacion="Cliente"
                     defaultDescTrabajo="Hacer pedidos" defaultIdRol="4" mostrarChips={false} editar={false} />

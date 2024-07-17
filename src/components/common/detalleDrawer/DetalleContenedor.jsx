@@ -5,13 +5,23 @@ import { Close } from '@mui/icons-material';
 function DetalleContenedor({ abrir, cerrar, contenido }) {
     return (
         <Drawer anchor="right" open={abrir} onClose={cerrar}>
-            <Box sx={{ padding: '16px', position: 'relative', overflowY: 'auto',
-                minWidth: {xs: 290, sm: 340, md: 380, lg: 420}, maxWidth: {xs: 305, sm: 360, md: 400, lg: 440}
-             }}>
+            <Box 
+                sx={{
+                    padding: 3,
+                    position: 'relative',
+                    overflowY: 'auto',
+                    minWidth: { xs: 280, sm: 340, md: 380, lg: 430 },
+                    maxWidth: { xs: 305, sm: 360, md: 400, lg: 450 },
+                    maxHeight: '100vh',
+                    overflowX: 'hidden'
+                }}
+            >
                 <IconButton onClick={cerrar} sx={{ position: 'absolute', right: 16, top: 16 }}>
                     <Close />
                 </IconButton>
-                {contenido}
+                <Box sx={{ wordWrap: 'break-word', wordBreak: 'break-all'}}>
+                    {contenido}
+                </Box>
             </Box>
         </Drawer>
     );

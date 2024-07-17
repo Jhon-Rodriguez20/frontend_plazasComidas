@@ -24,7 +24,7 @@ function CrearPlatoPage() {
             {headers: {'Content-Type': 'multipart/form-data'}}
         ).then(()=> {
             setCargando(false);
-            navegar("/misRestaurantes");
+            navegar(`/verPlatos/${restauranteId}`);
             mostrarAlertaExito("Plato creado exitosamente.");
         }).catch((err)=> {
             setCargando(false);
@@ -63,7 +63,7 @@ function CrearPlatoPage() {
                                     component="img"
                                     src={imagenPrevia}
                                     alt="Previsualización de la imagen"
-                                    sx={{ width: '100%', height: '100%', objectFit: 'contain', mr: 4 }}
+                                    sx={{ width: '90%', height: '100%', objectFit: 'contain', ms: 4, mr: 2 }}
                                 />
                             ) : (
                                 <ImageNotSupported sx={{ fontSize: 150, color: '#ccc', mr: 3 }} />

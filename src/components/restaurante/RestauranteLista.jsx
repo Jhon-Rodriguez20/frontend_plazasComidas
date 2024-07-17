@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Container, Grid, Box, Typography, Stack } from "@mui/material";
-import { SentimentVeryDissatisfied } from "@mui/icons-material";
 import { RestauranteCard } from "../../components/restaurante/RestauranteCard";
 import { leerDetalleRestaurante } from "../../services/restaurante/restauranteServicio";
 import { SkeletonCard } from "../../components/common/loading/Skeleton";
 import { RestauranteDetalle } from "../../components/restaurante/RestauranteDetalle";
 import PropTypes from "prop-types";
 import { Paginacion } from "../common/paginacion/Paginacion";
+import { IconoNoEncontrado } from "../static/icon/IconoNoEncontrado";
 
 function RestauranteLista({ obtenerRestaurantes, mostrarPropiedad, extraBottomSpacing, mensaje }) {
     const [restaurantes, setRestaurantes] = useState([]);
@@ -52,7 +52,7 @@ function RestauranteLista({ obtenerRestaurantes, mostrarPropiedad, extraBottomSp
             ) : (
                 restaurantes.length === 0 ? (
                     <Box textAlign="center" mt={4}>
-                        <SentimentVeryDissatisfied sx={{ fontSize: 60 }} color="action" />
+                        <IconoNoEncontrado ancho={100} alto={100} />
                         <Typography variant="h6" mt={2}>{mensaje}</Typography>
                     </Box>
                 ) : (

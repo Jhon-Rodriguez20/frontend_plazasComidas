@@ -8,9 +8,9 @@ import { Phone, Email } from '@mui/icons-material';
 import { ValidarUsuarioConectado } from "../../middleware/ValidarUsuarioConectado";
 import { ValidarUsuarioRol } from "../../middleware/ValidarUsuarioRol";
 
-const ProfileAvatar = styled(Avatar)({
-    width: 130,
-    height: 130,
+const PerfilAvatar = styled(Avatar)({
+    width: 140,
+    height: 140,
     border: '5px solid white',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     marginTop: -9
@@ -43,7 +43,7 @@ function UsuarioPerfilCard({ usuarioEntity }) {
                 sx={{ backgroundColor: colorAleatorio, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
             >
                 <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: '100%', height: '100%', m: 6 }}>
-                    <ProfileAvatar src={imagenUrl} alt={usuarioEntity.nombre} />
+                    <PerfilAvatar src={imagenUrl} alt={usuarioEntity.nombre} />
                 </Box>
             </CardMedia>
             <CardContent>

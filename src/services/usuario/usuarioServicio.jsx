@@ -72,7 +72,7 @@ export const obtenerMisRestaurantes = async (page, pageSize) => {
         return {restaurantes: restauranteEntity, total};
 
     } catch (error) {
-        console.error("Error: ", error);
+        console.error(error);
         throw error;
     }
 }

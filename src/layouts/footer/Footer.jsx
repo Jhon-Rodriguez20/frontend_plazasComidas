@@ -23,7 +23,7 @@ function Footer() {
         <Box sx={{ borderTop: 1, borderTopColor: '#FFA726', backgroundColor: '#fff', color: 'text.secondary', mt: 5, mb: 7 }}>
             <Box sx={{ borderBottom: 1, borderColor: '#FFA726', py: 2 }}>
                 <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant="body1" mt={1} sx={{ display: { xs: 'none', lg: 'block' } }}>
+                    <Typography variant="body1" mt={1} sx={{ display: { xs: 'none', sm: 'block' } }}>
                         Contáctanos por nuestras Redes Sociales:
                     </Typography>
                     <Box>

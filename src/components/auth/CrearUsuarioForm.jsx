@@ -1,8 +1,9 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, TextField, Button, Grid, Paper, Typography, Avatar } from "@mui/material";
 import useAlertas from "../common/alertas/tipoAlertas";
 import PropTypes from "prop-types";
 import { OcupacionDescripcion } from "../usuario/OcupacionDescripcion";
+import { CargarImagenWebp } from "../common/cargarImagen/CargarImagenWebp";
 
 function CrearUsuarioForm({ errores, callback, mostrarChips, defaultOcupacion, defaultDescTrabajo="",
     defaultIdRol, editar, imagenPrevia, uCelular="", uImagenPerfil="" }) {
@@ -17,6 +18,8 @@ function CrearUsuarioForm({ errores, callback, mostrarChips, defaultOcupacion, d
     const [imagenPerfil, setImagenPerfil] = useState(uImagenPerfil);
     const [mostrarImagenPerfil, setMostrarImagenPerfil] = useState(imagenPrevia);
     const { mostrarAlertaAdvertencia } = useAlertas();
+    const [passwordMensaje, setPasswordMensaje] = useState("");
+    const [passwordMensajeColor, setPasswordMensajeColor] = useState("red");
 
     useEffect(() => {
         if (uImagenPerfil) {
@@ -25,27 +28,41 @@ function CrearUsuarioForm({ errores, callback, mostrarChips, defaultOcupacion, d
         }
     }, [uImagenPerfil]);
 
+    const validarPassword = (password) => {
+        const passwordContenido = /^(?=.*[A-Z])(?=.*\d.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+        return passwordContenido.test(password);
+    }
+
+    const handlePasswordCambiarColor = (e) => {
+        const newPassword = e.target.value;
+        setPassword(newPassword);
+
+        if (validarPassword(newPassword)) {
+            setPasswordMensaje("Contraseña segura");
+            setPasswordMensajeColor("green");
+        } else {
+            setPasswordMensaje("Contraseña insegura. Debe tener al menos 8 caracteres, una letra mayúscula, dos números y un carácter especial.");
+            setPasswordMensajeColor("red");
+        }
+    }
+
     const enviarFormulario = (event) => {
         event.preventDefault();
         if (mostrarChips && !ocupacion) {
             mostrarAlertaAdvertencia("Por favor, seleccione una ocupación.");
             return;
         }
-        (!editar) ? callback({ nombre, celular, email, ocupacion, descripcionTrabajo, password, idRol }) : callback({ celular, imagenPerfil });
-    };
-
-    const cargarImagen = useCallback((imagen) => {
-        const imagenCargar = imagen[0];
-        if (imagenCargar) {
-            const validarMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-            if (!validarMimeTypes.includes(imagenCargar.type)) {
-                mostrarAlertaAdvertencia("Tipo de archivo no válido. Por favor, sube una imagen (jpeg, png, gif).");
-                return;
-            }
-            setImagenPerfil(imagenCargar);
-            setMostrarImagenPerfil(URL.createObjectURL(imagenCargar));
+        if (!editar && !validarPassword(password)) {
+            mostrarAlertaAdvertencia("La contraseña debe tener al menos 8 caracteres, una letra mayúscula, dos números y un carácter especial.");
+            return;
         }
-    }, [mostrarAlertaAdvertencia]);
+        (!editar) ? callback({ nombre, celular, email, ocupacion, descripcionTrabajo, password, idRol }) : callback({ celular, imagenPerfil });
+    }
+
+    const handleImagenSeleccionada = (imagenWebp, imagenUrl) => {
+        setImagenPerfil(imagenWebp);
+        setMostrarImagenPerfil(imagenUrl);
+    }
 
     return (
         <Box component="form" onSubmit={enviarFormulario} mb={6}>
@@ -75,12 +92,9 @@ function CrearUsuarioForm({ errores, callback, mostrarChips, defaultOcupacion, d
                                     sx={{ width: 150, height: 150, cursor: 'pointer', mb: 2 }}
                                     onClick={() => document.getElementById("formImagen").click()}
                                 />
-                                <input
-                                    id="formImagen"
-                                    type="file"
-                                    style={{ display: 'none' }}
-                                    onChange={(e) => cargarImagen(e.target.files)}
-                                    accept="image/jpeg, image/png, image/gif"
+                                <CargarImagenWebp 
+                                    imagenSeleccionada={handleImagenSeleccionada} 
+                                    mostrarCuadro={false}
                                 />
                             </Grid>
                         )}
@@ -119,11 +133,14 @@ function CrearUsuarioForm({ errores, callback, mostrarChips, defaultOcupacion, d
                                         type="password"
                                         label="Contraseña"
                                         value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                        onChange={handlePasswordCambiarColor}
                                         error={!!errores.password}
                                         helperText={errores.password}
                                         required
                                     />
+                                    <Typography variant="body2" style={{ color: passwordMensajeColor }}>
+                                        {passwordMensaje}
+                                    </Typography>
                                 </Grid>
                                 <Grid item xs={12} className="form-ocultar">
                                     <TextField
@@ -172,7 +189,7 @@ function CrearUsuarioForm({ errores, callback, mostrarChips, defaultOcupacion, d
                 </Grid>
             </Grid>
         </Box>
-    );
+    )
 }
 
 CrearUsuarioForm.propTypes = {
@@ -194,6 +211,6 @@ CrearUsuarioForm.propTypes = {
     mostrarChips: PropTypes.bool.isRequired,
     imagenPrevia: PropTypes.string,
     editar: PropTypes.bool.isRequired
-};
+}
 
-export { CrearUsuarioForm };
+export { CrearUsuarioForm }

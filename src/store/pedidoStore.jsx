@@ -3,13 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 const guardarPedidoEnLocalStorage = (state) => {
     const serializarEstado = JSON.stringify(state);
     localStorage.setItem('pedido', serializarEstado);
-};
+}
 
 const cargarDesdeLocalStorage = () => {
     const serializarEstado = localStorage.getItem('pedido');
     if (serializarEstado === null) return { platos: [], idRestaurante: null };
     return JSON.parse(serializarEstado);
-};
+}
 
 const initialState = cargarDesdeLocalStorage();
 
@@ -40,7 +40,7 @@ const pedidoSlice = createSlice({
         },
         vaciarPedido: (state) => {
             state.platos = [];
-            state.idRestaurante = null; // Reseteamos el idRestaurante también
+            state.idRestaurante = null;
             guardarPedidoEnLocalStorage(state);
         },
         establecerIdRestaurante: (state, action) => {
@@ -48,7 +48,7 @@ const pedidoSlice = createSlice({
             guardarPedidoEnLocalStorage(state);
         }
     }
-});
+})
 
 export const { agregarPlato, eliminarPlato, actualizarCantidad, vaciarPedido, establecerIdRestaurante } = pedidoSlice.actions;
 export default pedidoSlice.reducer;

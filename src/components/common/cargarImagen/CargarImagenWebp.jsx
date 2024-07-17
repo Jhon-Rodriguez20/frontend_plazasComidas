@@ -1,11 +1,13 @@
-import { useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
 import { FileDrop } from 'react-file-drop';
+import { BackDropProgreso } from "../loading/BackDropProgreso"
 import useAlertas from '../alertas/tipoAlertas';
 
 function CargarImagenWebp({ imagenSeleccionada, mostrarCuadro }) {
     const { mostrarAlertaAdvertencia, mostrarAlertaError } = useAlertas();
+    const [cargando, setCargando] = useState(false);
 
     const convertirAWebp = (file) => {
         return new Promise((resolver, rechazar) => {
@@ -14,10 +16,10 @@ function CargarImagenWebp({ imagenSeleccionada, mostrarCuadro }) {
                 const imagen = new Image();
                 imagen.onload = () => {
                     const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
+                    const contexto = canvas.getContext('2d');
                     canvas.width = imagen.width;
                     canvas.height = imagen.height;
-                    ctx.drawImage(imagen, 0, 0);
+                    contexto.drawImage(imagen, 0, 0);
                     canvas.toBlob(
                         (blob) => {
                             const webpFile = new File([blob], file.name.replace(/\.\w+$/, '.webp'), {
@@ -30,11 +32,11 @@ function CargarImagenWebp({ imagenSeleccionada, mostrarCuadro }) {
                     );
                 };
                 imagen.src = event.target.result;
-            };
+            }
             lectorImagenes.onerror = rechazar;
             lectorImagenes.readAsDataURL(file);
-        });
-    };
+        })
+    }
 
     const handleArrastrarImagen = useCallback(async (files) => {
         const imagen = files[0];
@@ -45,18 +47,22 @@ function CargarImagenWebp({ imagenSeleccionada, mostrarCuadro }) {
                 mostrarAlertaAdvertencia("Tipo de archivo no válido. Por favor, sube una imagen (jpeg, png o gif).");
                 return;
             }
+            setCargando(true);
 
             try {
                 const imagenWebp = await convertirAWebp(imagen);
                 imagenSeleccionada(imagenWebp, URL.createObjectURL(imagenWebp));
             } catch (error) {
                 mostrarAlertaError("Ocurrió un error al convertir la imagen.");
+            } finally {
+                setCargando(false);
             }
         }
     }, [imagenSeleccionada, mostrarAlertaAdvertencia, mostrarAlertaError]);
 
     return (
         <Box sx={{ display: mostrarCuadro ? 'block' : 'none' }}>
+            <BackDropProgreso abrir={cargando} mostrarTexto={true} />
             <FileDrop onDrop={handleArrastrarImagen} onTargetClick={() => document.getElementById("formImagen").click()}>
                 <input id="formImagen" type="file" style={{ display: 'none' }} onChange={(e) => handleArrastrarImagen(e.target.files)} accept="image/jpeg, image/png, image/gif" />
                 <Box sx={{ border: '2px dashed gray', padding: 5, textAlign: 'center', cursor: 'pointer' }}>
@@ -64,12 +70,12 @@ function CargarImagenWebp({ imagenSeleccionada, mostrarCuadro }) {
                 </Box>
             </FileDrop>
         </Box>
-    );
+    )
 }
 
 CargarImagenWebp.propTypes = {
     imagenSeleccionada: PropTypes.func.isRequired,
     mostrarCuadro: PropTypes.bool.isRequired
-};
+}
 
 export { CargarImagenWebp }

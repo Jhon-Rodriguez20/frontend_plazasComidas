@@ -3,7 +3,7 @@ import { Fab, Tooltip, List, ListItem, ListItemText, ListItemAvatar, Avatar, Ico
 import { ShoppingCart, Delete, Remove, Add } from '@mui/icons-material';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { eliminarPlato, actualizarCantidad, vaciarPedido } from '../../store/pedidoStore';
 import { DetalleContenedor } from '../common/detalleDrawer/DetalleContenedor';
 import { API_URL, CREARPEDIDO_POST_ENDPOINT } from "../../connections/helpers/endpoints";
@@ -19,33 +19,26 @@ const CrearPedido = () => {
     const theme = useTheme();
     const pantallaPequena = useMediaQuery(theme.breakpoints.down('sm'));
     const navegar = useNavigate();
+    const location = useLocation();
+    const totalPagar = platosSeleccionados.reduce((total, plato) => total + (plato.cantidad * plato.precio), 0);
+    const handleAbrir = () => setAbrir(true);
+    const handleCerrar = () => setAbrir(false);
+    const handleEliminarPlato = (idPlato) => dispatch(eliminarPlato(idPlato));
     const { mostrarAlertaAdvertencia, mostrarAlertaExito, mostrarAlertaError } = useAlertas();
 
     useEffect(() => {
-        if (platosSeleccionados.length === 0) {
-            setAbrir(false);
-        }
+        if (platosSeleccionados.length === 0) setAbrir(false);
     }, [platosSeleccionados]);
 
-    const handleAbrir = () => {
-        setAbrir(true);
-    };
-
-    const handleCerrar = () => {
-        setAbrir(false);
-    };
-
-    const handleEliminarPlato = (idPlato) => {
-        dispatch(eliminarPlato(idPlato));
-    };
+    useEffect(() => {
+        const handleCambiarPagina = ()=> (!location.pathname.startsWith('/platos/restaurante/') ? dispatch(vaciarPedido()) : null);
+        handleCambiarPagina();
+        
+    }, [location.pathname, navegar, dispatch]);
 
     const handleCantidad = (idPlato, cantidad) => {
-        if (cantidad > 0) {
-            dispatch(actualizarCantidad({ idPlato, cantidad }));
-        }
+        if (cantidad > 0) dispatch(actualizarCantidad({ idPlato, cantidad }));
     };
-
-    const totalPagar = platosSeleccionados.reduce((total, plato) => total + (plato.cantidad * plato.precio), 0);
 
     const handleCrearPedido = async () => {
         if (!idMetodoPago) {
@@ -147,4 +140,4 @@ const CrearPedido = () => {
     );
 };
 
-export { CrearPedido }
+export { CrearPedido };

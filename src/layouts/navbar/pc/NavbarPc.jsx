@@ -16,16 +16,16 @@ function NavbarWeb() {
 
     const handleAbrirMenu = (event) => {
         setAnchorElUser(event.currentTarget);
-    };
+    }
 
     const handleCerrarMenu = () => {
         setAnchorElUser(null);
-    };
+    }
 
     const handleCerrarSesion = () => {
         setAnchorElUser(null);
         dispatch(cerrarSesion());
-    };
+    }
 
     return (
         <AppBar position="static">
@@ -81,7 +81,7 @@ function NavbarWeb() {
                 </Box>
             </Toolbar>
         </AppBar>
-    );
+    )
 }
 
-export { NavbarWeb };
+export { NavbarWeb }

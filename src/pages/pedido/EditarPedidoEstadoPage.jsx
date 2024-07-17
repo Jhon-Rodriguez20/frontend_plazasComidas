@@ -30,10 +30,10 @@ function EditarPedidoEstadoPage() {
             try {
                 const pedidoDetalle = await verPedidoDetalle(id);
                 const estadoActual = pedidoDetalle.estado;
-                if (cargaInicial.current) { // Esto evita que se reinicie el estado al actual, manteniendo así el estado que selecciona el usuario
+                if (cargaInicial.current) {
                     setEstado(estadoActual);
                     setEstadoSeleccionado(estadoActual);
-                    cargaInicial.current = false; // Marca que la carga inicial ha terminado
+                    cargaInicial.current = false;
                 }
 
             } catch (error) {
